@@ -16,6 +16,23 @@ public:
     virtual std::string toString() const = 0;
 };
 
+class Point : public Scalar2D {
+public:
+    Point( double x, double y ) : Scalar2D(x, y) {}
+    virtual std::string toString() const { return ""; }
+};
+
+class Direction : public Scalar2D {
+public:
+    Direction( double x, double y ) : Scalar2D(x, y) {}
+    virtual std::string toString() const { return ""; }
+};
+
+class Resolution : public Scalar2D {
+public:
+    Resolution( double x, double y ) : Scalar2D(x, y) {}
+    virtual std::string toString() const { return ""; }
+};
 
 std::ostream & operator<<(std::ostream & os, const Scalar2D & sca2d) {
     return os << sca2d.toString() << "\n";
