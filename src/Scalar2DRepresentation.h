@@ -25,7 +25,7 @@ public:
 class Direction : public Scalar2D {
 public:
     Direction( double x, double y ) : Scalar2D(x, y) {}
-    virtual std::string toString() const { return ""; }
+    virtual std::string toString() const;
 };
 
 class Resolution : public Scalar2D {

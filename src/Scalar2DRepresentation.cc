@@ -10,6 +10,12 @@ std::string Point::toString() const {
     return s.str();
 }
 
+std::string Direction::toString() const {
+    std::stringstream s;
+    s << "Direction vector: (" << getX() << ", " << getY() << ")";
+    return s.str();
+}
+
 
 
 std::ostream & operator<<( std::ostream & os, const Scalar2D & sca2d ) {
