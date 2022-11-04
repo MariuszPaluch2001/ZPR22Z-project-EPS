@@ -21,14 +21,6 @@ public:
     std::string toString() const { return textRepresentation_; }
 };
 
-class ProcessableCommand : public Command {
-    //represents point, to which drawing cursor is moved after the command
-    Point move_point;
-public:
-    ProcessableCommand( const Point & p ) : move_point( p ) {}
-    Point getMovePoint() const { return move_point; }
-    virtual std::string toString() const = 0;
 
-};
 
 #endif //ZPR_EPSCOMMANDREPRESENTATION_H
