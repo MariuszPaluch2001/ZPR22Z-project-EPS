@@ -16,7 +16,11 @@ std::string Direction::toString() const {
     return s.str();
 }
 
-
+std::string Resolution::toString() const {
+    std::stringstream s;
+    s << "Resolution: " << getX() << "p x " << getY() << "p";
+    return s.str();
+}
 
 std::ostream & operator<<( std::ostream & os, const Scalar2D & sca2d ) {
     return os << sca2d.toString() << "\n";

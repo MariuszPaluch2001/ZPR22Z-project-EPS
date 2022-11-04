@@ -31,7 +31,7 @@ public:
 class Resolution : public Scalar2D {
 public:
     Resolution( double x, double y ) : Scalar2D(x, y) {}
-    virtual std::string toString() const { return ""; }
+    virtual std::string toString() const;
 };
 
 std::ostream & operator<<( std::ostream & os, const Scalar2D & sca2d );
