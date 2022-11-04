@@ -19,7 +19,7 @@ public:
 class Point : public Scalar2D {
 public:
     Point( double x, double y ) : Scalar2D(x, y) {}
-    virtual std::string toString() const { return ""; }
+    virtual std::string toString() const;
 };
 
 class Direction : public Scalar2D {
@@ -34,7 +34,5 @@ public:
     virtual std::string toString() const { return ""; }
 };
 
-std::ostream & operator<<(std::ostream & os, const Scalar2D & sca2d) {
-    return os << sca2d.toString() << "\n";
-}
+std::ostream & operator<<( std::ostream & os, const Scalar2D & sca2d );
 #endif //ZPR_SCALAR2DREPRESENTATION_H
