@@ -1,0 +1,7 @@
+zpr
+bin/
+*.o
+*.obj
+*.out
+*.exe
+*.a
