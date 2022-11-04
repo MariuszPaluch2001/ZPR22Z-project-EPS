@@ -1,0 +1,1 @@
+add_library(Scalar2DRepresentation Scalar2DRepresentation.cc)
