@@ -22,6 +22,17 @@ std::string Resolution::toString() const {
     return s.str();
 }
 
+void Point::setX( double new_x ) {
+    //@todo maybe exception?
+    if (new_x >= 0)
+        Scalar2D::setX(new_x);
+}
+
+void Point::setY( double new_y ) {
+    //@todo maybe exception?
+    if (new_y >= 0)
+        Scalar2D::setY(new_y);
+}
 std::ostream & operator<<( std::ostream & os, const Scalar2D & sca2d ) {
     return os << sca2d.toString() << "\n";
 }

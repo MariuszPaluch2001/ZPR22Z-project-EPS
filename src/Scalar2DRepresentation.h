@@ -19,6 +19,9 @@ public:
 class Point : public Scalar2D {
 public:
     Point( double x, double y ) : Scalar2D(x, y) {}
+    //Point coordinates can't be negative
+    virtual void setX( double new_x );
+    virtual void setY( double new_y );
     virtual std::string toString() const;
 };
 
