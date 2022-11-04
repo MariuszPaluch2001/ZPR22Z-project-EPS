@@ -8,8 +8,15 @@
 class Command {
 public:
     virtual std::string toString() const = 0;
+    virtual ~Command() = default;
 };
 
-std::ostream & operator<<(std::ostream & os, const Command & com);
+std::ostream & operator<<( std::ostream & os, const Command & com );
 
+class UnspecifiedCommand : public Command {
+    std::string textRepresentation_;
+public:
+    UnspecifiedCommand( const std::string & s) : textRepresentation_( s ) {}
+    std::string toString() const { return textRepresentation_; }
+};
 #endif //ZPR_EPSCOMMANDREPRESENTATION_H
