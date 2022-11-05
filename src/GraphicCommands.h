@@ -26,21 +26,21 @@ class LeftOrientedLineCommand : public GraphicCommand {
     LeftOrientedLineCommand(const Point &start, const Point &move) : GraphicCommand(start, move) {}
     virtual std::string toString() const { /* @todo implement*/ return ""; }
     virtual double acceptDifferenceVisitor( const DifferenceVisitor & v ) const;
-    virtual double countDifference(const GraphicCommand &gc) {}
+    virtual double countDifference(const GraphicCommand &gc);
 };
 
 class RightOrientedLineCommand : public GraphicCommand {
     RightOrientedLineCommand( const Point & start, const Point & move ) : GraphicCommand( start, move ) {}
     virtual std::string toString() const { /* @todo implement*/ return ""; }
     virtual double acceptDifferenceVisitor( const DifferenceVisitor & v ) const;
-    virtual double countDifference(const GraphicCommand &gc) {}
+    virtual double countDifference(const GraphicCommand &gc);
 };
 
 class PointCommand: public GraphicCommand {
     PointCommand( const Point & coord ) : GraphicCommand( coord, coord ) {}
     virtual std::string toString() const { /* @todo implement*/ return ""; }
     virtual double acceptDifferenceVisitor( const DifferenceVisitor & v ) const;
-    virtual double countDifference(const GraphicCommand &gc) {}
+    virtual double countDifference(const GraphicCommand &gc);
 };
 
 class DifferenceVisitor {

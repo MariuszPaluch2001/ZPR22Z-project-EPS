@@ -17,3 +17,17 @@ double PointCommand::acceptDifferenceVisitor( const DifferenceVisitor & v ) cons
     return v.visit(*this);
 }
 
+double LeftOrientedLineCommand::countDifference(const GraphicCommand &gc) {
+    auto visitor = LeftLineDifferenceVisitor(*this);
+    return gc.acceptDifferenceVisitor(visitor);
+}
+
+double RightOrientedLineCommand::countDifference(const GraphicCommand &gc) {
+    auto visitor = RightLineDifferenceVisitor(*this);
+    return gc.acceptDifferenceVisitor(visitor);
+}
+
+double PointCommand::countDifference(const GraphicCommand &gc) {
+    auto visitor = PointDifferenceVisitor(*this);
+    return gc.acceptDifferenceVisitor(visitor);
+}
