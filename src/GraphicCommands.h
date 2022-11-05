@@ -6,7 +6,10 @@
 #define ZPR_GRAPHICCOMMANDS_H
 #include "EPSCommandRepresentation.h"
 #include <memory>
+
 class DifferenceVisitor;
+class MidpointVisitor;
+
 class GraphicCommand : public Command {
     Point startingPoint;
     //represents point, to which drawing cursor is moved after the command
@@ -19,6 +22,9 @@ public:
     virtual double acceptDifferenceVisitor( const DifferenceVisitor & v ) const = 0;
     virtual double countDifference( const GraphicCommand & gc ) = 0;
 
+    virtual std::unique_ptr<GraphicCommand> acceptMidpointVisitor( const MidpointVisitor & mv ) const = 0;
+    virtual std::unique_ptr<GraphicCommand> createMidpoint( const GraphicCommand & gc ) const = 0;
+
 };
 
 class LeftOrientedLineCommand : public GraphicCommand {
@@ -27,6 +33,8 @@ class LeftOrientedLineCommand : public GraphicCommand {
     virtual std::string toString() const { /* @todo implement*/ return ""; }
     virtual double acceptDifferenceVisitor( const DifferenceVisitor & v ) const;
     virtual double countDifference(const GraphicCommand &gc);
+    virtual std::unique_ptr<GraphicCommand> acceptMidpointVisitor( const MidpointVisitor & mv ) {}
+    virtual std::unique_ptr<GraphicCommand> createMidpoint( const GraphicCommand & gc ) const {}
 };
 
 class RightOrientedLineCommand : public GraphicCommand {
@@ -34,6 +42,8 @@ class RightOrientedLineCommand : public GraphicCommand {
     virtual std::string toString() const { /* @todo implement*/ return ""; }
     virtual double acceptDifferenceVisitor( const DifferenceVisitor & v ) const;
     virtual double countDifference(const GraphicCommand &gc);
+    virtual std::unique_ptr<GraphicCommand> acceptMidpointVisitor( const MidpointVisitor & mv ) {}
+    virtual std::unique_ptr<GraphicCommand> createMidpoint( const GraphicCommand & gc ) {}
 };
 
 class PointCommand: public GraphicCommand {
@@ -41,6 +51,8 @@ class PointCommand: public GraphicCommand {
     virtual std::string toString() const { /* @todo implement*/ return ""; }
     virtual double acceptDifferenceVisitor( const DifferenceVisitor & v ) const;
     virtual double countDifference(const GraphicCommand &gc);
+    virtual std::unique_ptr<GraphicCommand> acceptMidpointVisitor( const MidpointVisitor & mv ) const {}
+    virtual std::unique_ptr<GraphicCommand> createMidpoint( const GraphicCommand & gc ) const {}
 };
 
 
