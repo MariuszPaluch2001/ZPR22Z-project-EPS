@@ -3,7 +3,7 @@
 //
 
 #include "GraphicCommands.h"
-
+#include "DifferenceVisitor.h"
 
 double LeftOrientedLineCommand::acceptDifferenceVisitor( const DifferenceVisitor & v ) const {
     return v.visit(*this);
