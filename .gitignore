@@ -1,4 +1,5 @@
 zpr
+cmake-build-debug
 bin/
 *.o
 *.obj
