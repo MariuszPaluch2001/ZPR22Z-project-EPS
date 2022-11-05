@@ -33,7 +33,7 @@ public:
 
 class Resolution : public Scalar2D {
 public:
-    Resolution( double x, double y ) : Scalar2D(x, y) {}
+    explicit Resolution( double x = 0, double y = 0 ) : Scalar2D(x, y) {}
     virtual std::string toString() const;
 };
 
