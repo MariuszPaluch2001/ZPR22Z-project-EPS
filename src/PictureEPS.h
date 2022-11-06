@@ -17,7 +17,7 @@ class PictureEPS {
     Resolution readResolution();
     void readHeader();
 public:
-    PictureEPS(std::string epsFileName, unsigned maxPortionSize) : maxPortionSize_(maxPortionSize)
+    PictureEPS(const std::string& epsFileName, unsigned maxPortionSize) : maxPortionSize_(maxPortionSize)
     {
         fileHandle_.open(epsFileName, std::ios::in);
         try
