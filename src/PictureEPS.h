@@ -10,25 +10,30 @@
 #include <vector>
 
 class PictureEPS {
+    std::vector<std::string> headerLines;
     std::fstream fileHandle_;
     unsigned maxPortionSize_;
     Resolution resolution_;
-    std::vector<std::string> headerLines;
-    void readHeader();
     Resolution readResolution();
-
+    void readHeader();
 public:
-    PictureEPS(std::string epsFileName, unsigned maxPortionSize): maxPortionSize_(maxPortionSize)
+    PictureEPS(std::string epsFileName, unsigned maxPortionSize) : maxPortionSize_(maxPortionSize)
     {
         fileHandle_.open(epsFileName, std::ios::in);
-        if (!fileHandle_){
-            std::cerr << "Temporary error" << std::endl;
+        try
+        {
+            if (!fileHandle_)
+                throw std::ios::failure( "Error opening file!" );
+        }
+        catch( const std::exception& e ) {
+            std::cerr << e.what() << '\n';
         }
         readHeader();
         resolution_ = readResolution();
 
     }
-    std::vector<std::string> getHeaderLines() {return  headerLines;};
+    ~PictureEPS() { fileHandle_.close(); }
+    std::vector<std::string> getHeaderLines() { return  headerLines; }
 
 
 };
