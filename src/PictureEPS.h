@@ -20,14 +20,9 @@ public:
     PictureEPS(const std::string& epsFileName, unsigned maxPortionSize) : maxPortionSize_(maxPortionSize)
     {
         fileHandle_.open(epsFileName, std::ios::in);
-        try
-        {
-            if (!fileHandle_)
-                throw std::ios::failure( "Error opening file!" );
-        }
-        catch( const std::exception& e ) {
-            std::cerr << e.what() << '\n';
-        }
+        if (!fileHandle_)
+            throw std::ios::failure( "Error opening file! " );
+
         readHeader();
         resolution_ = readResolution();
 
