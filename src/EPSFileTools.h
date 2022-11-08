@@ -21,6 +21,7 @@ public:
     };
     Resolution getResolution() const { return resolution_; }
     void setResolution( const Resolution & resolution );
+    std::string getHeaderString() { return header_; }
 };
 
 class EPSInFileStream : public std::ifstream {
