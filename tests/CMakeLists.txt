@@ -9,12 +9,12 @@ FetchContent_MakeAvailable(googletest)
 add_library(GTest::GTest INTERFACE IMPORTED)
 target_link_libraries(GTest::GTest INTERFACE gtest_main)
 
-add_executable(PictureEPSTest PictureEPSTest.cc)
+add_executable(EPSFileToolsTest EPSFileToolsTest.cc)
 
-target_link_libraries(PictureEPSTest
+target_link_libraries(EPSFileToolsTest
         PRIVATE
         GTest::GTest
-        PictureEPS
+        EPSFileTools
         Scalar2DRepresentation)
 
-add_test(PictureEPSTest PictureEPSTest)
+add_test(EPSFileToolsTest EPSFileToolsTest)

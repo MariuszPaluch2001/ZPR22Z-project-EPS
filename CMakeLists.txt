@@ -11,8 +11,8 @@ add_executable(${PROJECT_NAME} Main.cc
         src/GraphicCommands.cc
         src/Visitor.cc
         src/Visitor.h
-        src/PictureEPS.cc
-        src/PictureEPS.h
+        src/EPSFileTools.cc
+        src/EPSFileTools.h
         )
 
 add_compile_options(-Wall -Wextra -pedantic -Werror)
@@ -23,5 +23,5 @@ include_directories(src)
 add_subdirectory(src)
 add_subdirectory(tests)
 
-target_link_libraries(${PROJECT_NAME} Scalar2DRepresentation PictureEPS)
+target_link_libraries(${PROJECT_NAME} Scalar2DRepresentation EPSFileTools)
 
