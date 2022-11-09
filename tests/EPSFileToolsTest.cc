@@ -69,6 +69,23 @@ TEST(EPSFileToolsTest, TestCommandRead){
     ASSERT_EQ(gCmd->getMovePoint().getY(), 298.76);
 }
 
+TEST(EPSFileToolsTest, ThrowExceptionCommandReadWithoutHeaderRead)
+{
+    EPSInFileStream EPSFs("test1.eps"); //Filename here is irrelevant
+    cPtr ptr;
+    bool exceptionThrown = false;
+
+    try{
+        EPSFs >> ptr;
+    }
+    catch(const std::exception & e)
+    {
+        exceptionThrown = true;
+    }
+    assert(exceptionThrown);
+
+}
+
 int main(int argc, char** argv)
 {
     ::testing::InitGoogleTest(&argc, argv);
