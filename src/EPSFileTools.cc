@@ -45,7 +45,7 @@ std::string EPSInFileStream::readHeader() {
         throw  std::runtime_error("Header was read.");
 
     wasHeaderRead = true;
-
+    headerBuffor += '\n';
     return headerBuffor;
 }
 
@@ -75,12 +75,12 @@ std::string EPSInFileStream::stripCommandSignature(const std::string & commandLi
 
 cPtr EPSInFileStream::makePointerOnCommand(const std::string & commandLine, const std::string & commandSignature){
     lastCommandProcessable = true;
-    if (commandSignature == "rlineto") {
+    if (commandSignature == "l") {
         return std::make_unique<RightOrientedLineCommand>(
                 Point(0.0,0.0),
                 readPoint(commandLine));
     }
-    else if (commandSignature == "l"){
+    else if (commandSignature == "lineto"){
         return std::make_unique<LeftOrientedLineCommand>(
                 Point(0,0),
                 readPoint(commandLine));
@@ -91,7 +91,7 @@ cPtr EPSInFileStream::makePointerOnCommand(const std::string & commandLine, cons
     }
     else{
         lastCommandProcessable = false;
-        return std::make_unique<NonProcessableCommand>(commandSignature);
+        return std::make_unique<NonProcessableCommand>(commandLine);
     }
 }
 cPtr EPSInFileStream::readCommand(){
@@ -109,5 +109,18 @@ cPtr EPSInFileStream::readCommand(){
 }
 EPSInFileStream & EPSInFileStream::operator>>( cPtr & ptr ){
     ptr  = readCommand();
+    return *this;
+}
+
+EPSOutFileStream & EPSOutFileStream::operator<<( const Header & h ){
+    std::string headerString = h.getHeaderString();
+    write(headerString.data(), headerString.size());
+    write("%%EndComments\n", 14);
+    return *this;
+}
+
+EPSOutFileStream & EPSOutFileStream::operator<<( const cPtr & ptr ){
+    std::string commandString = ptr->toString();
+    write(commandString.data(), commandString.size());
     return *this;
 }

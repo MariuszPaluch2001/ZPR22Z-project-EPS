@@ -8,25 +8,20 @@
 
 std::string LeftOrientedLineCommand::toString() const {
     std::stringstream s;
-    s << "LeftOrientedLine: ";
-    s << "Start (" << getStartingPoint().getX() << ", " << getStartingPoint().getX()  << ") ";
-    s << "Move (" << getMovePoint().getX() << ", " << getMovePoint().getX()  << ")";
+    s << getMovePoint().getX() << " " << getMovePoint().getY()  << " lineto" << '\n';
     return s.str();
 }
 
 std::string RightOrientedLineCommand::toString() const {
     std::stringstream s;
-    s << "RightOrientedLine: ";
-    s << "Start (" << getStartingPoint().getX() << ", " << getStartingPoint().getX()  << ") ";
-    s << "Move (" << getMovePoint().getX() << ", " << getMovePoint().getX()  << ")";
+    s << getMovePoint().getX() << " " << getMovePoint().getY()  << " l" << '\n';
     return s.str();
 }
 
 std::string PointCommand::toString() const {
     std::stringstream s;
-    s << "PointCommand: ";
-    s << "Start (" << getStartingPoint().getX() << ", " << getStartingPoint().getX()  << ") ";
-    s << "Move (" << getMovePoint().getX() << ", " << getMovePoint().getX()  << ")";    return s.str();
+    s << getMovePoint().getX() << " " << getMovePoint().getY()  << " 1.00 1.00 r p2" << '\n';
+    return s.str();
 }
 
 double LeftOrientedLineCommand::accept( const DifferenceVisitor & v ) const {

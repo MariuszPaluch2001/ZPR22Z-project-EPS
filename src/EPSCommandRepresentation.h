@@ -18,7 +18,7 @@ class NonProcessableCommand : public Command {
     std::string textRepresentation_;
 public:
     NonProcessableCommand( const std::string & s) : textRepresentation_( s ) {}
-    std::string toString() const { return textRepresentation_; }
+    std::string toString() const { return textRepresentation_ + '\n'; }
 };
 
 

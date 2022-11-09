@@ -26,7 +26,7 @@ TEST(EPSFileToolsTest, ThrowExceptionGetHeaderTest)
 TEST(EPSFileToolsTest, TestReadingHeaderFromFile){
     EPSInFileStream EPSFs("test1.eps");
     Header h = EPSFs.getHeader();
-    ASSERT_EQ(h.getHeaderString(), "\n%!PS-Adobe-3.0\n%%BoundingBox: 0 0 576 600");
+    ASSERT_EQ(h.getHeaderString(), "\n%!PS-Adobe-3.0\n%%BoundingBox: 0 0 576 600\n");
 
 }
 
@@ -54,17 +54,17 @@ TEST(EPSFileToolsTest, TestCommandRead){
     EPSInFileStream e("test2.eps");
     e.getHeader();
     e >> ptr;
-    ASSERT_EQ(ptr->toString(), "newpath");
+    ASSERT_EQ(ptr->toString(), "newpath\n");
     e >> ptr;
-    ASSERT_EQ(ptr->toString(), "m");
+    ASSERT_EQ(ptr->toString(), "67.47 72.08 m\n");
     e >> ptr;
     gCmd = (std::unique_ptr<GraphicCommand> &&) std::move(ptr);
-    ASSERT_EQ(gCmd->toString(), "LeftOrientedLine: Start (0, 0) Move (10.03, 10.03)");
+    ASSERT_EQ(gCmd->toString(), "10.03 2.46 l\n");
     ASSERT_EQ(gCmd->getMovePoint().getX(), 10.03);
     ASSERT_EQ(gCmd->getMovePoint().getY(), 2.46);
     e >> ptr;
     gCmd = (std::unique_ptr<GraphicCommand> &&) std::move(ptr);
-    ASSERT_EQ(gCmd->toString(), "PointCommand: Start (387.19, 387.19) Move (387.19, 387.19)");
+    ASSERT_EQ(gCmd->toString(), "387.19 298.76 1.00 1.00 r p2\n");
     ASSERT_EQ(gCmd->getMovePoint().getX(), 387.19);
     ASSERT_EQ(gCmd->getMovePoint().getY(), 298.76);
 }

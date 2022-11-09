@@ -21,7 +21,7 @@ public:
     };
     Resolution getResolution() const { return resolution_; }
     void setResolution( const Resolution & resolution );
-    std::string getHeaderString() { return header_; }
+    std::string getHeaderString() const { return header_; }
 };
 
 class EPSInFileStream : public std::ifstream {
@@ -40,12 +40,12 @@ public:
 };
 
 class EPSOutFileStream : public std::ofstream {
+
 public:
     explicit EPSOutFileStream( const std::string & fileName ) : std::ofstream( fileName ) {}
-    void writeHeader( const Header & h );
-    EPSInFileStream & operator<<( const Header & h );
+    EPSOutFileStream & operator<<( const Header & h );
 
-    EPSInFileStream & operator<<( const cPtr & ptr ); //użyj ptr->toString()
+    EPSOutFileStream & operator<<( const cPtr & ptr );
 };
 
 #endif //ZPR_EPSFILETOOLS_H
