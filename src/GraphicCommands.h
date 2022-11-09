@@ -31,31 +31,33 @@ public:
 };
 
 class LeftOrientedLineCommand : public GraphicCommand {
-
+public:
     LeftOrientedLineCommand(const Point &start, const Point &move) : GraphicCommand(start, move) {}
-    virtual std::string toString() const { /* @todo implement*/ }
+    virtual std::string toString() const { return "LeftOrientedLineCommand"; }
     virtual double accept( const DifferenceVisitor & v ) const;
     virtual double countDifference(const GraphicCommand &gc);
-    virtual std::unique_ptr<GraphicCommand> accept( const MidpointVisitor & mv ) {}
-    virtual std::unique_ptr<GraphicCommand> createMidpoint( const GraphicCommand & gc ) const {}
+    virtual std::unique_ptr<GraphicCommand> accept( const MidpointVisitor & mv )  const {  }
+    virtual std::unique_ptr<GraphicCommand> createMidpoint( const GraphicCommand & gc ) const { }
 };
 
 class RightOrientedLineCommand : public GraphicCommand {
+public:
     RightOrientedLineCommand( const Point & start, const Point & move ) : GraphicCommand( start, move ) {}
-    virtual std::string toString() const { /* @todo implement*/  }
+    virtual std::string toString() const { return "RightOrientedLineCommand"; }
     virtual double accept( const DifferenceVisitor & v ) const;
     virtual double countDifference(const GraphicCommand &gc);
-    virtual std::unique_ptr<GraphicCommand> accept( const MidpointVisitor & mv ) {}
-    virtual std::unique_ptr<GraphicCommand> createMidpoint( const GraphicCommand & gc ) {}
+    virtual std::unique_ptr<GraphicCommand> accept( const MidpointVisitor & mv )   const {   }
+    virtual std::unique_ptr<GraphicCommand> createMidpoint( const GraphicCommand & gc )   const  {   }
 };
 
 class PointCommand: public GraphicCommand {
+public:
     PointCommand( const Point & coord ) : GraphicCommand( coord, coord ) {}
-    virtual std::string toString() const { /* @todo implement*/  }
+    virtual std::string toString() const { return "PointCommand"; }
     virtual double accept( const DifferenceVisitor & v ) const;
     virtual double countDifference(const GraphicCommand &gc);
-    virtual std::unique_ptr<GraphicCommand> accept( const MidpointVisitor & mv ) const {}
-    virtual std::unique_ptr<GraphicCommand> createMidpoint( const GraphicCommand & gc ) const {}
+    virtual std::unique_ptr<GraphicCommand> accept( const MidpointVisitor & mv ) const {   }
+    virtual std::unique_ptr<GraphicCommand> createMidpoint( const GraphicCommand & gc ) const { }
 };
 
 
