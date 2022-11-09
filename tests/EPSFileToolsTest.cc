@@ -59,12 +59,12 @@ TEST(EPSFileToolsTest, TestCommandRead){
     ASSERT_EQ(ptr->toString(), "m");
     e >> ptr;
     gCmd = (std::unique_ptr<GraphicCommand> &&) std::move(ptr);
-    ASSERT_EQ(gCmd->toString(), "LeftOrientedLineCommand");
+    ASSERT_EQ(gCmd->toString(), "LeftOrientedLine: Start (0, 0) Move (10.03, 10.03)");
     ASSERT_EQ(gCmd->getMovePoint().getX(), 10.03);
     ASSERT_EQ(gCmd->getMovePoint().getY(), 2.46);
     e >> ptr;
     gCmd = (std::unique_ptr<GraphicCommand> &&) std::move(ptr);
-    ASSERT_EQ(gCmd->toString(), "PointCommand");
+    ASSERT_EQ(gCmd->toString(), "PointCommand: Start (387.19, 387.19) Move (387.19, 387.19)");
     ASSERT_EQ(gCmd->getMovePoint().getX(), 387.19);
     ASSERT_EQ(gCmd->getMovePoint().getY(), 298.76);
 }

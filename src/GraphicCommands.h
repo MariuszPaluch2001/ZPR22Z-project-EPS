@@ -33,7 +33,7 @@ public:
 class LeftOrientedLineCommand : public GraphicCommand {
 public:
     LeftOrientedLineCommand(const Point &start, const Point &move) : GraphicCommand(start, move) {}
-    virtual std::string toString() const { return "LeftOrientedLineCommand"; }
+    virtual std::string toString() const;
     virtual double accept( const DifferenceVisitor & v ) const;
     virtual double countDifference(const GraphicCommand &gc);
     virtual std::unique_ptr<GraphicCommand> accept( const MidpointVisitor & mv )  const {  }
@@ -43,7 +43,7 @@ public:
 class RightOrientedLineCommand : public GraphicCommand {
 public:
     RightOrientedLineCommand( const Point & start, const Point & move ) : GraphicCommand( start, move ) {}
-    virtual std::string toString() const { return "RightOrientedLineCommand"; }
+    virtual std::string toString() const;
     virtual double accept( const DifferenceVisitor & v ) const;
     virtual double countDifference(const GraphicCommand &gc);
     virtual std::unique_ptr<GraphicCommand> accept( const MidpointVisitor & mv )   const {   }
@@ -53,7 +53,7 @@ public:
 class PointCommand: public GraphicCommand {
 public:
     PointCommand( const Point & coord ) : GraphicCommand( coord, coord ) {}
-    virtual std::string toString() const { return "PointCommand"; }
+    virtual std::string toString() const;
     virtual double accept( const DifferenceVisitor & v ) const;
     virtual double countDifference(const GraphicCommand &gc);
     virtual std::unique_ptr<GraphicCommand> accept( const MidpointVisitor & mv ) const {   }

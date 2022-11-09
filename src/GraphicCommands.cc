@@ -4,6 +4,30 @@
 
 #include "GraphicCommands.h"
 #include "Visitor.h"
+#include <sstream>
+
+std::string LeftOrientedLineCommand::toString() const {
+    std::stringstream s;
+    s << "LeftOrientedLine: ";
+    s << "Start (" << getStartingPoint().getX() << ", " << getStartingPoint().getX()  << ") ";
+    s << "Move (" << getMovePoint().getX() << ", " << getMovePoint().getX()  << ")";
+    return s.str();
+}
+
+std::string RightOrientedLineCommand::toString() const {
+    std::stringstream s;
+    s << "RightOrientedLine: ";
+    s << "Start (" << getStartingPoint().getX() << ", " << getStartingPoint().getX()  << ") ";
+    s << "Move (" << getMovePoint().getX() << ", " << getMovePoint().getX()  << ")";
+    return s.str();
+}
+
+std::string PointCommand::toString() const {
+    std::stringstream s;
+    s << "PointCommand: ";
+    s << "Start (" << getStartingPoint().getX() << ", " << getStartingPoint().getX()  << ") ";
+    s << "Move (" << getMovePoint().getX() << ", " << getMovePoint().getX()  << ")";    return s.str();
+}
 
 double LeftOrientedLineCommand::accept( const DifferenceVisitor & v ) const {
     return v.visit(*this);
