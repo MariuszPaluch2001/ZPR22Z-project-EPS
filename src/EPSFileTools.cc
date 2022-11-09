@@ -2,6 +2,7 @@
 // Created by mariusz on 08.11.22.
 //
 #include "EPSFileTools.h"
+#include "GraphicCommands.h"
 #include <sstream>
 
 Resolution Header::findResolution(){
@@ -54,9 +55,59 @@ Header EPSInFileStream::getHeader() {
     return  header;
 }
 
-EPSInFileStream & EPSInFileStream::operator>>( cPtr & ptr ){
-    if(!wasHeaderRead){
-        ptr->toString();
+Point EPSInFileStream::readPoint(const std::string & commandLine){
+    std::stringstream s(commandLine);
+    std::string x, y;
+    s >> x >> y ;
+    return {std::stod(x),std::stod(y)};
+}
+std::string EPSInFileStream::stripCommandSignature(const std::string & commandLine){
+    std::string commandSignature;
+    std::size_t found;
+    found = commandLine.find_last_of( ' ' );
+    if (found != std::string::npos)
+        commandSignature = commandLine.substr(found+1);
+    else
+        commandSignature = commandLine;
+
+    return commandSignature;
+}
+
+cPtr EPSInFileStream::makePointerOnCommand(const std::string & commandLine, const std::string & commandSignature){
+    lastCommandProcessable = true;
+    if (commandSignature == "rlineto") {
+        return std::make_unique<RightOrientedLineCommand>(
+                Point(0.0,0.0),
+                readPoint(commandLine));
     }
+    else if (commandSignature == "l"){
+        return std::make_unique<LeftOrientedLineCommand>(
+                Point(0,0),
+                readPoint(commandLine));
+    }
+    else if (commandSignature == "p2"){
+        return std::make_unique<PointCommand>(
+                readPoint(commandLine));
+    }
+    else{
+        lastCommandProcessable = false;
+        return std::make_unique<NonProcessableCommand>(commandSignature);
+    }
+}
+cPtr EPSInFileStream::readCommand(){
+        char text[256];
+        std::string commandLine, commandSignature;
+        if(wasHeaderRead){
+            std::ifstream::getline(text, 256);
+            commandLine = std::string(text);
+            commandSignature = stripCommandSignature(commandLine);
+            return makePointerOnCommand(commandLine, commandSignature);
+        }
+        else
+            throw std::runtime_error("Header hasn't read yet.");
+
+}
+EPSInFileStream & EPSInFileStream::operator>>( cPtr & ptr ){
+    ptr  = readCommand();
     return *this;
 }

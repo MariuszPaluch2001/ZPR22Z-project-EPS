@@ -15,7 +15,7 @@ add_executable(${PROJECT_NAME} Main.cc
         src/EPSFileTools.h
         )
 
-add_compile_options(-Wall -Wextra -pedantic -Werror)
+add_compile_options(-Wall -Wextra -pedantic)
 
 enable_testing()
 

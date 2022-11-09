@@ -28,6 +28,10 @@ class EPSInFileStream : public std::ifstream {
     bool lastCommandProcessable = false;
     bool wasHeaderRead = false;
     std::string readHeader();
+    cPtr readCommand();
+    static Point readPoint(const std::string & commandLine);
+    static std::string stripCommandSignature(const std::string & commandLine);
+    cPtr makePointerOnCommand(const std::string & commandLine, const std::string & commandSignature);
 public:
     explicit EPSInFileStream( const std::string & fileName ) : std::ifstream( fileName ) { }
     Header getHeader();
