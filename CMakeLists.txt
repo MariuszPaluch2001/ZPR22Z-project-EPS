@@ -23,5 +23,5 @@ include_directories(src)
 add_subdirectory(src)
 add_subdirectory(tests)
 
-target_link_libraries(${PROJECT_NAME} Scalar2DRepresentation EPSFileTools)
+target_link_libraries(${PROJECT_NAME} Scalar2DRepresentation EPSFileTools GraphicCommands)
 

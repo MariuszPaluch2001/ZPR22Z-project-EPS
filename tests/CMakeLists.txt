@@ -15,6 +15,7 @@ target_link_libraries(EPSFileToolsTest
         PRIVATE
         GTest::GTest
         EPSFileTools
-        Scalar2DRepresentation)
+        Scalar2DRepresentation
+        GraphicCommands)
 
 add_test(EPSFileToolsTest EPSFileToolsTest)

@@ -4,6 +4,7 @@
 
 #include <gtest/gtest.h>
 #include "EPSFileTools.h"
+#include "GraphicCommands.h"
 
 TEST(EPSFileToolsTest, ThrowExceptionGetHeaderTest)
 {
@@ -45,6 +46,27 @@ TEST(EPSFileToolsTest, TestSettingResolutionInHeader){
     ASSERT_EQ(h.getResolution().getX(), 100);
     ASSERT_EQ(h.getResolution().getY(), 150);
 
+}
+
+TEST(EPSFileToolsTest, TestCommandRead){
+    cPtr ptr;
+    std::unique_ptr<GraphicCommand> gCmd;
+    EPSInFileStream e("test2.eps");
+    e.getHeader();
+    e >> ptr;
+    ASSERT_EQ(ptr->toString(), "newpath");
+    e >> ptr;
+    ASSERT_EQ(ptr->toString(), "m");
+    e >> ptr;
+    gCmd = (std::unique_ptr<GraphicCommand> &&) std::move(ptr);
+    ASSERT_EQ(gCmd->toString(), "LeftOrientedLineCommand");
+    ASSERT_EQ(gCmd->getMovePoint().getX(), 10.03);
+    ASSERT_EQ(gCmd->getMovePoint().getY(), 2.46);
+    e >> ptr;
+    gCmd = (std::unique_ptr<GraphicCommand> &&) std::move(ptr);
+    ASSERT_EQ(gCmd->toString(), "PointCommand");
+    ASSERT_EQ(gCmd->getMovePoint().getX(), 387.19);
+    ASSERT_EQ(gCmd->getMovePoint().getY(), 298.76);
 }
 
 int main(int argc, char** argv)
