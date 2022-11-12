@@ -35,7 +35,6 @@ public:
     explicit EPSInFileStream( const std::string & fileName ) : std::ifstream( fileName ) { }
     Header getHeader();
     EPSInFileStream & operator>>( cPtr & ptr );
-    bool wasLastCommandProcessable() const { return lastCommandProcessable; }
 };
 
 class EPSOutFileStream : public std::ofstream {
