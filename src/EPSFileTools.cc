@@ -74,7 +74,6 @@ std::string EPSInFileStream::stripCommandSignature(const std::string & commandLi
 }
 
 cPtr EPSInFileStream::makePointerOnCommand(const std::string & commandLine, const std::string & commandSignature){
-    lastCommandProcessable = true;
     if (commandSignature == "l") {
         return std::make_unique<RightOrientedLineCommand>(
                 Point(0.0,0.0),
@@ -90,7 +89,6 @@ cPtr EPSInFileStream::makePointerOnCommand(const std::string & commandLine, cons
                 readPoint(commandLine));
     }
     else{
-        lastCommandProcessable = false;
         return std::make_unique<NonProcessableCommand>(commandLine);
     }
 }

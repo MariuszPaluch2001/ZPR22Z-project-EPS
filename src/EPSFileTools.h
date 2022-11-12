@@ -25,7 +25,6 @@ public:
 };
 
 class EPSInFileStream : public std::ifstream {
-    bool lastCommandProcessable = false;
     bool wasHeaderRead = false;
     std::string readHeader();
     cPtr readCommand();
