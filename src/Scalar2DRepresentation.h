@@ -33,10 +33,7 @@ public:
 
 class Resolution : public Scalar2D {
 public:
-    Resolution( unsigned int x, unsigned int y ) : Scalar2D(x, y) {}
-    //Resolution can't be negative
-    virtual void setX( int new_x );
-    virtual void setY( int new_y );
+    explicit Resolution( double x = 0, double y = 0 ) : Scalar2D(x, y) {}
     virtual std::string toString() const;
 };
 
