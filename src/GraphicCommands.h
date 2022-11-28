@@ -8,7 +8,8 @@
 #include <memory>
 
 class GraphicCommand;
-using gcPtr = std::unique_ptr<GraphicCommand>;
+//@should be changed to unique
+using gcPtr = std::shared_ptr<GraphicCommand>;
 class Visitor;
 class DifferenceVisitor;
 class MidpointVisitor;
@@ -20,11 +21,9 @@ public:
     GraphicCommand( const Point & move ) : movePoint( move ) {}
     Point getMovePoint() const { return movePoint; }
     virtual std::string toString() const = 0;
-    virtual double accept( const DifferenceVisitor & v) const = 0;
+    virtual void accept(Visitor & v) const = 0;
 
     virtual double countDifference( const GraphicCommand & gc ) const = 0;
-
-    virtual gcPtr accept( const MidpointVisitor & mv ) const = 0;
     virtual gcPtr createMidpoint( const GraphicCommand & gc ) const = 0;
 
 };
@@ -34,9 +33,8 @@ class LeftOrientedLineCommand : public GraphicCommand {
 public:
     LeftOrientedLineCommand(const Point &move) : GraphicCommand(move) {}
     virtual std::string toString() const { return ""; /* @todo implement*/ }
-    virtual double accept( const DifferenceVisitor & v ) const;
+    virtual void accept(Visitor & v) const;
     virtual double countDifference(const GraphicCommand &gc) const;
-    virtual gcPtr accept( const MidpointVisitor & mv ) const;
     virtual gcPtr createMidpoint( const GraphicCommand & gc ) const;
     //@todo - make it better
     Direction getDirection() const { return getMovePoint() - Point(0,0); }
@@ -46,9 +44,8 @@ class RightOrientedLineCommand : public GraphicCommand {
 public:
     RightOrientedLineCommand( const Point & move ) : GraphicCommand( move ) {}
     virtual std::string toString() const { return "";/* @todo implement*/  }
-    virtual double accept( const DifferenceVisitor & v ) const;
+    virtual void accept(Visitor & v) const;
     virtual double countDifference(const GraphicCommand &gc) const;
-    virtual gcPtr accept( const MidpointVisitor & mv ) const;
     virtual gcPtr createMidpoint( const GraphicCommand & gc ) const;
     //@todo - make it better
     Direction getDirection() const { return getMovePoint() - Point(0,0); }
@@ -58,9 +55,8 @@ class PointCommand: public GraphicCommand {
 public:
     PointCommand( const Point & coord ) : GraphicCommand( coord ) {}
     virtual std::string toString() const { return "";/* @todo implement*/  }
-    virtual double accept( const DifferenceVisitor & v ) const;
+    virtual void accept(Visitor & v) const;
     virtual double countDifference(const GraphicCommand &gc) const;
-    virtual gcPtr accept( const MidpointVisitor & mv ) const;
     virtual gcPtr createMidpoint( const GraphicCommand & gc ) const;
 };
 

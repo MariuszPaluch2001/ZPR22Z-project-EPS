@@ -3,58 +3,53 @@
 //
 
 #include "GraphicCommands.h"
-#include "Visitor.h"
+#include "DifferenceVisitor.h"
+#include "MidpointVisitor.h"
 
-double LeftOrientedLineCommand::accept( const DifferenceVisitor & v ) const {
-    return v.visit(*this);
+void LeftOrientedLineCommand::accept(Visitor &v) const {
+    v.visit(*this);
 }
 
-double RightOrientedLineCommand::accept( const DifferenceVisitor & v ) const {
-    return v.visit(*this);
+void RightOrientedLineCommand::accept(Visitor &v) const {
+    v.visit(*this);
 }
 
-double PointCommand::accept( const DifferenceVisitor & v ) const {
-    return v.visit(*this);
+void PointCommand::accept(Visitor &v) const {
+    v.visit(*this);
 }
 
 double LeftOrientedLineCommand::countDifference(const GraphicCommand &gc) const {
-    auto visitor = LeftLineDifferenceVisitor(*this);
-    return gc.accept(visitor);
+    auto visitor = DifferenceLeftLineVisitor(*this);
+    gc.accept(visitor);
+    return visitor.getValue();
 }
 
 double RightOrientedLineCommand::countDifference(const GraphicCommand &gc) const {
-    auto visitor = RightLineDifferenceVisitor(*this);
-    return gc.accept(visitor);
+    auto visitor = DifferenceRightLineVisitor(*this);
+    gc.accept(visitor);
+    return visitor.getValue();
 }
 
 double PointCommand::countDifference(const GraphicCommand &gc) const {
-    auto visitor = PointDifferenceVisitor(*this);
-    return gc.accept(visitor);
-}
-
-gcPtr LeftOrientedLineCommand::accept(const MidpointVisitor &mv) const {
-    return mv.visit(*this);
-}
-
-gcPtr RightOrientedLineCommand::accept(const MidpointVisitor &mv) const {
-    return mv.visit(*this);
-}
-
-gcPtr PointCommand::accept(const MidpointVisitor &mv) const {
-    return mv.visit(*this);
+    auto visitor = DifferencePointVisitor(*this);
+    gc.accept(visitor);
+    return visitor.getValue();
 }
 
 gcPtr LeftOrientedLineCommand::createMidpoint(const GraphicCommand &gc) const {
-    auto visitor = LeftLineMidpointVisitor(*this);
-    return gc.accept(visitor);
+    auto visitor = MidpointLeftLineVisitor(*this);
+    gc.accept(visitor);
+    return visitor.getValue();
 }
 
 gcPtr RightOrientedLineCommand::createMidpoint(const GraphicCommand &gc) const {
-    auto visitor = RightLineMidpointVisitor(*this);
-    return gc.accept(visitor);
+    auto visitor = MidpointRightLineVisitor(*this);
+    gc.accept(visitor);
+    return visitor.getValue();
 }
 
 gcPtr PointCommand::createMidpoint(const GraphicCommand &gc) const {
-    auto visitor = PointMidpointVisitor(*this);
-    return gc.accept(visitor);
+    auto visitor = MidpointPointVisitor(*this);
+    gc.accept(visitor);
+    return visitor.getValue();
 }
