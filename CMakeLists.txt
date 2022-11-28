@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1.0)
 project(zpr)
 set (CMAKE_CXX_STANDARD 17)
 
-add_executable(${PROJECT_NAME} Main.cc src/Scalar2DRepresentation.h src/Scalar2DRepresentation.cc src/EPSCommandRepresentation.h src/EPSCommandRepresentation.cc src/GraphicCommands.h src/GraphicCommands.cc src/Visitor.h src/DifferenceVisitor.cc src/MidpointVisitor.cc)
+add_executable(${PROJECT_NAME} Main.cc src/DifferenceVisitor.h src/Scalar2DRepresentation.h src/Scalar2DRepresentation.cc src/EPSCommandRepresentation.h src/EPSCommandRepresentation.cc src/GraphicCommands.h src/GraphicCommands.cc src/Visitor.h src/DifferenceVisitor.cc src/MidpointVisitor.cc)
 add_compile_options(-Wall -Werror)
 
 enable_testing()

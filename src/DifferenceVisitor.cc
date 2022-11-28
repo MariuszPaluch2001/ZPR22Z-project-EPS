@@ -1,44 +1,44 @@
 //
 // Created by kacper on 06.11.2022.
 //
-#include "Visitor.h"
+#include "DifferenceVisitor.h"
+
 //@todo - better logic is needed
 // and if not - we can change it to way simpler versions
-template<> double LeftLineDifferenceVisitor::visit( const LeftOrientedLineCommand & ll ) const {
-    return countDistanceBetweenConjoinedDirections( ll_.getDirection(), ll.getDirection() );
+void DifferenceLeftLineVisitor::visit(const LeftOrientedLineCommand &ll){
+    value_ = countDistanceBetweenConjoinedDirections( ll_.getDirection(), ll.getDirection() );
 }
 
-template<> double LeftLineDifferenceVisitor::visit( const RightOrientedLineCommand & rl ) const {
-    //@todo change this
-    return -1;
+void DifferenceLeftLineVisitor::visit(const RightOrientedLineCommand &rl) {
+    value_ = -1;
 }
 
-template<> double LeftLineDifferenceVisitor::visit( const PointCommand &p ) const {
-    return length(ll_.getMovePoint() - p.getMovePoint());
+void DifferenceLeftLineVisitor::visit(const PointCommand &p) {
+    value_ = length(ll_.getMovePoint() - p.getMovePoint());
 }
 
-
-template<> double RightLineDifferenceVisitor::visit( const LeftOrientedLineCommand & ll ) const {
-    //@todo change this
-    return -1;
+void DifferenceRightLineVisitor::visit(const LeftOrientedLineCommand &ll) {
+    value_ = -1;
 }
 
-template<> double RightLineDifferenceVisitor::visit( const RightOrientedLineCommand & rl ) const {
-    return countDistanceBetweenConjoinedDirections( rl_.getDirection(), rl.getDirection() );
+void DifferenceRightLineVisitor::visit(const RightOrientedLineCommand &rl) {
+    value_ = countDistanceBetweenConjoinedDirections( rl_.getDirection(), rl.getDirection() );
+
 }
 
-template<> double RightLineDifferenceVisitor::visit( const PointCommand &p ) const {
-    return length(rl_.getMovePoint() - p.getMovePoint());
+void DifferenceRightLineVisitor::visit(const PointCommand &p) {
+    value_ = length(rl_.getMovePoint() - p.getMovePoint());
 }
 
-template<> double PointDifferenceVisitor::visit( const LeftOrientedLineCommand & ll ) const {
-    return 0;
+void DifferencePointVisitor::visit(const LeftOrientedLineCommand &ll) {
+    value_ = 0;
 }
 
-template<> double PointDifferenceVisitor::visit( const RightOrientedLineCommand & rl ) const {
-    return 0;
+void DifferencePointVisitor::visit(const RightOrientedLineCommand &rl) {
+    value_ = 0;
+
 }
 
-template<> double PointDifferenceVisitor::visit( const PointCommand &p ) const {
-    return length(p_.getMovePoint() - p.getMovePoint());
+void DifferencePointVisitor::visit(const PointCommand &p) {
+    value_ = length(p_.getMovePoint() - p.getMovePoint());
 }

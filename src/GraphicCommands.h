@@ -9,9 +9,9 @@
 
 class GraphicCommand;
 using gcPtr = std::unique_ptr<GraphicCommand>;
-template <typename T /* return value of visitor */> class Visitor;
-using MidpointVisitor = Visitor<gcPtr>;
-using DifferenceVisitor = Visitor<double>;
+class Visitor;
+class DifferenceVisitor;
+class MidpointVisitor;
 
 class GraphicCommand : public Command {
     //represents point, to which drawing cursor is moved after the command
