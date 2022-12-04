@@ -53,7 +53,7 @@ Point Point::getMidpoint(const Point &p) const {
 }
 
 std::ostream & operator<<( std::ostream & os, const Scalar2D & sca2d ) {
-    return os << sca2d.toString() << "\n";
+    return os << sca2d.toString();
 }
 
 double length(const Direction & d) {
