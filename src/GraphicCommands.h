@@ -6,10 +6,15 @@
 #define ZPR_GRAPHICCOMMANDS_H
 #include "EPSCommandRepresentation.h"
 #include <memory>
+#include <variant>
+#include <optional>
 
 class GraphicCommand;
-//@should be changed to unique
-using gcPtr = std::shared_ptr<GraphicCommand>;
+class LeftOrientedLineCommand;
+class RightOrientedLineCommand;
+class PointCommand;
+
+using varGraphic = std::variant<std::monostate, LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
 class Visitor;
 class DifferenceVisitor;
 class MidpointVisitor;
@@ -24,7 +29,7 @@ public:
     virtual void accept(Visitor & v) const = 0;
 
     virtual double countDifference( const GraphicCommand & gc ) const = 0;
-    virtual gcPtr createMidpoint( const GraphicCommand & gc ) const = 0;
+    virtual varGraphic createMidpoint( const GraphicCommand & gc ) const = 0;
 
 };
 
@@ -35,7 +40,7 @@ public:
     virtual std::string toString() const { return ""; /* @todo implement*/ }
     virtual void accept(Visitor & v) const;
     virtual double countDifference(const GraphicCommand &gc) const;
-    virtual gcPtr createMidpoint( const GraphicCommand & gc ) const;
+    virtual varGraphic createMidpoint( const GraphicCommand & gc ) const;
     //@todo - make it better
     Direction getDirection() const { return getMovePoint() - Point(0,0); }
 };
@@ -46,7 +51,7 @@ public:
     virtual std::string toString() const { return "";/* @todo implement*/  }
     virtual void accept(Visitor & v) const;
     virtual double countDifference(const GraphicCommand &gc) const;
-    virtual gcPtr createMidpoint( const GraphicCommand & gc ) const;
+    virtual varGraphic createMidpoint( const GraphicCommand & gc ) const;
     //@todo - make it better
     Direction getDirection() const { return getMovePoint() - Point(0,0); }
 };
@@ -57,7 +62,7 @@ public:
     virtual std::string toString() const { return "";/* @todo implement*/  }
     virtual void accept(Visitor & v) const;
     virtual double countDifference(const GraphicCommand &gc) const;
-    virtual gcPtr createMidpoint( const GraphicCommand & gc ) const;
+    virtual varGraphic createMidpoint( const GraphicCommand & gc ) const;
 };
 
 
