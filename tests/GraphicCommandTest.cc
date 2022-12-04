@@ -5,7 +5,7 @@
 #include <gtest/gtest.h>
 #include "GraphicCommands.h"
 
-TEST(GraphicCommandTest, TestCeateLeftOrientedLine) {
+TEST(GraphicCommandTest, TestCreateLeftOrientedLine) {
     auto _ = LeftOrientedLineCommand({1,2});
 }
 
@@ -17,7 +17,8 @@ TEST(GraphicCommandTest, TestLeftOrientedLinePointGetter) {
 }
 
 TEST(GraphicCommandTest, TestLeftOrientedLineStringForm) {
-    //@todo
+    auto l = LeftOrientedLineCommand({1,2});
+    ASSERT_EQ(l.toString(), std::string(""));
 }
 
 //@todo visitor functions
@@ -25,6 +26,31 @@ TEST(GraphicCommandTest, TestLeftOrientedLineStringForm) {
 TEST(GraphicCommandTest, TestLeftOrientedLineDirection) {
     auto l = LeftOrientedLineCommand({1,2});
     auto d = l.getDirection();
+    ASSERT_EQ(d.getX(), 1);
+    ASSERT_EQ(d.getY(), 2);
+}
+
+TEST(GraphicCommandTest, TestCreateRightOrientedLine) {
+    auto _ = RightOrientedLineCommand({1,2});
+}
+
+TEST(GraphicCommandTest, TestRightOrientedLinePointGetter) {
+    auto r = RightOrientedLineCommand({1,2});
+    auto p = r.getMovePoint();
+    ASSERT_EQ(p.getX(), 1);
+    ASSERT_EQ(p.getY(), 2);
+}
+
+TEST(GraphicCommandTest, TestRightOrientedLineStringForm) {
+    auto r = RightOrientedLineCommand({1,2});
+    ASSERT_EQ(r.toString(), std::string(""));
+}
+
+//@todo visitor functions
+
+TEST(GraphicCommandTest, TestRightOrientedLineDirection) {
+    auto r = RightOrientedLineCommand({1,2});
+    auto d = r.getDirection();
     ASSERT_EQ(d.getX(), 1);
     ASSERT_EQ(d.getY(), 2);
 }
