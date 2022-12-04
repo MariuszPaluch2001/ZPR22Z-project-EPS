@@ -37,7 +37,7 @@ public:
     virtual void setY( int new_y );
     virtual std::string toString() const;
     virtual Point getMidpoint( const Point & p) const;
-    virtual Direction operator-( const Point & p ) const { return Direction(p.getX() - getX(), p.getY() - getY()); }
+    virtual Direction operator-( const Point & p ) const { return Direction(getX() - p.getX(),  getY() - p.getY() ); }
     virtual Direction operator+( const Point & p ) const { return Direction(p.getX() + getX(), p.getY() + getY()); }
 
 };

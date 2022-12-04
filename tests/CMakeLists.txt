@@ -10,10 +10,15 @@ add_library(GTest::GTest INTERFACE IMPORTED)
 target_link_libraries(GTest::GTest INTERFACE gtest_main)
 
 add_executable(Scalar2DRepresentationTest Scalar2DRepresentationTest.cc)
-
+add_executable(GraphicCommandTest GraphicCommandTest.cc)
 target_link_libraries(Scalar2DRepresentationTest
  PRIVATE
   GTest::GTest
   Scalar2DRepresentation)
 
+target_link_libraries(GraphicCommandTest
+        PRIVATE
+        GTest::GTest
+        Scalar2DRepresentation)
 add_test(Scalar2DRepresentationTest Scalar2DRepresentationTest)
+add_test(GraphicCommandTest GraphicCommandTest)
