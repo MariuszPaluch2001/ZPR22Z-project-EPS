@@ -23,28 +23,28 @@ std::string Resolution::toString() const {
     return s.str();
 }
 
-void Point::setX( int new_x ) {
+void Point::setX( double new_x ) {
     //@todo maybe exception?
     if (new_x >= 0)
         Scalar2D::setX(new_x);
 }
 
-void Point::setY( int new_y ) {
+void Point::setY( double new_y ) {
     //@todo maybe exception?
     if (new_y >= 0)
         Scalar2D::setY(new_y);
 }
 
-void Resolution::setX( int new_x ) {
+void Resolution::setX( double new_x ) {
     //@todo maybe exception?
     if (new_x >= 0)
-        Scalar2D::setX(new_x);
+        Scalar2D::setX(static_cast<int>(new_x));
 }
 
-void Resolution::setY( int new_y ) {
+void Resolution::setY( double new_y ) {
     //@todo maybe exception?
     if (new_y >= 0)
-        Scalar2D::setY(new_y);
+        Scalar2D::setY(static_cast<int>(new_y));
 }
 
 Point Point::getMidpoint(const Point &p) const {
