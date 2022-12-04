@@ -55,7 +55,23 @@ TEST(GraphicCommandTest, TestRightOrientedLineDirection) {
     ASSERT_EQ(d.getY(), 2);
 }
 
+TEST(GraphicCommandTest, TestCreatePointCommand) {
+    auto _ = PointCommand({1,2});
+}
 
+TEST(GraphicCommandTest, TestPointCommandPointGetter) {
+    auto pc = PointCommand({1,2});
+    auto p = pc.getMovePoint();
+    ASSERT_EQ(p.getX(), 1);
+    ASSERT_EQ(p.getY(), 2);
+}
+
+TEST(GraphicCommandTest, TestPointCommandStringForm) {
+    auto pc = PointCommand({1,2});
+    ASSERT_EQ(pc.toString(), "");
+}
+
+//@todo visitor functions
 
 int main(int argc, char** argv)
 {
