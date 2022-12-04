@@ -5,37 +5,41 @@
 #ifndef ZPR_MIDPOINTVISITOR_H
 #define ZPR_MIDPOINTVISITOR_H
 #include "Visitor.h"
+#include <variant>
+#include <optional>
+using varGraphic = std::variant<std::monostate, LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
+
 class MidpointLeftLineVisitor : public LeftLineVisitor {
 private:
-    gcPtr gc_;
+    varGraphic gc_;
 public:
-    MidpointLeftLineVisitor(const LeftOrientedLineCommand & ll) : LeftLineVisitor(ll), gc_(nullptr) {}
+    MidpointLeftLineVisitor(const LeftOrientedLineCommand & ll) : LeftLineVisitor(ll) {}
     virtual void visit( const LeftOrientedLineCommand & ll );
     virtual void visit( const RightOrientedLineCommand & rl );
     virtual void visit( const PointCommand & p );
-    gcPtr getValue() const { return gc_; }
+    varGraphic getValue() const { return gc_; }
 };
 
 class MidpointRightLineVisitor : public RightLineVisitor {
 private:
-    gcPtr gc_;
+    varGraphic gc_;
 public:
-    MidpointRightLineVisitor(const RightOrientedLineCommand & rl) : RightLineVisitor(rl), gc_(nullptr) {}
+    MidpointRightLineVisitor(const RightOrientedLineCommand & rl) : RightLineVisitor(rl) {}
     virtual void visit( const LeftOrientedLineCommand & ll );
     virtual void visit( const RightOrientedLineCommand & rl );
     virtual void visit( const PointCommand & p );
-    gcPtr getValue() const { return gc_; }
+    varGraphic getValue() const { return gc_; }
 };
 
 class MidpointPointVisitor : public PointVisitor {
 private:
-    gcPtr gc_;
+    varGraphic gc_;
 public:
-    MidpointPointVisitor(const PointCommand & p) : PointVisitor(p), gc_(nullptr) {}
+    MidpointPointVisitor(const PointCommand & p) : PointVisitor(p) {}
     virtual void visit( const LeftOrientedLineCommand & ll );
     virtual void visit( const RightOrientedLineCommand & rl );
     virtual void visit( const PointCommand & p );
-    gcPtr getValue() const { return gc_; }
+    varGraphic getValue() const { return gc_; }
 };
 
 
