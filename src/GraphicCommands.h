@@ -41,7 +41,6 @@ public:
     virtual void accept(Visitor & v) const;
     virtual double countDifference(const GraphicCommand &gc) const;
     virtual varGraphic createMidpoint( const GraphicCommand & gc ) const;
-    //@todo - make it better
     Direction getDirection() const { return getMovePoint() - Point(0,0); }
 };
 
@@ -52,7 +51,6 @@ public:
     virtual void accept(Visitor & v) const;
     virtual double countDifference(const GraphicCommand &gc) const;
     virtual varGraphic createMidpoint( const GraphicCommand & gc ) const;
-    //@todo - make it better
     Direction getDirection() const { return getMovePoint() - Point(0,0); }
 };
 

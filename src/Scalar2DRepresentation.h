@@ -43,7 +43,7 @@ public:
 };
 
 
-
+//@todo delete inherition?
 class Resolution : public Scalar2D {
 public:
     Resolution( unsigned int x, unsigned int y ) : Scalar2D(x, y) {}

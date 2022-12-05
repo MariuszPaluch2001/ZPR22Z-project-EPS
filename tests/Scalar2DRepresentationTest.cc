@@ -106,9 +106,45 @@ TEST(Scalar2DRepresentationTest, TestDirectionZeroLength) {
     ASSERT_TRUE(abs(length(d1) - 0) < 1e-5);
 }
 
+TEST(Scalar2DRepresentationTest, TestGetMidpoint) {
+    auto p1 = Point(2,3);
+    auto p2 = Point(1, 7);
+    auto p3 = p1.getMidpoint(p2);
+    ASSERT_TRUE(abs(p3.getX() - 1.5) < 1e-5);
+    ASSERT_TRUE(abs(p3.getY() - 5) < 1e-5);
+}
 
-//@todo midpoint, normalizeDirection, countDistance
-//@todo settery
+TEST(Scalar2DRepresentationTest, TestNormalizeZeroLengthDirection) {
+    auto d1 = Direction(0,0);
+    auto d2 = normalizeDirection(d1);
+    ASSERT_TRUE(abs(d2.getX() - 0) < 1e-5);
+    ASSERT_TRUE(abs(d2.getY() - 0) < 1e-5);
+}
+
+TEST(Scalar2DRepresentationTest, TestNormalizeDirection) {
+    auto d1 = Direction(3,4);
+    auto d2 = normalizeDirection(d1);
+    ASSERT_TRUE(abs(d2.getX() - 0.6) < 1e-5);
+    ASSERT_TRUE(abs(d2.getY() - 0.8) < 1e-5);
+    ASSERT_TRUE(abs(length(d2) - 1) < 1e-5);
+}
+
+TEST(Scalar2DRepresentationTest, TestPointSetNegativeValues) {
+    auto p = Point(1,2);
+    p.setX(-1);
+    p.setY(-2.5);
+    ASSERT_TRUE(abs(p.getX() - 1) < 1e-5);
+    ASSERT_TRUE(abs(p.getY() - 2) < 1e-5);
+}
+
+TEST(Scalar2DRepresentationTest, TestResolutionSetNegativeValues) {
+    auto r = Resolution(1,2);
+    r.setX(-2);
+    r.setY(-5);
+    ASSERT_TRUE(abs(r.getX() - 1) < 1e-5);
+    ASSERT_TRUE(abs(r.getY() - 2) < 1e-5);
+}
+//@todo countDistance
 
 
 int main(int argc, char** argv)
