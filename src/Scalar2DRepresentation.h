@@ -56,5 +56,6 @@ public:
 std::ostream & operator<<( std::ostream & os, const Scalar2D & sca2d );
 double length(const Direction & d);
 Direction normalizeDirection(const Direction & d);
+double getDirectionAngle(const Direction & d);
 double countDistanceBetweenConjoinedDirections( const Direction & d1, const Direction & d2);
 #endif //ZPR_SCALAR2DREPRESENTATION_H

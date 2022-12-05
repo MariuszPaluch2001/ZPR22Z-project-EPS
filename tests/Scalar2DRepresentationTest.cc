@@ -144,8 +144,82 @@ TEST(Scalar2DRepresentationTest, TestResolutionSetNegativeValues) {
     ASSERT_TRUE(abs(r.getX() - 1) < 1e-5);
     ASSERT_TRUE(abs(r.getY() - 2) < 1e-5);
 }
-//@todo countDistance
 
+TEST(Scalar2DRepresentationTest, TestDirectionZeroAngle) {
+    auto d = Direction(1,0);
+    auto angle = getDirectionAngle(d);
+    ASSERT_FLOAT_EQ(angle, 0);
+}
+
+TEST(Scalar2DRepresentationTest, TestDirection90Angle) {
+    auto d = Direction(0,1);
+    auto angle = getDirectionAngle(d);
+    ASSERT_FLOAT_EQ(angle, M_PI/2);
+}
+
+TEST(Scalar2DRepresentatioTest, TestDirectionAngle) {
+    auto d = Direction(1,1);
+    auto angle = getDirectionAngle(d);
+    ASSERT_FLOAT_EQ(angle, M_PI/4);
+}
+
+TEST(Scalar2DRepresentationTest, TestNegativeXAngle) {
+    auto d = Direction(-1,1);
+    auto angle = getDirectionAngle(d);
+    ASSERT_FLOAT_EQ(angle, 3*M_PI/4);
+}
+
+TEST(Scalar2DRepresentationTest, TestNegativeXYAngle) {
+    auto d = Direction(-1,-1);
+    auto angle = getDirectionAngle(d);
+    ASSERT_FLOAT_EQ(angle,   -3*M_PI/4);
+}
+
+TEST(Scalar2DRepresentationTest, TestNegativeYAngle) {
+    auto d = Direction(1,-1);
+    auto angle = getDirectionAngle(d);
+    ASSERT_FLOAT_EQ(angle, -M_PI/4);
+}
+
+TEST(Scalar2DRepresentatinoTest, TestPIAngle) {
+    auto d = Direction(-1,0);
+    auto angle = getDirectionAngle(d);
+    ASSERT_FLOAT_EQ(angle, M_PI);
+}
+
+TEST(Scalar2DRepresentationTest, TestNegative90Angle) {
+    auto d = Direction(0, -1);
+    auto angle = getDirectionAngle(d);
+    ASSERT_FLOAT_EQ(angle, -M_PI/2);
+}
+
+TEST(Scalar2DRepresentationTest, TestDistanceBetweenParallelDirections) {
+    auto d1 = Direction(1,2);
+    auto d2 = Direction(2,4);
+    auto res = countDistanceBetweenConjoinedDirections(d1,d2);
+    ASSERT_TRUE(abs(res - 0) < 1e-5);
+}
+
+TEST(Scalar2DRepresentationTest, TestDistanceBetweenPerpendicularDirections) {
+    auto d1 = Direction(1,0);
+    auto d2 = Direction(0,1);
+    auto res = countDistanceBetweenConjoinedDirections(d1,d2);
+    ASSERT_FLOAT_EQ(res,1);
+}
+
+TEST(Scalar2DRepresentationTest, TestDistanceBetweenOppositDirections) {
+    auto d1 = Direction(1,0);
+    auto d2 = Direction(-1,0);
+    auto res = countDistanceBetweenConjoinedDirections(d1,d2);
+    ASSERT_TRUE(abs(res - 0) < 1e-5);
+}
+
+TEST(Scalar2DRepresentationTest, TestDistanceBetweenNormalizedDirections) {
+    auto d1 = normalizeDirection(Direction(1,0));
+    auto d2 = normalizeDirection(Direction(1,1));
+    auto res = countDistanceBetweenConjoinedDirections(d1,d2);
+    ASSERT_TRUE(abs(res - sqrt(2)/2.) < 1e-5);
+}
 
 int main(int argc, char** argv)
 {
