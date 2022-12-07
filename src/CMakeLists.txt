@@ -1,1 +1,1 @@
-add_library(Scalar2DRepresentation Scalar2DRepresentation.cc DifferenceVisitor.cc EPSCommandRepresentation.cc EPSCommandRepresentation.h GraphicCommands.h GraphicCommands.cc MidpointVisitor.cc Visitor.h MidpointVisitor.h)
+add_library(Scalar2DRepresentation Scalar2DRepresentation.cc DifferenceVisitor.cc EPSCommandRepresentation.cc EPSCommandRepresentation.h GraphicCommands.h GraphicCommands.cc MidpointVisitor.cc Visitor.h MidpointVisitor.h Algorithm.cc Algorithm.h)
