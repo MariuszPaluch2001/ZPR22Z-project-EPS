@@ -4,39 +4,39 @@
 #include "MidpointVisitor.h"
 //@todo add any implementation (or copy)
 void MidpointLeftLineVisitor::visit(const LeftOrientedLineCommand& ll) {
-
+    gc_ = std::monostate();
 }
 
 void MidpointLeftLineVisitor::visit(const RightOrientedLineCommand& ll) {
-
+    gc_ = std::monostate();
 }
 
 void MidpointLeftLineVisitor::visit(const PointCommand& p) {
-
+    gc_ = std::monostate();
 }
 
 void MidpointRightLineVisitor::visit(const LeftOrientedLineCommand& ll) {
-
+    gc_ = std::monostate();
 }
 
 void MidpointRightLineVisitor::visit(const RightOrientedLineCommand& ll) {
-
+    gc_ = std::monostate();
 }
 
 void MidpointRightLineVisitor::visit(const PointCommand& p) {
-
+    gc_ = std::monostate();
 }
 
 void MidpointPointVisitor::visit(const LeftOrientedLineCommand& ll) {
-
+    gc_ = std::monostate();
 }
 
 void MidpointPointVisitor::visit(const RightOrientedLineCommand& ll) {
-
+    gc_ = std::monostate();
 }
 
 void MidpointPointVisitor::visit(const PointCommand& p) {
-
+    gc_ = std::monostate();
 }
 
 /*
