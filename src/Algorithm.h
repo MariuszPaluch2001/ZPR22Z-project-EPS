@@ -9,19 +9,21 @@
 #include <vector>
 #include <variant>
 #include <functional>
-using processableVector = std::vector<std::reference_wrapper<GraphicCommand>>;
-using graphicVector = std::vector<GraphicCommand>;
+using processableGraphicVar = std::variant<LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
+using processableGraphicVector = std::vector<varGraphic>;
 
 class Algorithm {
 private:
     Resolution res_;
+    double maxDifference = 0;
 public:
     Algorithm(const Resolution & res) : res_(res) {}
     void setResolution(const Resolution & res) { res_ = res; }
     Resolution getResolution() const { return res_; }
-
-    graphicVector processBatch(const processableVector & vec);
+    processableGraphicVector processBatch(const processableGraphicVector & batch);
 };
+
+std::optional<processableGraphicVar> unpackToNoMonostate(const varGraphic & var);
 
 
 #endif //ZPR_ALGORITHM_H
