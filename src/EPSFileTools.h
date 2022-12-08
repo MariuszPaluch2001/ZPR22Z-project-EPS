@@ -29,6 +29,7 @@ public:
     std::string getHeaderString() const { return header_; }
     Resolution getResolution() const { return resolution_; }
 };
+
 using variantCommand = std::variant<NonProcessableCommand, LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
 
 class EPSInFileStream{
@@ -38,6 +39,7 @@ class EPSInFileStream{
     static Point readPoint(const std::string& commandLine);
     static std::string stripCommandSignature(const std::string& commandLine);
     static variantCommand makeVariantCommand(const std::string & commandLine, const std::string & commandSignature);
+    bool isFinished() { return file.peek() == EOF; }
 public:
     explicit EPSInFileStream( std::istream& f ) : file(f) { }
     Header getHeader();

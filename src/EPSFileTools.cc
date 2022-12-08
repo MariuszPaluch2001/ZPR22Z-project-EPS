@@ -10,16 +10,19 @@ Resolution Header::findResolution(){
     int yRes = 0;
     std::string line;
     std::stringstream ss(header_);
-
-    while(std::getline(ss, line, '\n')){
+    bool isResFound = false;
+    while(std::getline(ss, line)){
         if (line.rfind("%%BoundingBox", 0) == 0){
             std::stringstream s(line);
             std::string tag, zero1, zero2, x, y;
             s >> tag >> zero1 >> zero2 >> x >> y;
             xRes = std::stoi(x);
             yRes = std::stoi(y);
+            isResFound = true;
         }
     }
+    if (!isResFound)
+        throw  std::runtime_error("Resolution not founded.");
     return Resolution(xRes, yRes);
 }
 
@@ -31,15 +34,21 @@ void Header::setResolution( const Resolution & resolution ){
 std::string EPSInFileStream::readHeader() {
     std::string text;
     std::string headerBuffer;
+    bool isFinishedFlag;
     if (!wasHeaderRead){
-        while (std::getline(file, text))
+        isFinishedFlag = isFinished();
+        while (!isFinishedFlag)
             {
+                std::getline(file, text);
                 if (text == "%%EndComments"){
                     headerBuffer += "%%EndComments\n";
                     break;
                 }
                 headerBuffer += text + '\n';
+                isFinishedFlag = isFinished();
             }
+        if (isFinishedFlag)
+            throw  std::runtime_error("File is finished.");
     }
     else
         throw  std::runtime_error("Header has been read.");
@@ -97,9 +106,14 @@ variantCommand EPSInFileStream::getCommand(){
         std::string text;
         std::string commandSignature;
         if(wasHeaderRead){
-            std::getline(file, text);
-            commandSignature = stripCommandSignature(text);
-            return makeVariantCommand(text, commandSignature);
+            if (!isFinished()){
+                std::getline(file, text);
+                commandSignature = stripCommandSignature(text);
+                return makeVariantCommand(text, commandSignature);
+            }
+            else {
+                throw std::runtime_error("File is finished.");
+            }
         }
         else
             throw std::runtime_error("Header hasn't read yet.");

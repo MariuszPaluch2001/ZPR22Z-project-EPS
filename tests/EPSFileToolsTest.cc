@@ -19,6 +19,17 @@ TEST(EPSFileToolsTest, ThrowExceptionGetHeaderTest)
     ASSERT_ANY_THROW(EPSFs.getHeader());
 }
 
+TEST(EPSFileToolsTest, ThrowExceptionWhenHeaderDoesntHaveEndTag)
+{
+    std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                       "%%Pages: (atend)\n"
+                       "%%BoundingBox: 0 0 302 302\n";
+
+    std::istringstream iss (data);
+    EPSInFileStream EPSFs(iss);
+    ASSERT_ANY_THROW(EPSFs.getHeader());
+}
+
 TEST(EPSFileToolsTest, TestReadingHeaderFromFile){
     std::string data = "%!PS-Adobe-3.0\n"
                        "%%BoundingBox: 0 0 302 302\n"
@@ -30,6 +41,10 @@ TEST(EPSFileToolsTest, TestReadingHeaderFromFile){
     Header h = EPSFs.getHeader();
     ASSERT_EQ(h.getHeaderString(), "%!PS-Adobe-3.0\n%%BoundingBox: 0 0 302 302\n%%EndComments\n");
 
+}
+
+TEST(EPSFileToolsTest, TestThrowingExceptionWhenResolutionNotFound){
+    ASSERT_ANY_THROW(Header h("Test\n%%EndComments\n"));
 }
 
 TEST(EPSFileToolsTest, TestResolutionSize){
@@ -55,7 +70,7 @@ TEST(EPSFileToolsTest, TestResolutionSize){
 }
 
 TEST(EPSFileToolsTest, TestSettingResolutionInHeader){
-    Header h("");
+    Header h("%%BoundingBox: 0 0 302 302\n%%EndComments\n");
     Resolution r(100, 150);
     h.setResolution(r);
     ASSERT_EQ(h.getResolution().getX(), 100);
@@ -109,6 +124,27 @@ TEST(EPSFileToolsTest, TestCommandRead){
     ASSERT_EQ(c->toString(), "234.12 374.92 1.00 1.00 r p2\n");
 
 }
+
+TEST(EPSFileToolsTest, TestCommandReadWhenFileIsEnd){
+    std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                       "%%BoundingBox: 0 0 302 302\n"
+                       "%%EndComments\n"
+                       "/m   { moveto } bind def\n"
+                       "/l  { rlineto } bind def\n"
+                       "\n"
+                       "newpath\n"
+                       "10.03 2.46 l\n"
+                       "164.72 100.9 lineto\n"
+                       "234.12 374.92 1.00 1.00 r p2\n";
+    std::istringstream iss (data);
+    EPSInFileStream EPSFs(iss);
+    EPSFs.getHeader();
+    for (int i = 1; i < 8; i++)
+        EPSFs.getCommand();
+    ASSERT_ANY_THROW(EPSFs.getCommand());
+
+}
+
 
 TEST(EPSFileToolsTest, ThrowExceptionCommandReadWithoutHeaderRead)
 {
