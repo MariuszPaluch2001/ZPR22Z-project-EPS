@@ -127,9 +127,61 @@ TEST(EPSFileToolsTest, ThrowExceptionCommandReadWithoutHeaderRead)
     ASSERT_ANY_THROW(EPSFs.getCommand());
 }
 
-TEST(EPSFileToolsTest, EPSOutFile)
+TEST(EPSFileToolsTest, EPSOutFileExceptionHeaderDoubleWrite)
 {
+    std::string headerStr = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                         "%%BoundingBox: 0 0 302 302\n"
+                         "%%EndComments\n";
+    Header header(headerStr);
+    std::ostringstream oss("");
+    EPSOutFileStream EPSFs(oss);
+    EPSFs.putHeader(header);
+    ASSERT_ANY_THROW(EPSFs.putHeader(header));
+}
 
+TEST(EPSFileToolsTest, EPSOutFileExceptionWriteWithoutHeader)
+{
+    std::ostringstream oss("");
+    EPSOutFileStream EPSFs(oss);
+    NonProcessableCommand c("testCommand");
+    ASSERT_ANY_THROW(EPSFs.putCommand(c));
+}
+
+TEST(EPSFileToolsTest, EPSOutFileWriteHeader)
+{
+    std::string headerStr = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                            "%%BoundingBox: 0 0 302 302\n"
+                            "%%EndComments\n";
+    Header header(headerStr);
+    std::ostringstream oss("");
+    EPSOutFileStream EPSFs(oss);
+    EPSFs.putHeader(header);
+    ASSERT_EQ(oss.str(), headerStr);
+}
+
+TEST(EPSFileToolsTest, EPSOutFileWriteHeaderAndCommands)
+{
+    std::string headerStr = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                            "%%BoundingBox: 0 0 302 302\n"
+                            "%%EndComments\n";
+    std::string outputStr = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                            "%%BoundingBox: 0 0 302 302\n"
+                            "%%EndComments\n"
+                            "4.2 6.7 lineto\n"
+                            "5.2 7.7 l\n"
+                            "9.5 7.5 1.00 1.00 r p2\n";
+    Header header(headerStr);
+    NonProcessableCommand npc("test");
+    LeftOrientedLineCommand lolc(Point(3.5, 4.5), Point(4.2, 6.7));
+    RightOrientedLineCommand rolc(Point(4.5, 5.5), Point(5.2, 7.7));
+    PointCommand pc(Point(9.5, 7.5));
+    std::ostringstream oss("");
+    EPSOutFileStream EPSFs(oss);
+    EPSFs.putHeader(header);
+    EPSFs.putCommand(lolc);
+    EPSFs.putCommand(rolc);
+    EPSFs.putCommand(pc);
+    ASSERT_EQ(oss.str(), outputStr);
 }
 
 

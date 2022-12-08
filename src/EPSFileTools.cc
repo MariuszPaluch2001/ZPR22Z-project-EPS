@@ -42,7 +42,7 @@ std::string EPSInFileStream::readHeader() {
             }
     }
     else
-        throw  std::runtime_error("Header was read.");
+        throw  std::runtime_error("Header has been read.");
 
     wasHeaderRead = true;
     return headerBuffer;
@@ -107,11 +107,15 @@ variantCommand EPSInFileStream::getCommand(){
 }
 
 void EPSOutFileStream::putHeader(Header& header) {
+    if (wasHeaderWrite)
+        throw std::runtime_error("Header has already written.");
     std::string headerString = header.getHeaderString();
     file << headerString;
-    file << "%%EndComments\n";
+    wasHeaderWrite = true;
 }
 
 void EPSOutFileStream::putCommand(Command& c){
+    if (!wasHeaderWrite)
+        throw std::runtime_error("Header hasn't written.");
     file << c.toString();
 }

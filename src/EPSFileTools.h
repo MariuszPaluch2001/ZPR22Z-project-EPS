@@ -45,9 +45,10 @@ public:
 };
 
 class EPSOutFileStream{
-    std::ofstream& file;
+    std::ostream& file;
+    bool wasHeaderWrite = false;
 public:
-    explicit EPSOutFileStream( std::ofstream& f ) : file(f) { }
+    explicit EPSOutFileStream( std::ostream& f ) : file(f) { }
     void putHeader(Header& header);
     void putCommand(Command& c);
 };
