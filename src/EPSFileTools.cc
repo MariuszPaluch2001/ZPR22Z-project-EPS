@@ -2,7 +2,6 @@
 // Created by mariusz on 08.11.22.
 //
 #include "EPSFileTools.h"
-#include "GraphicCommands.h"
 #include <sstream>
 
 Resolution Header::findResolution(){

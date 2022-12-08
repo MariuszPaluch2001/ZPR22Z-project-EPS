@@ -12,10 +12,6 @@
 #include "EPSCommandRepresentation.h"
 #include "GraphicCommands.h"
 
-// @TODO
-// isFinished()
-// testy
-
 class Header {
     Resolution resolution_;
     std::string header_;
