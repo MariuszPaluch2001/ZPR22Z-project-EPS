@@ -5,10 +5,12 @@
 #ifndef ZPR_EPSFILETOOLS_H
 #define ZPR_EPSFILETOOLS_H
 #include <fstream>
+#include <memory>
+#include <variant>
+
 #include "Scalar2DRepresentation.h"
 #include "EPSCommandRepresentation.h"
-#include <memory>
-using cPtr = std::unique_ptr<Command>;
+#include "GraphicCommands.h"
 
 class Header {
     Resolution resolution_;
@@ -19,31 +21,34 @@ public:
         header_ = header;
         resolution_ = findResolution();
     };
-    Resolution getResolution() const { return resolution_; }
     void setResolution( const Resolution & resolution );
     std::string getHeaderString() const { return header_; }
+    Resolution getResolution() const { return resolution_; }
 };
 
-class EPSInFileStream : public std::ifstream {
+using variantCommand = std::variant<NonProcessableCommand, LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
+
+class EPSInFileStream{
+    std::istream& file;
     bool wasHeaderRead = false;
     std::string readHeader();
-    cPtr readCommand();
-    static Point readPoint(const std::string & commandLine);
-    static std::string stripCommandSignature(const std::string & commandLine);
-    cPtr makePointerOnCommand(const std::string & commandLine, const std::string & commandSignature);
+    static Point readPoint(const std::string& commandLine);
+    static std::string stripCommandSignature(const std::string& commandLine);
+    static variantCommand makeVariantCommand(const std::string & commandLine, const std::string & commandSignature);
+    bool isFinished() { return file.peek() == EOF; }
 public:
-    explicit EPSInFileStream( const std::string & fileName ) : std::ifstream( fileName ) { }
+    explicit EPSInFileStream( std::istream& f ) : file(f) { }
     Header getHeader();
-    EPSInFileStream & operator>>( cPtr & ptr );
+    variantCommand getCommand();
 };
 
-class EPSOutFileStream : public std::ofstream {
-
+class EPSOutFileStream{
+    std::ostream& file;
+    bool wasHeaderWrite = false;
 public:
-    explicit EPSOutFileStream( const std::string & fileName ) : std::ofstream( fileName ) {}
-    EPSOutFileStream & operator<<( const Header & h );
-
-    EPSOutFileStream & operator<<( const cPtr & ptr );
+    explicit EPSOutFileStream( std::ostream& f ) : file(f) { }
+    void putHeader(Header& header);
+    void putCommand(Command& c);
 };
 
 #endif //ZPR_EPSFILETOOLS_H

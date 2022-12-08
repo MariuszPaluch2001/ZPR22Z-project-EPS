@@ -2,7 +2,6 @@
 // Created by mariusz on 08.11.22.
 //
 #include "EPSFileTools.h"
-#include "GraphicCommands.h"
 #include <sstream>
 
 Resolution Header::findResolution(){
@@ -10,16 +9,19 @@ Resolution Header::findResolution(){
     int yRes = 0;
     std::string line;
     std::stringstream ss(header_);
-
-    while(getline(ss, line, '\n')){
+    bool isResFound = false;
+    while(std::getline(ss, line)){
         if (line.rfind("%%BoundingBox", 0) == 0){
             std::stringstream s(line);
             std::string tag, zero1, zero2, x, y;
             s >> tag >> zero1 >> zero2 >> x >> y;
             xRes = std::stoi(x);
             yRes = std::stoi(y);
+            isResFound = true;
         }
     }
+    if (!isResFound)
+        throw  std::runtime_error("Resolution not founded.");
     return Resolution(xRes, yRes);
 }
 
@@ -29,24 +31,29 @@ void Header::setResolution( const Resolution & resolution ){
 }
 
 std::string EPSInFileStream::readHeader() {
-    char text[256];
-    std::string textString;
-    std::string headerBuffor;
+    std::string text;
+    std::string headerBuffer;
+    bool isFinishedFlag;
     if (!wasHeaderRead){
-        while (std::ifstream::getline(text, 256))
+        isFinishedFlag = isFinished();
+        while (!isFinishedFlag)
             {
-                textString = std::string(text);
-                if (textString == "%%EndComments")
+                std::getline(file, text);
+                if (text == "%%EndComments"){
+                    headerBuffer += "%%EndComments\n";
                     break;
-                headerBuffor += '\n' + textString;
+                }
+                headerBuffer += text + '\n';
+                isFinishedFlag = isFinished();
             }
+        if (isFinishedFlag)
+            throw  std::runtime_error("File is finished.");
     }
     else
-        throw  std::runtime_error("Header was read.");
+        throw  std::runtime_error("Header has been read.");
 
     wasHeaderRead = true;
-    headerBuffor += '\n';
-    return headerBuffor;
+    return headerBuffer;
 }
 
 Header EPSInFileStream::getHeader() {
@@ -59,7 +66,7 @@ Point EPSInFileStream::readPoint(const std::string & commandLine){
     std::stringstream s(commandLine);
     std::string x, y;
     s >> x >> y ;
-    return {std::stod(x),std::stod(y)};
+    return { std::stod(x), std::stod(y)};
 }
 std::string EPSInFileStream::stripCommandSignature(const std::string & commandLine){
     std::string commandSignature;
@@ -73,52 +80,55 @@ std::string EPSInFileStream::stripCommandSignature(const std::string & commandLi
     return commandSignature;
 }
 
-cPtr EPSInFileStream::makePointerOnCommand(const std::string & commandLine, const std::string & commandSignature){
+variantCommand EPSInFileStream::makeVariantCommand(const std::string & commandLine, const std::string & commandSignature){
     if (commandSignature == "l") {
-        return std::make_unique<RightOrientedLineCommand>(
-                Point(0.0,0.0),
-                readPoint(commandLine));
+        return variantCommand(std::in_place_index<2>,
+                RightOrientedLineCommand(Point(0.0,0.0),
+                                         readPoint(commandLine)));
     }
     else if (commandSignature == "lineto"){
-        return std::make_unique<LeftOrientedLineCommand>(
-                Point(0,0),
-                readPoint(commandLine));
+        return variantCommand(std::in_place_index<1>,
+                LeftOrientedLineCommand(Point(0,0),
+                                        readPoint(commandLine)));
     }
     else if (commandSignature == "p2"){
-        return std::make_unique<PointCommand>(
-                readPoint(commandLine));
+        return variantCommand(std::in_place_index<3>,
+                PointCommand(readPoint(commandLine)));
     }
     else{
-        return std::make_unique<NonProcessableCommand>(commandLine);
+        return variantCommand(std::in_place_index<0>,
+                NonProcessableCommand(commandLine));
     }
 }
-cPtr EPSInFileStream::readCommand(){
-        char text[256];
-        std::string commandLine, commandSignature;
+
+variantCommand EPSInFileStream::getCommand(){
+        std::string text;
+        std::string commandSignature;
         if(wasHeaderRead){
-            std::ifstream::getline(text, 256);
-            commandLine = std::string(text);
-            commandSignature = stripCommandSignature(commandLine);
-            return makePointerOnCommand(commandLine, commandSignature);
+            if (!isFinished()){
+                std::getline(file, text);
+                commandSignature = stripCommandSignature(text);
+                return makeVariantCommand(text, commandSignature);
+            }
+            else {
+                throw std::runtime_error("File is finished.");
+            }
         }
         else
             throw std::runtime_error("Header hasn't read yet.");
 
 }
-EPSInFileStream & EPSInFileStream::operator>>( cPtr & ptr ){
-    ptr  = readCommand();
-    return *this;
+
+void EPSOutFileStream::putHeader(Header& header) {
+    if (wasHeaderWrite)
+        throw std::runtime_error("Header has already written.");
+    std::string headerString = header.getHeaderString();
+    file << headerString;
+    wasHeaderWrite = true;
 }
 
-EPSOutFileStream & EPSOutFileStream::operator<<( const Header & h ){
-    std::string headerString = h.getHeaderString();
-    write(headerString.data(), headerString.size());
-    write("%%EndComments\n", 14);
-    return *this;
-}
-
-EPSOutFileStream & EPSOutFileStream::operator<<( const cPtr & ptr ){
-    std::string commandString = ptr->toString();
-    write(commandString.data(), commandString.size());
-    return *this;
+void EPSOutFileStream::putCommand(Command& c){
+    if (!wasHeaderWrite)
+        throw std::runtime_error("Header hasn't written.");
+    file << c.toString();
 }
