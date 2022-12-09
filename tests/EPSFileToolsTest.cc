@@ -103,25 +103,25 @@ TEST(EPSFileToolsTest, TestCommandRead){
     EPSFs.getHeader();
     variantCommand v = EPSFs.getCommand();
     ASSERT_TRUE(c = std::get_if<NonProcessableCommand>(&v));
-    ASSERT_EQ(c->toString(), "/m   { moveto } bind def\n");
+    ASSERT_EQ(c->toString(), "/m   { moveto } bind def");
     v = EPSFs.getCommand();
     ASSERT_TRUE(c = std::get_if<NonProcessableCommand>(&v));
-    ASSERT_EQ(c->toString(), "/l  { rlineto } bind def\n");
+    ASSERT_EQ(c->toString(), "/l  { rlineto } bind def");
     v = EPSFs.getCommand();
     ASSERT_TRUE(c = std::get_if<NonProcessableCommand>(&v));
-    ASSERT_EQ(c->toString(), "\n");
+    ASSERT_EQ(c->toString(), "");
     v = EPSFs.getCommand();
     ASSERT_TRUE(c = std::get_if<NonProcessableCommand>(&v));
-    ASSERT_EQ(c->toString(), "newpath\n");
+    ASSERT_EQ(c->toString(), "newpath");
     v = EPSFs.getCommand();
     ASSERT_TRUE(c = std::get_if<RightOrientedLineCommand>(&v));
-    ASSERT_EQ(c->toString(), "10.03 2.46 l\n");
+    ASSERT_EQ(c->toString(), "10.03 2.46 l");
     v = EPSFs.getCommand();
     ASSERT_TRUE(c = std::get_if<LeftOrientedLineCommand>(&v));
-    ASSERT_EQ(c->toString(), "164.72 100.9 lineto\n");
+    ASSERT_EQ(c->toString(), "164.72 100.9 lineto");
     v = EPSFs.getCommand();
     ASSERT_TRUE(c = std::get_if<PointCommand>(&v));
-    ASSERT_EQ(c->toString(), "234.12 374.92 1.00 1.00 r p2\n");
+    ASSERT_EQ(c->toString(), "234.12 374.92 1.00 1.00 r p2");
 
 }
 
@@ -208,8 +208,8 @@ TEST(EPSFileToolsTest, EPSOutFileWriteHeaderAndCommands)
                             "9.5 7.5 1.00 1.00 r p2\n";
     Header header(headerStr);
     NonProcessableCommand npc("test");
-    LeftOrientedLineCommand lolc(Point(3.5, 4.5), Point(4.2, 6.7));
-    RightOrientedLineCommand rolc(Point(4.5, 5.5), Point(5.2, 7.7));
+    LeftOrientedLineCommand lolc( Point(4.2, 6.7));
+    RightOrientedLineCommand rolc(Point(5.2, 7.7));
     PointCommand pc(Point(9.5, 7.5));
     std::ostringstream oss("");
     EPSOutFileStream EPSFs(oss);

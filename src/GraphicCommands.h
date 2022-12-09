@@ -7,57 +7,66 @@
 #include "EPSCommandRepresentation.h"
 #include <memory>
 
+#include <variant>
+#include <optional>
+
 class GraphicCommand;
-template <typename T /* return value of visitor */> class Visitor;
-using MidpointVisitor = Visitor<std::unique_ptr<GraphicCommand>>;
-using DifferenceVisitor = Visitor<double>;
+class LeftOrientedLineCommand;
+class RightOrientedLineCommand;
+class PointCommand;
+
+using varGraphic = std::variant<LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
+using optGraphic = std::optional<varGraphic>;
+class Visitor;
+class DifferenceVisitor;
+class MidpointVisitor;
 
 class GraphicCommand : public Command {
-    Point startingPoint;
     //represents point, to which drawing cursor is moved after the command
     Point movePoint;
 public:
-    GraphicCommand( const Point & start, const Point & move ) : startingPoint( start ), movePoint( move ) {}
-    Point getStartingPoint() const { return startingPoint; }
+    GraphicCommand( const Point & move ) : movePoint( move ) {}
     Point getMovePoint() const { return movePoint; }
     virtual std::string toString() const = 0;
-    virtual double accept( const DifferenceVisitor & v) const = 0;
+    virtual void accept(Visitor & v) const = 0;
 
-    virtual double countDifference( const GraphicCommand & gc ) = 0;
-
-    virtual std::unique_ptr<GraphicCommand> accept( const MidpointVisitor & mv ) const = 0;
-    virtual std::unique_ptr<GraphicCommand> createMidpoint( const GraphicCommand & gc ) const = 0;
+    virtual double countDifference( const GraphicCommand & gc ) const = 0;
+    virtual optGraphic createMidpoint( const GraphicCommand & gc ) const = 0;
 
 };
 
+//@todo maybe add abstract class for Line?
 class LeftOrientedLineCommand : public GraphicCommand {
 public:
-    LeftOrientedLineCommand(const Point &start, const Point &move) : GraphicCommand(start, move) {}
-    virtual std::string toString() const;
-    virtual double accept( const DifferenceVisitor & v ) const;
-    virtual double countDifference(const GraphicCommand &gc);
-    virtual std::unique_ptr<GraphicCommand> accept( const MidpointVisitor & mv )  const {  }
-    virtual std::unique_ptr<GraphicCommand> createMidpoint( const GraphicCommand & gc ) const { }
+    LeftOrientedLineCommand(const Point &move) : GraphicCommand(move) {}
+    virtual std::string toString() const { return ""; /* @todo implement*/ }
+    virtual void accept(Visitor & v) const;
+    virtual double countDifference(const GraphicCommand &gc) const;
+    virtual optGraphic createMidpoint( const GraphicCommand & gc ) const;
+    Direction getDirection() const { return getMovePoint() - Point(0,0); }
 };
 
 class RightOrientedLineCommand : public GraphicCommand {
 public:
-    RightOrientedLineCommand( const Point & start, const Point & move ) : GraphicCommand( start, move ) {}
-    virtual std::string toString() const;
-    virtual double accept( const DifferenceVisitor & v ) const;
-    virtual double countDifference(const GraphicCommand &gc);
-    virtual std::unique_ptr<GraphicCommand> accept( const MidpointVisitor & mv )   const {   }
-    virtual std::unique_ptr<GraphicCommand> createMidpoint( const GraphicCommand & gc )   const  {   }
+
+    RightOrientedLineCommand( const Point & move ) : GraphicCommand( move ) {}
+    virtual std::string toString() const { return "";/* @todo implement*/  }
+    virtual void accept(Visitor & v) const;
+    virtual double countDifference(const GraphicCommand &gc) const;
+    virtual optGraphic createMidpoint( const GraphicCommand & gc ) const;
+    Direction getDirection() const { return getMovePoint() - Point(0,0); }
+
 };
 
 class PointCommand: public GraphicCommand {
 public:
-    PointCommand( const Point & coord ) : GraphicCommand( coord, coord ) {}
-    virtual std::string toString() const;
-    virtual double accept( const DifferenceVisitor & v ) const;
-    virtual double countDifference(const GraphicCommand &gc);
-    virtual std::unique_ptr<GraphicCommand> accept( const MidpointVisitor & mv ) const {   }
-    virtual std::unique_ptr<GraphicCommand> createMidpoint( const GraphicCommand & gc ) const { }
+
+    PointCommand( const Point & coord ) : GraphicCommand( coord ) {}
+    virtual std::string toString() const { return "";/* @todo implement*/  }
+    virtual void accept(Visitor & v) const;
+    virtual double countDifference(const GraphicCommand &gc) const;
+    virtual optGraphic createMidpoint( const GraphicCommand & gc ) const;
+
 };
 
 

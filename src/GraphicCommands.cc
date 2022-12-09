@@ -3,50 +3,53 @@
 //
 
 #include "GraphicCommands.h"
-#include "Visitor.h"
-#include <sstream>
+#include "DifferenceVisitor.h"
+#include "MidpointVisitor.h"
 
-std::string LeftOrientedLineCommand::toString() const {
-    std::stringstream s;
-    s << getMovePoint().getX() << " " << getMovePoint().getY()  << " lineto" << '\n';
-    return s.str();
+void LeftOrientedLineCommand::accept(Visitor &v) const {
+    v.visit(*this);
 }
 
-std::string RightOrientedLineCommand::toString() const {
-    std::stringstream s;
-    s << getMovePoint().getX() << " " << getMovePoint().getY()  << " l" << '\n';
-    return s.str();
+void RightOrientedLineCommand::accept(Visitor &v) const {
+    v.visit(*this);
 }
 
-std::string PointCommand::toString() const {
-    std::stringstream s;
-    s << getMovePoint().getX() << " " << getMovePoint().getY()  << " 1.00 1.00 r p2" << '\n';
-    return s.str();
+void PointCommand::accept(Visitor &v) const {
+    v.visit(*this);
 }
 
-double LeftOrientedLineCommand::accept( const DifferenceVisitor & v ) const {
-    return v.visit(*this);
+double LeftOrientedLineCommand::countDifference(const GraphicCommand &gc) const {
+    auto visitor = DifferenceLeftLineVisitor(*this);
+    gc.accept(visitor);
+    return visitor.getValue();
 }
 
-double RightOrientedLineCommand::accept( const DifferenceVisitor & v ) const {
-    return v.visit(*this);
+double RightOrientedLineCommand::countDifference(const GraphicCommand &gc) const {
+    auto visitor = DifferenceRightLineVisitor(*this);
+    gc.accept(visitor);
+    return visitor.getValue();
 }
 
-double PointCommand::accept( const DifferenceVisitor & v ) const {
-    return v.visit(*this);
+double PointCommand::countDifference(const GraphicCommand &gc) const {
+    auto visitor = DifferencePointVisitor(*this);
+    gc.accept(visitor);
+    return visitor.getValue();
 }
 
-double LeftOrientedLineCommand::countDifference(const GraphicCommand &gc) {
-    auto visitor = LeftLineDifferenceVisitor(*this);
-    return gc.accept(visitor);
+optGraphic LeftOrientedLineCommand::createMidpoint(const GraphicCommand &gc) const {
+    auto visitor = MidpointLeftLineVisitor(*this);
+    gc.accept(visitor);
+    return visitor.getValue();
 }
 
-double RightOrientedLineCommand::countDifference(const GraphicCommand &gc) {
-    auto visitor = RightLineDifferenceVisitor(*this);
-    return gc.accept(visitor);
+optGraphic RightOrientedLineCommand::createMidpoint(const GraphicCommand &gc) const {
+    auto visitor = MidpointRightLineVisitor(*this);
+    gc.accept(visitor);
+    return visitor.getValue();
 }
 
-double PointCommand::countDifference(const GraphicCommand &gc) {
-    auto visitor = PointDifferenceVisitor(*this);
-    return gc.accept(visitor);
+optGraphic PointCommand::createMidpoint(const GraphicCommand &gc) const {
+    auto visitor = MidpointPointVisitor(*this);
+    gc.accept(visitor);
+    return visitor.getValue();
 }

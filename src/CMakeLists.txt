@@ -1,3 +1,4 @@
 add_library(Scalar2DRepresentation Scalar2DRepresentation.cc)
 add_library(EPSFileTools EPSFileTools.cc)
-add_library(GraphicCommands GraphicCommands.cc)
+add_library(EPSCommands GraphicCommands.cc EPSCommandRepresentation.cc DifferenceVisitor.cc MidpointVisitor.cc Visitor.h)
+add_library(Algorithm Algorithm.cc)

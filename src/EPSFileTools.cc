@@ -83,12 +83,12 @@ std::string EPSInFileStream::stripCommandSignature(const std::string & commandLi
 variantCommand EPSInFileStream::makeVariantCommand(const std::string & commandLine, const std::string & commandSignature){
     if (commandSignature == "l") {
         return variantCommand(std::in_place_index<2>,
-                RightOrientedLineCommand(Point(0.0,0.0),
+                RightOrientedLineCommand(
                                          readPoint(commandLine)));
     }
     else if (commandSignature == "lineto"){
         return variantCommand(std::in_place_index<1>,
-                LeftOrientedLineCommand(Point(0,0),
+                LeftOrientedLineCommand(
                                         readPoint(commandLine)));
     }
     else if (commandSignature == "p2"){
@@ -130,5 +130,5 @@ void EPSOutFileStream::putHeader(Header& header) {
 void EPSOutFileStream::putCommand(Command& c){
     if (!wasHeaderWrite)
         throw std::runtime_error("Header hasn't written.");
-    file << c.toString();
+    file << c.toString() << "\n";
 }
