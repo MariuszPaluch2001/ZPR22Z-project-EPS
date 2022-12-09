@@ -14,7 +14,8 @@ class LeftOrientedLineCommand;
 class RightOrientedLineCommand;
 class PointCommand;
 
-using varGraphic = std::variant<std::monostate, LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
+using varGraphic = std::variant<LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
+using optGraphic = std::optional<varGraphic>;
 class Visitor;
 class DifferenceVisitor;
 class MidpointVisitor;
@@ -29,7 +30,7 @@ public:
     virtual void accept(Visitor & v) const = 0;
 
     virtual double countDifference( const GraphicCommand & gc ) const = 0;
-    virtual varGraphic createMidpoint( const GraphicCommand & gc ) const = 0;
+    virtual optGraphic createMidpoint( const GraphicCommand & gc ) const = 0;
 
 };
 
@@ -40,7 +41,7 @@ public:
     virtual std::string toString() const { return ""; /* @todo implement*/ }
     virtual void accept(Visitor & v) const;
     virtual double countDifference(const GraphicCommand &gc) const;
-    virtual varGraphic createMidpoint( const GraphicCommand & gc ) const;
+    virtual optGraphic createMidpoint( const GraphicCommand & gc ) const;
     Direction getDirection() const { return getMovePoint() - Point(0,0); }
 };
 
@@ -50,7 +51,7 @@ public:
     virtual std::string toString() const { return "";/* @todo implement*/  }
     virtual void accept(Visitor & v) const;
     virtual double countDifference(const GraphicCommand &gc) const;
-    virtual varGraphic createMidpoint( const GraphicCommand & gc ) const;
+    virtual optGraphic createMidpoint( const GraphicCommand & gc ) const;
     Direction getDirection() const { return getMovePoint() - Point(0,0); }
 };
 
@@ -60,7 +61,7 @@ public:
     virtual std::string toString() const { return "";/* @todo implement*/  }
     virtual void accept(Visitor & v) const;
     virtual double countDifference(const GraphicCommand &gc) const;
-    virtual varGraphic createMidpoint( const GraphicCommand & gc ) const;
+    virtual optGraphic createMidpoint( const GraphicCommand & gc ) const;
 };
 
 

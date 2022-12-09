@@ -7,39 +7,39 @@
 #include "Visitor.h"
 #include <variant>
 #include <optional>
-using varGraphic = std::variant<std::monostate, LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
-
+using varGraphic = std::variant<LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
+using optGraphic = std::optional<varGraphic>;
 class MidpointLeftLineVisitor : public LeftLineVisitor {
 private:
-    varGraphic gc_;
+    optGraphic gc_;
 public:
     MidpointLeftLineVisitor(const LeftOrientedLineCommand & ll) : LeftLineVisitor(ll) {}
     virtual void visit( const LeftOrientedLineCommand & ll );
     virtual void visit( const RightOrientedLineCommand & rl );
     virtual void visit( const PointCommand & p );
-    varGraphic getValue() const { return gc_; }
+    optGraphic getValue() const { return gc_; }
 };
 
 class MidpointRightLineVisitor : public RightLineVisitor {
 private:
-    varGraphic gc_;
+    optGraphic gc_;
 public:
     MidpointRightLineVisitor(const RightOrientedLineCommand & rl) : RightLineVisitor(rl) {}
     virtual void visit( const LeftOrientedLineCommand & ll );
     virtual void visit( const RightOrientedLineCommand & rl );
     virtual void visit( const PointCommand & p );
-    varGraphic getValue() const { return gc_; }
+    optGraphic getValue() const { return gc_; }
 };
 
 class MidpointPointVisitor : public PointVisitor {
 private:
-    varGraphic gc_;
+    optGraphic gc_;
 public:
     MidpointPointVisitor(const PointCommand & p) : PointVisitor(p) {}
     virtual void visit( const LeftOrientedLineCommand & ll );
     virtual void visit( const RightOrientedLineCommand & rl );
     virtual void visit( const PointCommand & p );
-    varGraphic getValue() const { return gc_; }
+    optGraphic getValue() const { return gc_; }
 };
 
 

@@ -10,7 +10,7 @@
 #include <variant>
 #include <functional>
 using processableGraphicVar = std::variant<LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
-using processableGraphicVector = std::vector<varGraphic>;
+using processableGraphicVector = std::vector<processableGraphicVar>;
 
 class Algorithm {
 private:
@@ -22,8 +22,6 @@ public:
     Resolution getResolution() const { return res_; }
     processableGraphicVector processBatch(const processableGraphicVector & batch);
 };
-
-std::optional<processableGraphicVar> unpackToNoMonostate(const varGraphic & var);
 
 
 #endif //ZPR_ALGORITHM_H

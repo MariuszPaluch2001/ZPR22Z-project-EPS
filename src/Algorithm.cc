@@ -3,14 +3,7 @@
 //
 
 #include "Algorithm.h"
-/*std::optional<processableGraphicVar> unpackToNoMonostate(const varGraphic & var) {
-    if (std::holds_alternative<std::monostate>(var))
-        return std::nullopt;
-    if (std::holds_alternative<LeftOrientedLineCommand>(var))
-        return std::get<LeftOrientedLineCommand>(var);
-    if (std::holds_alternative<RightOrientedLineCommand>(var)
-        return std::get<RightOriented
-}*/
+
 processableGraphicVector Algorithm::processBatch(const processableGraphicVector & batch) {
     if (batch.size() == 0)
         return {};
