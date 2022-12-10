@@ -8,21 +8,23 @@
 #include <sstream>
 
 std::string LeftOrientedLineCommand::toString() const {
-    std::stringstream s;
-    s << getMovePoint().getX() << " " << getMovePoint().getY()  << " lineto" << '\n';
-    return s.str();
+  std::stringstream s;
+  s << getMovePoint().getX() << " " << getMovePoint().getY() << " lineto"
+    << '\n';
+  return s.str();
 }
 
 std::string RightOrientedLineCommand::toString() const {
-    std::stringstream s;
-    s << getMovePoint().getX() << " " << getMovePoint().getY()  << " l" << '\n';
-    return s.str();
+  std::stringstream s;
+  s << getMovePoint().getX() << " " << getMovePoint().getY() << " l" << '\n';
+  return s.str();
 }
 
 std::string PointCommand::toString() const {
-    std::stringstream s;
-    s << getMovePoint().getX() << " " << getMovePoint().getY()  << " 1.00 1.00 r p2" << '\n';
-    return s.str();
+  std::stringstream s;
+  s << getMovePoint().getX() << " " << getMovePoint().getY()
+    << " 1.00 1.00 r p2" << '\n';
+  return s.str();
 }
 
 void LeftOrientedLineCommand::accept(Visitor &v) const { v.visit(*this); }

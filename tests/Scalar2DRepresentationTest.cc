@@ -59,10 +59,10 @@ TEST(Scalar2DRepresentationTest, TestDirectionDivOperator) {
 }
 
 TEST(Scalar2DRepresentationTest, TestDirectionDivOperatorByZero) {
-    auto d = Direction(3, 4);
-    auto divD = d / 0;
-    ASSERT_TRUE(abs(divD.getX() - 0) < 1e-5);
-    ASSERT_TRUE(abs(divD.getY() - 0) < 1e-5);
+  auto d = Direction(3, 4);
+  auto divD = d / 0;
+  ASSERT_TRUE(abs(divD.getX() - 0) < 1e-5);
+  ASSERT_TRUE(abs(divD.getY() - 0) < 1e-5);
 }
 
 TEST(Scalar2DRepresentationTest, TestPointAdditionOperator) {

@@ -20,7 +20,6 @@ public:
   double getValue() const { return value_; }
 };
 
-
 class DifferenceRightLineVisitor : public RightLineVisitor {
 private:
   double value_;
