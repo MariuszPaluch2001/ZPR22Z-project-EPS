@@ -1,9 +1,10 @@
 //
 // Created by kacper on 04.12.2022.
 //
-#include "EPSCommandRepresentation.h"
 #include <gtest/gtest.h>
 #include <sstream>
+#include "EPSCommandRepresentation.h"
+
 
 TEST(EPSCommandRepresentation, testCreateNonProcessableCommand) {
   auto _ = NonProcessableCommand("");

@@ -4,9 +4,10 @@
 
 #ifndef ZPR_MIDPOINTVISITOR_H
 #define ZPR_MIDPOINTVISITOR_H
-#include "Visitor.h"
 #include <optional>
 #include <variant>
+#include "Visitor.h"
+
 using VarGraphic = std::variant<LeftOrientedLineCommand,
                                 RightOrientedLineCommand, PointCommand>;
 using OptGraphic = std::optional<VarGraphic>;

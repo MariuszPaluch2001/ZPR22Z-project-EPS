@@ -1,11 +1,10 @@
 //
 // Created by kacper on 05.11.2022.
 //
-
+#include <sstream>
 #include "GraphicCommands.h"
 #include "DifferenceVisitor.h"
 #include "MidpointVisitor.h"
-#include <sstream>
 
 std::string LeftOrientedLineCommand::toString() const {
   std::stringstream s;

@@ -1,6 +1,7 @@
-#include "Scalar2DRepresentation.h"
 #include <cmath>
 #include <gtest/gtest.h>
+#include "Scalar2DRepresentation.h"
+
 
 TEST(Scalar2DRepresentationTest, TestPointCordsGetters) {
   Point p(2.2, 5);

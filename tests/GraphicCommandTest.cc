@@ -1,9 +1,9 @@
 //
 // Created by kacper on 04.12.2022.
 //
-
-#include "GraphicCommands.h"
 #include <gtest/gtest.h>
+#include "GraphicCommands.h"
+
 
 TEST(GraphicCommandTest, TestCreateLeftOrientedLine) {
   auto _ = LeftOrientedLineCommand({1, 2});

@@ -4,8 +4,9 @@
 
 #ifndef ZPR_EPSCOMMANDREPRESENTATION_H
 #define ZPR_EPSCOMMANDREPRESENTATION_H
-#include "Scalar2DRepresentation.h"
 #include <iostream>
+#include "Scalar2DRepresentation.h"
+
 class Command {
 public:
   virtual std::string toString() const = 0;

@@ -4,9 +4,10 @@
 
 #ifndef ZPR_GRAPHICCOMMANDS_H
 #define ZPR_GRAPHICCOMMANDS_H
-#include "EPSCommandRepresentation.h"
 #include <optional>
 #include <variant>
+#include "EPSCommandRepresentation.h"
+
 
 class GraphicCommand;
 class LeftOrientedLineCommand;

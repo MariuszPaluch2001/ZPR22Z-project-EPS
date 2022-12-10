@@ -1,11 +1,11 @@
 //
 // Created by mariusz on 06.11.22.
 //
-
-#include "EPSFileTools.h"
-#include "GraphicCommands.h"
 #include <gtest/gtest.h>
 #include <sstream>
+#include "EPSFileTools.h"
+#include "GraphicCommands.h"
+
 TEST(EPSFileToolsTest, ThrowExceptionGetHeaderTest) {
   std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
                      "%%Pages: (atend)\n"

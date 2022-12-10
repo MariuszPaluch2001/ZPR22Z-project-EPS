@@ -1,9 +1,9 @@
 //
 // Created by kacper on 04.11.2022.
 //
-#include "Scalar2DRepresentation.h"
 #include <cmath>
 #include <sstream>
+#include "Scalar2DRepresentation.h"
 
 std::string Point::toString() const {
   std::stringstream s;

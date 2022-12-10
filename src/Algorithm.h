@@ -4,11 +4,12 @@
 
 #ifndef ZPR_ALGORITHM_H
 #define ZPR_ALGORITHM_H
-#include "GraphicCommands.h"
-#include "Scalar2DRepresentation.h"
 #include <functional>
 #include <variant>
 #include <vector>
+#include "GraphicCommands.h"
+#include "Scalar2DRepresentation.h"
+
 
 using ProcessableGraphicVar =
     std::variant<LeftOrientedLineCommand, RightOrientedLineCommand,

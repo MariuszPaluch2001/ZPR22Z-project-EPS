@@ -1,9 +1,10 @@
 //
 // Created by kacper on 10.12.2022.
 //
-#include "Algorithm.h"
 #include <cmath>
 #include <gtest/gtest.h>
+#include "Algorithm.h"
+
 
 TEST(AlgorithmTest, TestCreateAlgorithm) { Algorithm({1, 2}); }
 

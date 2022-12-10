@@ -1,8 +1,9 @@
 //
 // Created by mariusz on 08.11.22.
 //
-#include "EPSFileTools.h"
 #include <sstream>
+#include "EPSFileTools.h"
+
 
 Resolution Header::findResolution() {
   int xRes = 0;
