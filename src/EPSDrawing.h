@@ -7,7 +7,7 @@
 #include <fstream>
 class EPSDrawingInterface {
 public:
-    virtual void drawFile(std::ifstream &) const = 0
+    virtual void drawFile(std::ifstream &) const = 0;
 };
 //will be implemented in next edition
 class EPSDrawingAdapter : public EPSDrawingInterface{
