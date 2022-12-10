@@ -4,13 +4,14 @@
 #include "DifferenceVisitor.h"
 
 //@todo - better logic is needed
+extern const double MAX_DIFFERENCE = 1e10;
 void DifferenceLeftLineVisitor::visit(const LeftOrientedLineCommand &ll) {
   value_ = countDistanceBetweenConjoinedDirections(ll_.getDirection(),
                                                    ll.getDirection());
 }
 
 void DifferenceLeftLineVisitor::visit(const RightOrientedLineCommand &rl) {
-  value_ = -1;
+  value_ = MAX_DIFFERENCE;
 }
 
 void DifferenceLeftLineVisitor::visit(const PointCommand &p) {
@@ -18,7 +19,7 @@ void DifferenceLeftLineVisitor::visit(const PointCommand &p) {
 }
 
 void DifferenceRightLineVisitor::visit(const LeftOrientedLineCommand &ll) {
-  value_ = -1;
+  value_ = MAX_DIFFERENCE;
 }
 
 void DifferenceRightLineVisitor::visit(const RightOrientedLineCommand &rl) {

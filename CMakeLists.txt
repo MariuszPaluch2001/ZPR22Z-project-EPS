@@ -19,6 +19,8 @@ add_executable(${PROJECT_NAME} Main.cc
         src/Visitor.h
         src/MidpointVisitor.cc
         src/MidpointVisitor.h
+        src/EPSDrawing.cc
+        src/EPSDrawing.h
 )
 
 
