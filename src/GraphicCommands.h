@@ -36,7 +36,7 @@ public:
 class LeftOrientedLineCommand : public GraphicCommand {
 public:
   LeftOrientedLineCommand(const Point &move) : GraphicCommand(move) {}
-  virtual std::string toString() const { return ""; /* @todo implement*/ }
+  virtual std::string toString() const;
   virtual void accept(Visitor &v) const;
   virtual double countDifference(const GraphicCommand &gc) const;
   virtual OptGraphic createMidpoint(const GraphicCommand &gc) const;
@@ -46,7 +46,7 @@ public:
 class RightOrientedLineCommand : public GraphicCommand {
 public:
   RightOrientedLineCommand(const Point &move) : GraphicCommand(move) {}
-  virtual std::string toString() const { return ""; /* @todo implement*/ }
+  virtual std::string toString() const;
   virtual void accept(Visitor &v) const;
   virtual double countDifference(const GraphicCommand &gc) const;
   virtual OptGraphic createMidpoint(const GraphicCommand &gc) const;
@@ -56,7 +56,7 @@ public:
 class PointCommand : public GraphicCommand {
 public:
   PointCommand(const Point &coord) : GraphicCommand(coord) {}
-  virtual std::string toString() const { return ""; /* @todo implement*/ }
+  virtual std::string toString() const;
   virtual void accept(Visitor &v) const;
   virtual double countDifference(const GraphicCommand &gc) const;
   virtual OptGraphic createMidpoint(const GraphicCommand &gc) const;

@@ -123,5 +123,5 @@ void EPSOutFileStream::putHeader(Header &header) {
 void EPSOutFileStream::putCommand(Command &c) {
   if (!wasHeaderWrite)
     throw std::runtime_error("Header hasn't written.");
-  file << c.toString() << "\n";
+  file << c.toString();
 }

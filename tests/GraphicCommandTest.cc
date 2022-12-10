@@ -18,7 +18,7 @@ TEST(GraphicCommandTest, TestLeftOrientedLinePointGetter) {
 
 TEST(GraphicCommandTest, TestLeftOrientedLineStringForm) {
   auto l = LeftOrientedLineCommand({1, 2});
-  ASSERT_EQ(l.toString(), std::string(""));
+  ASSERT_EQ(l.toString(), std::string("1 2 lineto\n"));
 }
 
 //@todo visitor functions
@@ -43,7 +43,7 @@ TEST(GraphicCommandTest, TestRightOrientedLinePointGetter) {
 
 TEST(GraphicCommandTest, TestRightOrientedLineStringForm) {
   auto r = RightOrientedLineCommand({1, 2});
-  ASSERT_EQ(r.toString(), std::string(""));
+  ASSERT_EQ(r.toString(), std::string("1 2 l\n"));
 }
 
 //@todo visitor functions
@@ -68,7 +68,7 @@ TEST(GraphicCommandTest, TestPointCommandPointGetter) {
 
 TEST(GraphicCommandTest, TestPointCommandStringForm) {
   auto pc = PointCommand({1, 2});
-  ASSERT_EQ(pc.toString(), "");
+  ASSERT_EQ(pc.toString(), "1 2 1.00 1.00 r p2\n");
 }
 
 //@todo visitor functions
