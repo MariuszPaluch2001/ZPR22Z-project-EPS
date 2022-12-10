@@ -4,13 +4,12 @@
 
 #include "Algorithm.h"
 
-processableGraphicVector Algorithm::processBatch(const processableGraphicVector & batch) {
-    if (batch.size() == 0)
-        return {};
+ProcessableGraphicVector Algorithm::processBatch(const ProcessableGraphicVector & batch) {
+    //no processing is needed
+    if (batch.size() < 2)
+        return batch;
     auto prevGraphicCommand = batch.at(0);
-    if (batch.size() == 1)
-        return {prevGraphicCommand};
-    processableGraphicVector postProcessing {};
+    ProcessableGraphicVector postProcessing {};
 
     auto differenceVisit = [](const auto & prevGraphic, const auto & nextGraphic) {
         return prevGraphic.countDifference(nextGraphic);
@@ -18,9 +17,10 @@ processableGraphicVector Algorithm::processBatch(const processableGraphicVector 
     auto midpointVisit = [](const auto & prevGraphic, const auto & nextGraphic) {
         return prevGraphic.createMidpoint(nextGraphic);
     };
+    //starting with second element of the batch we process batch elements
     for (auto iter = batch.cbegin() + 1; iter != batch.cend(); iter++) {
         double difference = std::visit(differenceVisit, prevGraphicCommand, *iter);
-        if (difference <= maxDifference) {
+        if (difference <= max_difference_) {
             auto midpoint = std::visit(midpointVisit, prevGraphicCommand, *iter);
             if (midpoint)
                 prevGraphicCommand = *midpoint;
@@ -29,8 +29,8 @@ processableGraphicVector Algorithm::processBatch(const processableGraphicVector 
             postProcessing.push_back(prevGraphicCommand);
             prevGraphicCommand = *iter;
         }
-        if (iter + 1 == batch.cend())
-            postProcessing.push_back(prevGraphicCommand);
     }
+    //we push the last element of the processed batch
+    postProcessing.push_back(prevGraphicCommand);
     return postProcessing;
 }

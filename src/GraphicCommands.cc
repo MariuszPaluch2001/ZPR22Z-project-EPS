@@ -36,19 +36,19 @@ double PointCommand::countDifference(const GraphicCommand &gc) const {
     return visitor.getValue();
 }
 
-optGraphic LeftOrientedLineCommand::createMidpoint(const GraphicCommand &gc) const {
+OptGraphic LeftOrientedLineCommand::createMidpoint(const GraphicCommand &gc) const {
     auto visitor = MidpointLeftLineVisitor(*this);
     gc.accept(visitor);
     return visitor.getValue();
 }
 
-optGraphic RightOrientedLineCommand::createMidpoint(const GraphicCommand &gc) const {
+OptGraphic RightOrientedLineCommand::createMidpoint(const GraphicCommand &gc) const {
     auto visitor = MidpointRightLineVisitor(*this);
     gc.accept(visitor);
     return visitor.getValue();
 }
 
-optGraphic PointCommand::createMidpoint(const GraphicCommand &gc) const {
+OptGraphic PointCommand::createMidpoint(const GraphicCommand &gc) const {
     auto visitor = MidpointPointVisitor(*this);
     gc.accept(visitor);
     return visitor.getValue();

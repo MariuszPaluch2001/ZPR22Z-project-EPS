@@ -15,10 +15,10 @@ public:
 std::ostream & operator<<( std::ostream & os, const Command & com );
 
 class NonProcessableCommand : public Command {
-    std::string textRepresentation_;
+    std::string text_representation_;
 public:
-    NonProcessableCommand( const std::string & s) : textRepresentation_( s ) {}
-    std::string toString() const { return textRepresentation_; }
+    NonProcessableCommand( const std::string & s) : text_representation_( s ) {}
+    std::string toString() const { return text_representation_; }
 
 };
 

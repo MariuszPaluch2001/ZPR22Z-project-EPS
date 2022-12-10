@@ -4,34 +4,31 @@
 
 #ifndef ZPR_GRAPHICCOMMANDS_H
 #define ZPR_GRAPHICCOMMANDS_H
-#include "EPSCommandRepresentation.h"
-#include <memory>
-
 #include <variant>
 #include <optional>
+#include "EPSCommandRepresentation.h"
+
 
 class GraphicCommand;
 class LeftOrientedLineCommand;
 class RightOrientedLineCommand;
 class PointCommand;
 
-using varGraphic = std::variant<LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
-using optGraphic = std::optional<varGraphic>;
+using VarGraphic = std::variant<LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
+using OptGraphic = std::optional<VarGraphic>;
 class Visitor;
-class DifferenceVisitor;
-class MidpointVisitor;
 
 class GraphicCommand : public Command {
     //represents point, to which drawing cursor is moved after the command
-    Point movePoint;
+    Point move_point_;
 public:
-    GraphicCommand( const Point & move ) : movePoint( move ) {}
-    Point getMovePoint() const { return movePoint; }
+    GraphicCommand( const Point & move ) : move_point_( move ) {}
+    Point getMovePoint() const { return move_point_; }
     virtual std::string toString() const = 0;
     virtual void accept(Visitor & v) const = 0;
 
     virtual double countDifference( const GraphicCommand & gc ) const = 0;
-    virtual optGraphic createMidpoint( const GraphicCommand & gc ) const = 0;
+    virtual OptGraphic createMidpoint( const GraphicCommand & gc ) const = 0;
 
 };
 
@@ -42,7 +39,7 @@ public:
     virtual std::string toString() const { return ""; /* @todo implement*/ }
     virtual void accept(Visitor & v) const;
     virtual double countDifference(const GraphicCommand &gc) const;
-    virtual optGraphic createMidpoint( const GraphicCommand & gc ) const;
+    virtual OptGraphic createMidpoint( const GraphicCommand & gc ) const;
     Direction getDirection() const { return getMovePoint() - Point(0,0); }
 };
 
@@ -53,7 +50,7 @@ public:
     virtual std::string toString() const { return "";/* @todo implement*/  }
     virtual void accept(Visitor & v) const;
     virtual double countDifference(const GraphicCommand &gc) const;
-    virtual optGraphic createMidpoint( const GraphicCommand & gc ) const;
+    virtual OptGraphic createMidpoint( const GraphicCommand & gc ) const;
     Direction getDirection() const { return getMovePoint() - Point(0,0); }
 
 };
@@ -65,7 +62,7 @@ public:
     virtual std::string toString() const { return "";/* @todo implement*/  }
     virtual void accept(Visitor & v) const;
     virtual double countDifference(const GraphicCommand &gc) const;
-    virtual optGraphic createMidpoint( const GraphicCommand & gc ) const;
+    virtual OptGraphic createMidpoint( const GraphicCommand & gc ) const;
 
 };
 

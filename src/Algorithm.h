@@ -4,23 +4,24 @@
 
 #ifndef ZPR_ALGORITHM_H
 #define ZPR_ALGORITHM_H
-#include "Scalar2DRepresentation.h"
-#include "GraphicCommands.h"
 #include <vector>
 #include <variant>
 #include <functional>
-using processableGraphicVar = std::variant<LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
-using processableGraphicVector = std::vector<processableGraphicVar>;
+#include "Scalar2DRepresentation.h"
+#include "GraphicCommands.h"
+
+using ProcessableGraphicVar = std::variant<LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
+using ProcessableGraphicVector = std::vector<ProcessableGraphicVar>;
 
 class Algorithm {
 private:
-    Resolution res_;
-    double maxDifference = 0;
+    Resolution resolution_;
+    double max_difference_ = 0;
 public:
-    Algorithm(const Resolution & res) : res_(res) {}
-    void setResolution(const Resolution & res) { res_ = res; }
-    Resolution getResolution() const { return res_; }
-    processableGraphicVector processBatch(const processableGraphicVector & batch);
+    Algorithm(const Resolution & res) : resolution_(res) {}
+    void setResolution(const Resolution & res) { resolution_ = res; }
+    Resolution getResolution() const { return resolution_; }
+    ProcessableGraphicVector processBatch(const ProcessableGraphicVector & batch);
 };
 
 

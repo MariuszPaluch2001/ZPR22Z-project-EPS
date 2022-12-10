@@ -2,7 +2,7 @@
 // Created by kacper on 06.11.2022.
 //
 #include "MidpointVisitor.h"
-//@todo add any implementation (or copy)
+//@todo change dummy implementations
 void MidpointLeftLineVisitor::visit(const LeftOrientedLineCommand& ll) {
     gc_ = ll_;
 }

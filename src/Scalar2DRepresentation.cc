@@ -1,10 +1,10 @@
 //
 // Created by kacper on 04.11.2022.
 //
-
-#include "Scalar2DRepresentation.h"
 #include <sstream>
 #include <cmath>
+#include "Scalar2DRepresentation.h"
+
 std::string Point::toString() const {
     std::stringstream s;
     s << "Point: (" << getX() << ", " << getY() << ")";
@@ -76,11 +76,21 @@ double getDirectionAngle( const Direction & d ) {
 
 //@todo opposite Directions are a fuss
 double countDistanceBetweenConjoinedDirections( const Direction & d1, const Direction & d2) {
-    auto firstNormalisedDirection= normalizeDirection(d1);
-    auto secondNormalisedDirection = normalizeDirection(d2);
-
-    auto firstAngle = getDirectionAngle(firstNormalisedDirection);
-    auto secondAngle = getDirectionAngle(secondNormalisedDirection);
+    auto firstAngle = getDirectionAngle(d1);
+    auto secondAngle = getDirectionAngle(d2);
     auto angleInBetween = secondAngle - firstAngle;
     return std::sin(angleInBetween) * length(d2);
+}
+
+//@todo maybe exception if div is near zero?
+Direction Direction::operator/(double div) const {
+    return div < 1e-5 ? Direction(0,0) : Direction(getX() / div, getY() / div);
+}
+
+Direction Point::operator-( const Point & p ) const {
+    return Direction(getX() - p.getX(),  getY() - p.getY() );
+}
+
+Direction Point::operator+( const Point & p ) const {
+    return Direction(p.getX() + getX(), p.getY() + getY());
 }

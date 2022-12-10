@@ -4,7 +4,6 @@
 #include "DifferenceVisitor.h"
 
 //@todo - better logic is needed
-// and if not - we can change it to way simpler versions
 void DifferenceLeftLineVisitor::visit(const LeftOrientedLineCommand &ll){
     value_ = countDistanceBetweenConjoinedDirections( ll_.getDirection(), ll.getDirection() );
 }

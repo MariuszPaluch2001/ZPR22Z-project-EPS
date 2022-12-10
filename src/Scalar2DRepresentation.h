@@ -22,7 +22,7 @@ class Direction : public Scalar2D {
 public:
     Direction( double x, double y ) : Scalar2D(x, y) {}
     virtual std::string toString() const;
-    virtual Direction operator/( double div ) const { return Direction(getX() / div, getY() / div); }
+    virtual Direction operator/( double div ) const;
 
 
 };
@@ -37,8 +37,8 @@ public:
     virtual void setY( double new_y );
     virtual std::string toString() const;
     virtual Point getMidpoint( const Point & p) const;
-    virtual Direction operator-( const Point & p ) const { return Direction(getX() - p.getX(),  getY() - p.getY() ); }
-    virtual Direction operator+( const Point & p ) const { return Direction(p.getX() + getX(), p.getY() + getY()); }
+    virtual Direction operator-( const Point & p ) const;
+    virtual Direction operator+( const Point & p ) const;
 
 };
 
@@ -50,7 +50,7 @@ public:
 
     Resolution( unsigned int x = 0, unsigned int y = 0 ) : Scalar2D(x, y) {}
     //Resolution can't be negative
-
+    //problem with doubles - we will disable inherition in next version
     virtual void setX( double new_x );
     virtual void setY( double new_y );
     virtual std::string toString() const;

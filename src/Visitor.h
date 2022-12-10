@@ -15,8 +15,6 @@ public:
     virtual void visit( const PointCommand & p ) = 0;
 };
 
-
-
 class LeftLineVisitor : public Visitor {
 protected:
     const LeftOrientedLineCommand & ll_;

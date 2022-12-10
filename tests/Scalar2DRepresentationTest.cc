@@ -221,8 +221,7 @@ TEST(Scalar2DRepresentationTest, TestDistanceBetweenNormalizedDirections) {
     ASSERT_TRUE(abs(res - sqrt(2)/2.) < 1e-5);
 }
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }
