@@ -6,6 +6,9 @@
 
 ProcessableGraphicVector
 Algorithm::processBatch(const ProcessableGraphicVector &batch) {
+    return batch;
+    //this code isn't fully implemented yet
+    /*
   // no processing is needed
   if (batch.size() < 2)
     return batch;
@@ -33,4 +36,5 @@ Algorithm::processBatch(const ProcessableGraphicVector &batch) {
   // we push the last element of the processed batch
   postProcessing.push_back(prevGraphicCommand);
   return postProcessing;
+     */
 }
