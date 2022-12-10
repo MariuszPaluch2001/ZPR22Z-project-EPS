@@ -4,24 +4,22 @@
 
 #ifndef ZPR_EPSCOMMANDREPRESENTATION_H
 #define ZPR_EPSCOMMANDREPRESENTATION_H
-#include <iostream>
 #include "Scalar2DRepresentation.h"
+#include <iostream>
 class Command {
 public:
-    virtual std::string toString() const = 0;
-    virtual ~Command() = default;
+  virtual std::string toString() const = 0;
+  virtual ~Command() = default;
 };
 
-std::ostream & operator<<( std::ostream & os, const Command & com );
+std::ostream &operator<<(std::ostream &os, const Command &com);
 
 class NonProcessableCommand : public Command {
-    std::string text_representation_;
-public:
-    NonProcessableCommand( const std::string & s) : text_representation_( s ) {}
-    std::string toString() const { return text_representation_; }
+  std::string text_representation_;
 
+public:
+  NonProcessableCommand(const std::string &s) : text_representation_(s) {}
+  std::string toString() const { return text_representation_; }
 };
 
-
-
-#endif //ZPR_EPSCOMMANDREPRESENTATION_H
+#endif // ZPR_EPSCOMMANDREPRESENTATION_H

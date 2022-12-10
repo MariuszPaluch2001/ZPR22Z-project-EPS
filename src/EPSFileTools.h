@@ -8,47 +8,53 @@
 #include <memory>
 #include <variant>
 
-#include "Scalar2DRepresentation.h"
 #include "EPSCommandRepresentation.h"
 #include "GraphicCommands.h"
+#include "Scalar2DRepresentation.h"
 
 class Header {
-    Resolution resolution_;
-    std::string header_;
-    Resolution findResolution();
+  Resolution resolution_;
+  std::string header_;
+  Resolution findResolution();
+
 public:
-    explicit Header( const std::string & header ) {
-        header_ = header;
-        resolution_ = findResolution();
-    };
-    void setResolution( const Resolution & resolution );
-    std::string getHeaderString() const { return header_; }
-    Resolution getResolution() const { return resolution_; }
+  explicit Header(const std::string &header) {
+    header_ = header;
+    resolution_ = findResolution();
+  };
+  void setResolution(const Resolution &resolution);
+  std::string getHeaderString() const { return header_; }
+  Resolution getResolution() const { return resolution_; }
 };
 
-using variantCommand = std::variant<NonProcessableCommand, LeftOrientedLineCommand, RightOrientedLineCommand, PointCommand>;
+using variantCommand =
+    std::variant<NonProcessableCommand, LeftOrientedLineCommand,
+                 RightOrientedLineCommand, PointCommand>;
 
-class EPSInFileStream{
-    std::istream& file;
-    bool wasHeaderRead = false;
-    std::string readHeader();
-    static Point readPoint(const std::string& commandLine);
-    static std::string stripCommandSignature(const std::string& commandLine);
-    static variantCommand makeVariantCommand(const std::string & commandLine, const std::string & commandSignature);
-    bool isFinished() { return file.peek() == EOF; }
+class EPSInFileStream {
+  std::istream &file;
+  bool wasHeaderRead = false;
+  std::string readHeader();
+  static Point readPoint(const std::string &commandLine);
+  static std::string stripCommandSignature(const std::string &commandLine);
+  static variantCommand makeVariantCommand(const std::string &commandLine,
+                                           const std::string &commandSignature);
+  bool isFinished() { return file.peek() == EOF; }
+
 public:
-    explicit EPSInFileStream( std::istream& f ) : file(f) { }
-    Header getHeader();
-    variantCommand getCommand();
+  explicit EPSInFileStream(std::istream &f) : file(f) {}
+  Header getHeader();
+  variantCommand getCommand();
 };
 
-class EPSOutFileStream{
-    std::ostream& file;
-    bool wasHeaderWrite = false;
+class EPSOutFileStream {
+  std::ostream &file;
+  bool wasHeaderWrite = false;
+
 public:
-    explicit EPSOutFileStream( std::ostream& f ) : file(f) { }
-    void putHeader(Header& header);
-    void putCommand(Command& c);
+  explicit EPSOutFileStream(std::ostream &f) : file(f) {}
+  void putHeader(Header &header);
+  void putCommand(Command &c);
 };
 
-#endif //ZPR_EPSFILETOOLS_H
+#endif // ZPR_EPSFILETOOLS_H
