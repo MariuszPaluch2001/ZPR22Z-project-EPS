@@ -111,13 +111,13 @@ TEST(EPSFileToolsTest, TestCommandRead) {
   ASSERT_EQ(c->toString(), "newpath");
   v = EPSFs.getCommand();
   ASSERT_TRUE(c = std::get_if<RightOrientedLineCommand>(&v));
-  ASSERT_EQ(c->toString(), "10.03 2.46 l");
+  ASSERT_EQ(c->toString(), "10.03 2.46 l\n");
   v = EPSFs.getCommand();
   ASSERT_TRUE(c = std::get_if<LeftOrientedLineCommand>(&v));
-  ASSERT_EQ(c->toString(), "164.72 100.9 lineto");
+  ASSERT_EQ(c->toString(), "164.72 100.9 lineto\n");
   v = EPSFs.getCommand();
   ASSERT_TRUE(c = std::get_if<PointCommand>(&v));
-  ASSERT_EQ(c->toString(), "234.12 374.92 1.00 1.00 r p2");
+  ASSERT_EQ(c->toString(), "234.12 374.92 1.00 1.00 r p2\n");
 }
 
 TEST(EPSFileToolsTest, TestCommandReadWhenFileIsEnd) {
