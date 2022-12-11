@@ -12,6 +12,9 @@ public:
   virtual void visit(const LeftOrientedLineCommand &ll) = 0;
   virtual void visit(const RightOrientedLineCommand &rl) = 0;
   virtual void visit(const PointCommand &p) = 0;
+  Visitor() = default;
+  Visitor(const Visitor &) = delete;
+  Visitor& operator=(const Visitor&) = delete;
 };
 
 class LeftLineVisitor : public Visitor {
