@@ -22,22 +22,28 @@ Aplikacja ma wykrywać właśnie takie dane i dokonywać kompresji stratnej dla 
 6. Clang-format - do dodawania białych znaków w odpowiedni sposób
 ## Instrukcja użytkowania
 Obecnie dostępny jest szkielet aplikacji, z testami jednostkowymi dla 
-dostępny funkcjonalności
+dostępny funkcjonalności i aplikacją demonstracyjną
 
-Budowanie aplikacji i odpalenie testów jednostkowych
+Budowanie aplikacji
 1. `mkdir bin`
 2. `cmake -B bin`
 3. `cd bin`
 4. `make`
-5. `make test`
+
+Demonstracja działania
+1. Budowanie aplikacji
+2. `./zpr sciezka_do_pliku_eps sciezka_wyjsciowa_do_pliku`
+
+Odpalenie testów jednostkowych
+1. Budowanie aplikacji
+2. `make test`
 
 ## Uwagi
-Nie ma testów jednostkowych dla funkcji, które nie mają jeszcze implementacji/mają implementację-wydmuszkę.
-Wszystkie inne funkcje są pokryte testami.
+Nie ma testów jednostkowych dla funkcji, które nie mają jeszcze implementacji.
 
-Z poziomu CMake'a tworzone są biblioteki, tak jak w dokumentacji wstępnej.
+Z poziomu CMake'a tworzone są biblioteki podzielone, tak jak w dokumentacji wstępnej.
 
-W projekci używamy gita, Gitlaba oraz  IDE - Cliona.
+W projekcie używamy gita, Gitlaba oraz  IDE - Cliona.
 ## Napotkane problemy
 * W projekcie staraliśmy się unikać jak najmocniej dynamicznej alokacji pamięci. Uzyskaliśmy to dzięki std::variant,
     może to jednak zmniejszyć skalowalność aplikacji - będzie to przedmiotem dalszych konsultacji
