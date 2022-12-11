@@ -7,10 +7,14 @@
 #include <fstream>
 #include <memory>
 #include <variant>
+
 #include "EPSCommandRepresentation.h"
 #include "GraphicCommands.h"
 #include "Scalar2DRepresentation.h"
 #include "Algorithm.h"
+
+using VariantCommand =
+        std::variant<NonProcessableCommand, ProcessableGraphicVar>;
 
 class Header {
   Resolution resolution_;
@@ -27,30 +31,28 @@ public:
   Resolution getResolution() const { return resolution_; }
 };
 
-using VariantCommand =
-    std::variant<NonProcessableCommand, ProcessableGraphicVar>;
-
 class EPSInFileStream {
-  std::istream &file;
-  bool wasHeaderRead = false;
+  std::istream &file_;
+  bool was_header_read = false;
+
   std::string readHeader();
   static Point readPoint(const std::string &commandLine);
   static std::string stripCommandSignature(const std::string &commandLine);
-  static VariantCommand makeVariantCommand(const std::string &commandLine,
-                                           const std::string &commandSignature);
+  static VariantCommand makeVariantCommand(const std::string &command_line,
+                                           const std::string &command_signature);
 public:
-  explicit EPSInFileStream(std::istream &f) : file(f) {}
+  explicit EPSInFileStream(std::istream &f) : file_(f) {}
   Header getHeader();
   VariantCommand getCommand();
-  bool isFinished() { return file.peek() == EOF; }
+  bool isFinished() { return file_.peek() == EOF; }
 };
 
 class EPSOutFileStream {
-  std::ostream &file;
-  bool wasHeaderWrite = false;
+  std::ostream &file_;
+  bool was_header_write = false;
 
 public:
-  explicit EPSOutFileStream(std::ostream &f) : file(f) {}
+  explicit EPSOutFileStream(std::ostream &f) : file_(f) {}
   void putHeader(Header &header);
   void putCommand(Command &c);
 };

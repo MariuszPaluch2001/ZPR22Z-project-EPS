@@ -2,28 +2,28 @@
 // Created by mariusz on 08.11.22.
 //
 #include <sstream>
+
 #include "EPSFileTools.h"
 
-
 Resolution Header::findResolution() {
-  int xRes = 0;
-  int yRes = 0;
+  unsigned int x_res = 0;
+  unsigned int y_res = 0;
   std::string line;
   std::stringstream ss(header_);
-  bool isResFound = false;
+  bool is_res_found = false;
   while (std::getline(ss, line)) {
     if (line.rfind("%%BoundingBox", 0) == 0) {
       std::stringstream s(line);
       std::string tag, zero1, zero2, x, y;
       s >> tag >> zero1 >> zero2 >> x >> y;
-      xRes = std::stoi(x);
-      yRes = std::stoi(y);
-      isResFound = true;
+      x_res = std::stoi(x);
+      y_res = std::stoi(y);
+      is_res_found = true;
     }
   }
-  if (!isResFound)
+  if (!is_res_found)
     throw std::runtime_error("Resolution not founded.");
-  return Resolution(xRes, yRes);
+  return {x_res, y_res};
 }
 
 void Header::setResolution(const Resolution &resolution) {
@@ -33,75 +33,75 @@ void Header::setResolution(const Resolution &resolution) {
 
 std::string EPSInFileStream::readHeader() {
   std::string text;
-  std::string headerBuffer;
-  bool isFinishedFlag;
-  if (!wasHeaderRead) {
-    isFinishedFlag = isFinished();
-    while (!isFinishedFlag) {
-      std::getline(file, text);
+  std::string header_buffer;
+  bool is_finished_flag;
+  if (!was_header_read) {
+    is_finished_flag = isFinished();
+    while (!is_finished_flag) {
+      std::getline(file_, text);
       if (text == "%%EndComments") {
-        headerBuffer += "%%EndComments\n";
+        header_buffer += "%%EndComments\n";
         break;
       }
-      headerBuffer += text + '\n';
-      isFinishedFlag = isFinished();
+      header_buffer += text + '\n';
+      is_finished_flag = isFinished();
     }
-    if (isFinishedFlag)
+    if (is_finished_flag)
       throw std::runtime_error("File is finished.");
   } else
     throw std::runtime_error("Header has been read.");
 
-  wasHeaderRead = true;
-  return headerBuffer;
+  was_header_read = true;
+  return header_buffer;
 }
 
 Header EPSInFileStream::getHeader() {
-  std::string headerStr = readHeader();
-  Header header(headerStr);
+  std::string header_str = readHeader();
+  Header header(header_str);
   return header;
 }
 
-Point EPSInFileStream::readPoint(const std::string &commandLine) {
-  std::stringstream s(commandLine);
+Point EPSInFileStream::readPoint(const std::string &command_line) {
+  std::stringstream s(command_line);
   std::string x, y;
   s >> x >> y;
   return {std::stod(x), std::stod(y)};
 }
 std::string
-EPSInFileStream::stripCommandSignature(const std::string &commandLine) {
-  std::string commandSignature;
+EPSInFileStream::stripCommandSignature(const std::string &command_line) {
+  std::string command_signature;
   std::size_t found;
-  found = commandLine.find_last_of(' ');
+  found = command_line.find_last_of(' ');
   if (found != std::string::npos)
-    commandSignature = commandLine.substr(found + 1);
+    command_signature = command_line.substr(found + 1);
   else
-    commandSignature = commandLine;
+    command_signature = command_line;
 
-  return commandSignature;
+  return command_signature;
 }
 
 VariantCommand
-EPSInFileStream::makeVariantCommand(const std::string &commandLine,
-                                    const std::string &commandSignature) {
-  if (commandSignature == "l") {
-    return {RightOrientedLineCommand(readPoint(commandLine))};
-  } else if (commandSignature == "lineto") {
-    return {LeftOrientedLineCommand(readPoint(commandLine))};
-  } else if (commandSignature == "p2") {
-    return {PointCommand(readPoint(commandLine))};
+EPSInFileStream::makeVariantCommand(const std::string &command_line,
+                                    const std::string &command_signature) {
+  if (command_signature == "l") {
+    return {RightOrientedLineCommand(readPoint(command_line))};
+  } else if (command_signature == "lineto") {
+    return {LeftOrientedLineCommand(readPoint(command_line))};
+  } else if (command_signature == "p2") {
+    return {PointCommand(readPoint(command_line))};
   } else {
-    return {NonProcessableCommand(commandLine)};
+    return {NonProcessableCommand(command_line)};
   }
 }
 
 VariantCommand EPSInFileStream::getCommand() {
   std::string text;
-  std::string commandSignature;
-  if (wasHeaderRead) {
+  std::string command_signature;
+  if (was_header_read) {
     if (!isFinished()) {
-      std::getline(file, text);
-      commandSignature = stripCommandSignature(text);
-      return makeVariantCommand(text, commandSignature);
+      std::getline(file_, text);
+      command_signature = stripCommandSignature(text);
+      return makeVariantCommand(text, command_signature);
     } else {
       throw std::runtime_error("File is finished.");
     }
@@ -110,15 +110,15 @@ VariantCommand EPSInFileStream::getCommand() {
 }
 
 void EPSOutFileStream::putHeader(Header &header) {
-  if (wasHeaderWrite)
+  if (was_header_write)
     throw std::runtime_error("Header has already written.");
-  std::string headerString = header.getHeaderString();
-  file << headerString;
-  wasHeaderWrite = true;
+  std::string header_string = header.getHeaderString();
+  file_ << header_string;
+  was_header_write = true;
 }
 
-void EPSOutFileStream::putCommand(Command &c) {
-  if (!wasHeaderWrite)
+void EPSOutFileStream::putCommand(Command &command) {
+  if (!was_header_write)
     throw std::runtime_error("Header hasn't written.");
-  file << c.toString() << '\n';
+  file_ << command.toString() << '\n';
 }

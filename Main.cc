@@ -1,60 +1,67 @@
 #include <iostream>
+#include <variant>
+
 #include "src/EPSFileTools.h"
 #include "src/EPSCommandRepresentation.h"
 #include "src/GraphicCommands.h"
 #include "src/Algorithm.h"
-#include <variant>
 
 int main(int argc, char**  args){
     if (argc != 3){
         std::cerr << "Incorrect number of args! Should be main.c inFilename outFilename" << std::endl;
         return 1;
     }
-    std::ifstream fileIn(args[1]);
-    std::ofstream fileOut(args[2]);
-    GraphicCommand * command;
-    EPSInFileStream epsInFile(fileIn);
-    EPSOutFileStream epsOutFile(fileOut);
-    Header h(epsInFile.getHeader());
-    h.setResolution(h.getResolution()); // We don't change resolution ... so far.
-    Algorithm algorithm(h.getResolution());
-    ProcessableGraphicVector v;
-    epsOutFile.putHeader(h);
-    const int maxNumberCommands = 1000;
-    while(!epsInFile.isFinished()){
-        auto vc = epsInFile.getCommand();
-        auto npc = std::get_if<NonProcessableCommand>(&vc);
-        if (npc || v.size() >= maxNumberCommands){
-            v = algorithm.processBatch(v);
-            for (auto var : v){
 
+    const int MAX_NUMBER_COMMANDS = 1000;
+    GraphicCommand * command;
+    ProcessableGraphicVector process_graphic_vec;
+
+    std::ifstream file_in(args[1]);
+    std::ofstream file_out(args[2]);
+    EPSInFileStream eps_in_file(file_in);
+    EPSOutFileStream eps_out_file(file_out);
+    Header header(eps_in_file.getHeader());
+    header.setResolution(header.getResolution()); // We don't change resolution ... so far.
+    Algorithm algorithm(header.getResolution());
+    eps_out_file.putHeader(header);
+
+    while(!eps_in_file.isFinished()){
+
+        auto variant_command = eps_in_file.getCommand();
+        auto not_process_command = std::get_if<NonProcessableCommand>(&variant_command);
+
+        if (not_process_command || process_graphic_vec.size() >= MAX_NUMBER_COMMANDS){
+
+            process_graphic_vec = algorithm.processBatch(process_graphic_vec);
+
+            for (auto var : process_graphic_vec){
                 if ((command = std::get_if<LeftOrientedLineCommand>(&var)) ||
                         (command = std::get_if<RightOrientedLineCommand>(&var)) ||
                         (command = std::get_if<PointCommand>(&var))){
-                        epsOutFile.putCommand(*command);
+                        eps_out_file.putCommand(*command);
                 }
-
             }
-            if (npc)
-                epsOutFile.putCommand(*npc);
-            v.clear();
+
+            if (not_process_command)
+                eps_out_file.putCommand(*not_process_command);
+            process_graphic_vec.clear();
         }
         else{
-            v.push_back(*std::get_if<ProcessableGraphicVar>(&vc));
+            process_graphic_vec.push_back(*std::get_if<ProcessableGraphicVar>(&variant_command));
         }
     }
-    if (!v.empty()){
-        v = algorithm.processBatch(v);
-        for (auto var : v){
+    if (!process_graphic_vec.empty()){
+        process_graphic_vec = algorithm.processBatch(process_graphic_vec);
+        for (auto var : process_graphic_vec){
 
             if ((command = std::get_if<LeftOrientedLineCommand>(&var)) ||
                 (command = std::get_if<RightOrientedLineCommand>(&var)) ||
                 (command = std::get_if<PointCommand>(&var))){
-                epsOutFile.putCommand(*command);
+                eps_out_file.putCommand(*command);
             }
 
         }
-        v.clear();
+        process_graphic_vec.clear();
     }
     return 0;
 }

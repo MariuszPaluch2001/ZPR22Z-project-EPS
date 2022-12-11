@@ -3,6 +3,7 @@
 //
 #include <gtest/gtest.h>
 #include <sstream>
+
 #include "EPSFileTools.h"
 #include "GraphicCommands.h"
 
