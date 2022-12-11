@@ -80,25 +80,21 @@ EPSInFileStream::stripCommandSignature(const std::string &commandLine) {
   return commandSignature;
 }
 
-variantCommand
+VariantCommand
 EPSInFileStream::makeVariantCommand(const std::string &commandLine,
                                     const std::string &commandSignature) {
   if (commandSignature == "l") {
-    return variantCommand(std::in_place_index<2>,
-                          RightOrientedLineCommand(readPoint(commandLine)));
+    return {RightOrientedLineCommand(readPoint(commandLine))};
   } else if (commandSignature == "lineto") {
-    return variantCommand(std::in_place_index<1>,
-                          LeftOrientedLineCommand(readPoint(commandLine)));
+    return {LeftOrientedLineCommand(readPoint(commandLine))};
   } else if (commandSignature == "p2") {
-    return variantCommand(std::in_place_index<3>,
-                          PointCommand(readPoint(commandLine)));
+    return {PointCommand(readPoint(commandLine))};
   } else {
-    return variantCommand(std::in_place_index<0>,
-                          NonProcessableCommand(commandLine));
+    return {NonProcessableCommand(commandLine)};
   }
 }
 
-variantCommand EPSInFileStream::getCommand() {
+VariantCommand EPSInFileStream::getCommand() {
   std::string text;
   std::string commandSignature;
   if (wasHeaderRead) {
@@ -124,5 +120,5 @@ void EPSOutFileStream::putHeader(Header &header) {
 void EPSOutFileStream::putCommand(Command &c) {
   if (!wasHeaderWrite)
     throw std::runtime_error("Header hasn't written.");
-  file << c.toString();
+  file << c.toString() << '\n';
 }

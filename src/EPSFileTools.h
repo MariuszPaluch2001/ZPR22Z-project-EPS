@@ -7,10 +7,10 @@
 #include <fstream>
 #include <memory>
 #include <variant>
-
 #include "EPSCommandRepresentation.h"
 #include "GraphicCommands.h"
 #include "Scalar2DRepresentation.h"
+#include "Algorithm.h"
 
 class Header {
   Resolution resolution_;
@@ -27,9 +27,8 @@ public:
   Resolution getResolution() const { return resolution_; }
 };
 
-using variantCommand =
-    std::variant<NonProcessableCommand, LeftOrientedLineCommand,
-                 RightOrientedLineCommand, PointCommand>;
+using VariantCommand =
+    std::variant<NonProcessableCommand, ProcessableGraphicVar>;
 
 class EPSInFileStream {
   std::istream &file;
@@ -37,14 +36,13 @@ class EPSInFileStream {
   std::string readHeader();
   static Point readPoint(const std::string &commandLine);
   static std::string stripCommandSignature(const std::string &commandLine);
-  static variantCommand makeVariantCommand(const std::string &commandLine,
+  static VariantCommand makeVariantCommand(const std::string &commandLine,
                                            const std::string &commandSignature);
-  bool isFinished() { return file.peek() == EOF; }
-
 public:
   explicit EPSInFileStream(std::istream &f) : file(f) {}
   Header getHeader();
-  variantCommand getCommand();
+  VariantCommand getCommand();
+  bool isFinished() { return file.peek() == EOF; }
 };
 
 class EPSOutFileStream {

@@ -97,7 +97,7 @@ TEST(EPSFileToolsTest, TestCommandRead) {
   Command *c;
   EPSInFileStream EPSFs(iss);
   EPSFs.getHeader();
-  variantCommand v = EPSFs.getCommand();
+  VariantCommand v = EPSFs.getCommand();
   ASSERT_TRUE(c = std::get_if<NonProcessableCommand>(&v));
   ASSERT_EQ(c->toString(), "/m   { moveto } bind def");
   v = EPSFs.getCommand();
@@ -110,14 +110,17 @@ TEST(EPSFileToolsTest, TestCommandRead) {
   ASSERT_TRUE(c = std::get_if<NonProcessableCommand>(&v));
   ASSERT_EQ(c->toString(), "newpath");
   v = EPSFs.getCommand();
-  ASSERT_TRUE(c = std::get_if<RightOrientedLineCommand>(&v));
-  ASSERT_EQ(c->toString(), "10.03 2.46 l\n");
+  ASSERT_TRUE(c = std::get_if<RightOrientedLineCommand>(
+          std::get_if<ProcessableGraphicVar>(&v)));
+  ASSERT_EQ(c->toString(), "10.03 2.46 l");
   v = EPSFs.getCommand();
-  ASSERT_TRUE(c = std::get_if<LeftOrientedLineCommand>(&v));
-  ASSERT_EQ(c->toString(), "164.72 100.9 lineto\n");
+  ASSERT_TRUE(c = std::get_if<LeftOrientedLineCommand>(
+          std::get_if<ProcessableGraphicVar>(&v)));
+  ASSERT_EQ(c->toString(), "164.72 100.9 lineto");
   v = EPSFs.getCommand();
-  ASSERT_TRUE(c = std::get_if<PointCommand>(&v));
-  ASSERT_EQ(c->toString(), "234.12 374.92 1.00 1.00 r p2\n");
+  ASSERT_TRUE(c = std::get_if<PointCommand>(
+          std::get_if<ProcessableGraphicVar>(&v)));
+  ASSERT_EQ(c->toString(), "234.12 374.92 1.00 1.00 r p2");
 }
 
 TEST(EPSFileToolsTest, TestCommandReadWhenFileIsEnd) {
