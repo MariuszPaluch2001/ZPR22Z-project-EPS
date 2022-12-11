@@ -13,7 +13,7 @@ Zawierają dużo redundantnych danych - np. zaznaczone punkty znajdują się zby
 móc realnie dostrzec różnicę w założonej rozdzielczości.
 
 Aplikacja ma wykrywać właśnie takie dane i dokonywać kompresji stratnej dla zadanie rozdzielczości
-## Używane standardy i biblioteki i narzędzia
+## Używane standardy, biblioteki i narzędzia
 1. C++17
 2. GTest - do testów jednostkowych, pobierane przez CMake
 3. (w następnej wersji) używany będzie pakiet graficzny (prawdopodobnie R Graphics)
