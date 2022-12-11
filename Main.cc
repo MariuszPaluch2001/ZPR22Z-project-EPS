@@ -20,7 +20,7 @@ int main(int argc, char**  args){
     std::ofstream file_out(args[2]);
     EPSInFileStream eps_in_file(file_in);
     EPSOutFileStream eps_out_file(file_out);
-    Header header(eps_in_file.getHeader());
+    Header header = eps_in_file.getHeader();
     header.setResolution(header.getResolution()); // We don't change resolution ... so far.
     Algorithm algorithm(header.getResolution());
     eps_out_file.putHeader(header);

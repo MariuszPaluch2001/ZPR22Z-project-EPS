@@ -42,6 +42,8 @@ class EPSInFileStream {
                                            const std::string &command_signature);
 public:
   explicit EPSInFileStream(std::istream &f) : file_(f) {}
+  EPSInFileStream(EPSInFileStream&) = delete;
+  EPSInFileStream& operator=(EPSInFileStream&) = delete;
   Header getHeader();
   VariantCommand getCommand();
   bool isFinished() { return file_.peek() == EOF; }
@@ -53,6 +55,8 @@ class EPSOutFileStream {
 
 public:
   explicit EPSOutFileStream(std::ostream &f) : file_(f) {}
+  EPSOutFileStream(EPSOutFileStream&) = delete;
+  EPSOutFileStream& operator=(EPSOutFileStream&) = delete;
   void putHeader(Header &header);
   void putCommand(Command &c);
 };
