@@ -14,7 +14,7 @@ móc realnie dostrzec różnicę w założonej rozdzielczości.
 
 Aplikacja ma wykrywać właśnie takie dane i dokonywać kompresji stratnej dla zadanie rozdzielczości
 ## Używane standardy i biblioteki i narzędzia
-1. C++20
+1. C++17
 2. GTest - do testów jednostkowych, pobierane przez CMake
 3. (w następnej wersji) używany będzie pakiet graficzny (prawdopodobnie R Graphics)
 4. (w następnej wersji) używana będzie biblioteka do GUI (np. Qt)
@@ -39,7 +39,6 @@ Z poziomu CMake'a tworzone są biblioteki, tak jak w dokumentacji wstępnej.
 
 W projekci używamy gita, Gitlaba oraz  IDE - Cliona.
 ## Napotkane problemy
-* CMake podczas budowania wyświetla ujemne liczby zamiast procentowego stanu zbudowania
 * W projekcie staraliśmy się unikać jak najmocniej dynamicznej alokacji pamięci. Uzyskaliśmy to dzięki std::variant,
     może to jednak zmniejszyć skalowalność aplikacji - będzie to przedmiotem dalszych konsultacji
 * Przewidujemy, że zmienimy hierarchię klas w Scalar2DRepresentation - np. Resolution nie jest idealną klasą potomną po
@@ -51,3 +50,4 @@ W projekci używamy gita, Gitlaba oraz  IDE - Cliona.
 * Zamierzamy dodać graficzny interfejs użytkownika
     * będzie umożliwiał wybieranie plików eps oraz wprowadzanie ich docelowych rozmiarów
     * będzie rysował obrazki przy pomocy pakietu graficznego
+* Użyty zostanie C++20 z jego funkcjonalnościami    
