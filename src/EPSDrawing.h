@@ -1,5 +1,6 @@
 //
 // Created by kacper on 10.12.2022.
+// File contains drawing interface which will be used with GUI
 //
 
 #ifndef ZPR_EPSDRAWING_H

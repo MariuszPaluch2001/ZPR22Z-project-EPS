@@ -1,5 +1,6 @@
 //
 // Created by kacper on 07.12.2022.
+// File contains class representing Algorithm
 //
 
 #ifndef ZPR_ALGORITHM_H
@@ -15,7 +16,9 @@ using ProcessableGraphicVar =
     std::variant<LeftOrientedLineCommand, RightOrientedLineCommand,
                  PointCommand>;
 using ProcessableGraphicVector = std::vector<ProcessableGraphicVar>;
-
+/*
+ * Algorithm is used for processing batch of commands according to final resolution of the picture
+ */
 class Algorithm {
 private:
   Resolution resolution_;

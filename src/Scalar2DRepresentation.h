@@ -1,5 +1,6 @@
 //
 // Created by kacper on 04.11.2022.
+// File contains classes representing entity from linear algebra having two values - (x,y)
 //
 
 #ifndef ZPR_SCALAR2DREPRESENTATION_H
@@ -53,6 +54,10 @@ std::ostream &operator<<(std::ostream &os, const Scalar2D &sca2d);
 double length(const Direction &d);
 Direction normalizeDirection(const Direction &d);
 double getDirectionAngle(const Direction &d);
+/*
+ * Function projects first Direction on the extension of first Direction
+ *  and counts the height of the projection in the farthest point
+ */
 double countDistanceBetweenConjoinedDirections(const Direction &d1,
                                                const Direction &d2);
 #endif // ZPR_SCALAR2DREPRESENTATION_H

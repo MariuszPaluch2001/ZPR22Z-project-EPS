@@ -1,5 +1,7 @@
 //
 // Created by kacper on 28.11.2022.
+// File contains classes used to determine "middle point" between two graphic commands
+// eg. two adjacent, colinear lines can be replaced by one
 //
 
 #ifndef ZPR_MIDPOINTVISITOR_H
@@ -11,6 +13,9 @@
 using VarGraphic = std::variant<LeftOrientedLineCommand,
                                 RightOrientedLineCommand, PointCommand>;
 using OptGraphic = std::optional<VarGraphic>;
+/*
+ *  Class used to determine middle point between Left Line and other graphic commands
+ */
 class MidpointLeftLineVisitor : public LeftLineVisitor {
 private:
   OptGraphic gc_;
@@ -24,6 +29,9 @@ public:
   OptGraphic getValue() const { return gc_; }
 };
 
+/*
+ *  Class used to determine middle point between Right Line and other graphic commands
+ */
 class MidpointRightLineVisitor : public RightLineVisitor {
 private:
   OptGraphic gc_;
@@ -37,6 +45,9 @@ public:
   OptGraphic getValue() const { return gc_; }
 };
 
+/*
+ *  Class used to determine middle point between Point and other graphic commands
+ */
 class MidpointPointVisitor : public PointVisitor {
 private:
   OptGraphic gc_;

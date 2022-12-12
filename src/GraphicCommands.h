@@ -1,5 +1,7 @@
 //
 // Created by kacper on 04.11.2022.
+// File contains classes representing Processable Graphic Commands - the ones which we will try
+// to compress
 //
 
 #ifndef ZPR_GRAPHICCOMMANDS_H

@@ -1,5 +1,6 @@
 //
 // Created by kacper on 05.11.2022.
+// Files contains visitor classes, which will visit Graphical commands
 //
 
 #ifndef ZPR_VISITOR_H
