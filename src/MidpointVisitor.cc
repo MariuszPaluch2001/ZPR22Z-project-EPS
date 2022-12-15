@@ -4,34 +4,34 @@
 #include "MidpointVisitor.h"
 //@todo change dummy implementations
 void MidpointLeftLineVisitor::visit(const LeftOrientedLineCommand &ll) {
-  gc_ = ll_;
+
 }
 
 void MidpointLeftLineVisitor::visit(const RightOrientedLineCommand &rl) {
-  gc_ = ll_;
+
 }
 
-void MidpointLeftLineVisitor::visit(const PointCommand &p) { gc_ = ll_; }
+void MidpointLeftLineVisitor::visit(const PointCommand &p) {  }
 
 void MidpointRightLineVisitor::visit(const LeftOrientedLineCommand &rl) {
-  gc_ = rl_;
+
 }
 
 void MidpointRightLineVisitor::visit(const RightOrientedLineCommand &ll) {
-  gc_ = rl_;
+
 }
 
-void MidpointRightLineVisitor::visit(const PointCommand &p) { gc_ = rl_; }
+void MidpointRightLineVisitor::visit(const PointCommand &p) {  }
 
 void MidpointPointVisitor::visit(const LeftOrientedLineCommand &ll) {
-  gc_ = p_;
+
 }
 
 void MidpointPointVisitor::visit(const RightOrientedLineCommand &ll) {
-  gc_ = p_;
+
 }
 
-void MidpointPointVisitor::visit(const PointCommand &p) { gc_ = p_; }
+void MidpointPointVisitor::visit(const PointCommand &p) {  }
 
 /*
 //@todo better logic is needed

@@ -21,49 +21,37 @@ using MidpointCarrier = ValueCarrier<OptGraphic>;
  * commands
  */
 class MidpointLeftLineVisitor : public LeftLineVisitor, public MidpointCarrier {
-private:
-  OptGraphic gc_;
-
 public:
   MidpointLeftLineVisitor(const LeftOrientedLineCommand &ll)
       : LeftLineVisitor(ll) {}
-  virtual void visit(const LeftOrientedLineCommand &ll);
-  virtual void visit(const RightOrientedLineCommand &rl);
-  virtual void visit(const PointCommand &p);
-  OptGraphic getValue() const { return gc_; }
+  virtual void visit(const LeftOrientedLineCommand &ll) override;
+  virtual void visit(const RightOrientedLineCommand &rl) override;
+  virtual void visit(const PointCommand &p) override;
 };
 
 /*
  *  Class used to determine middle point between Right Line and other graphic
  * commands
  */
-class MidpointRightLineVisitor : public RightLineVisitor, MidpointCarrier {
-private:
-  OptGraphic gc_;
-
+class MidpointRightLineVisitor : public RightLineVisitor, public MidpointCarrier {
 public:
   MidpointRightLineVisitor(const RightOrientedLineCommand &rl)
       : RightLineVisitor(rl) {}
-  virtual void visit(const LeftOrientedLineCommand &ll);
-  virtual void visit(const RightOrientedLineCommand &rl);
-  virtual void visit(const PointCommand &p);
-  OptGraphic getValue() const { return gc_; }
+  virtual void visit(const LeftOrientedLineCommand &ll) override;
+  virtual void visit(const RightOrientedLineCommand &rl) override;
+  virtual void visit(const PointCommand &p) override;
 };
 
 /*
  *  Class used to determine middle point between Point and other graphic
  * commands
  */
-class MidpointPointVisitor : public PointVisitor, MidpointCarrier {
-private:
-  OptGraphic gc_;
-
+class MidpointPointVisitor : public PointVisitor, public MidpointCarrier {
 public:
   MidpointPointVisitor(const PointCommand &p) : PointVisitor(p) {}
-  virtual void visit(const LeftOrientedLineCommand &ll);
-  virtual void visit(const RightOrientedLineCommand &rl);
-  virtual void visit(const PointCommand &p);
-  OptGraphic getValue() const { return gc_; }
+  virtual void visit(const LeftOrientedLineCommand &ll) override;
+  virtual void visit(const RightOrientedLineCommand &rl) override;
+  virtual void visit(const PointCommand &p) override;
 };
 
 #endif // ZPR_MIDPOINTVISITOR_H
