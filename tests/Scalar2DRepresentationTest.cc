@@ -4,7 +4,7 @@
 
 
 TEST(Scalar2DRepresentationTest, TestPointCordsGetters) {
-  Point p(2.2, 5);
+  Coordinates p(2.2, 5);
   ASSERT_TRUE(abs(p.getX() - 2.2) < 1e-5);
   ASSERT_TRUE(abs(p.getY() - 5) < 1e-5);
 }
@@ -22,8 +22,8 @@ TEST(Scalar2DRepresentationTest, TestResolutionCordsGetters) {
 }
 
 TEST(Scalar2DRepresentationTest, TestPointToString) {
-  Point p(3, 5);
-  ASSERT_TRUE(p.toString() == "Point: (3, 5)");
+  Coordinates p(3, 5);
+  ASSERT_TRUE(p.toString() == "Coordinates: (3, 5)");
 }
 
 TEST(Scalar2DRepresentationTest, TestDirectionToString) {
@@ -37,7 +37,7 @@ TEST(Scalar2DRepresentationTest, TestResolutionToString) {
 }
 
 TEST(Scalar2DRepresentationTest, TestPointSetXY) {
-  Point p(1, 1);
+  Coordinates p(1, 1);
   p.setX(4);
   p.setY(12);
   ASSERT_TRUE(abs(p.getX() - 4) < 1e-5);
@@ -67,27 +67,27 @@ TEST(Scalar2DRepresentationTest, TestDirectionDivOperatorByZero) {
 }
 
 TEST(Scalar2DRepresentationTest, TestPointAdditionOperator) {
-  auto p1 = Point({3, 4});
-  auto p2 = Point({2, 5});
+  auto p1 = Coordinates({3, 4});
+  auto p2 = Coordinates({2, 5});
   auto p3 = p1 + p2;
   ASSERT_TRUE(abs(p3.getX() - 5) < 1e-5);
   ASSERT_TRUE(abs(p3.getY() - 9) < 1e-5);
 }
 
 TEST(Scalar2DRepresentationTest, TestPointSubtractionOperator) {
-  auto p1 = Point({3, 4});
-  auto p2 = Point({2, 5});
+  auto p1 = Coordinates({3, 4});
+  auto p2 = Coordinates({2, 5});
   auto p3 = p1 - p2;
   ASSERT_TRUE(abs(p3.getX() - 1) < 1e-5);
   ASSERT_TRUE(abs(p3.getY() + 1) < 1e-5);
 }
 
 TEST(Scalar2DRepresentationTest, TestOstreamOperator) {
-  Point p(3, 5);
+  Coordinates p(3, 5);
   std::ostringstream oss;
   oss << p;
 
-  ASSERT_TRUE(oss.str() == "Point: (3, 5)");
+  ASSERT_TRUE(oss.str() == "Coordinates: (3, 5)");
 }
 
 TEST(Scalar2DRepresentationTest, TestDirectionLength) {
@@ -104,8 +104,8 @@ TEST(Scalar2DRepresentationTest, TestDirectionZeroLength) {
 }
 
 TEST(Scalar2DRepresentationTest, TestGetMidpoint) {
-  auto p1 = Point(2, 3);
-  auto p2 = Point(1, 7);
+  auto p1 = Coordinates(2, 3);
+  auto p2 = Coordinates(1, 7);
   auto p3 = p1.getMidpoint(p2);
   ASSERT_TRUE(abs(p3.getX() - 1.5) < 1e-5);
   ASSERT_TRUE(abs(p3.getY() - 5) < 1e-5);
@@ -127,7 +127,7 @@ TEST(Scalar2DRepresentationTest, TestNormalizeDirection) {
 }
 
 TEST(Scalar2DRepresentationTest, TestPointSetNegativeValues) {
-  auto p = Point(1, 2);
+  auto p = Coordinates(1, 2);
   p.setX(-1);
   p.setY(-2.5);
   ASSERT_TRUE(abs(p.getX() - 1) < 1e-5);

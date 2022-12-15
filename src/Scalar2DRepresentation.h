@@ -27,16 +27,16 @@ public:
 };
 
 //@todo rename to Coordinates
-class Point : public Scalar2D {
+class Coordinates : public Scalar2D {
 public:
-  Point(double x, double y) : Scalar2D(x, y) {}
+    Coordinates(double x, double y) : Scalar2D(x, y) {}
   // Point coordinates can't be negative
   virtual void setX(double new_x);
   virtual void setY(double new_y);
   virtual std::string toString() const;
-  virtual Point getMidpoint(const Point &p) const;
-  virtual Direction operator-(const Point &p) const;
-  virtual Direction operator+(const Point &p) const;
+  virtual Coordinates getMidpoint(const Coordinates &p) const;
+  virtual Direction operator-(const Coordinates &p) const;
+  virtual Direction operator+(const Coordinates &p) const;
 };
 
 //@todo delete inherition?

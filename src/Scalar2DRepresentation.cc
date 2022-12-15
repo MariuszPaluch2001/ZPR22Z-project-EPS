@@ -5,9 +5,9 @@
 #include <sstream>
 #include "Scalar2DRepresentation.h"
 
-std::string Point::toString() const {
+std::string Coordinates::toString() const {
   std::stringstream s;
-  s << "Point: (" << getX() << ", " << getY() << ")";
+  s << "Coordinates: (" << getX() << ", " << getY() << ")";
   return s.str();
 }
 
@@ -23,13 +23,13 @@ std::string Resolution::toString() const {
   return s.str();
 }
 
-void Point::setX(double new_x) {
+void Coordinates::setX(double new_x) {
   //@todo maybe exception?
   if (new_x >= 0)
     Scalar2D::setX(new_x);
 }
 
-void Point::setY(double new_y) {
+void Coordinates::setY(double new_y) {
   //@todo maybe exception?
   if (new_y >= 0)
     Scalar2D::setY(new_y);
@@ -47,8 +47,8 @@ void Resolution::setY(double new_y) {
     Scalar2D::setY(static_cast<int>(new_y));
 }
 
-Point Point::getMidpoint(const Point &p) const {
-  return Point((p.getX() + getX()) / 2, (p.getY() + getY()) / 2);
+Coordinates Coordinates::getMidpoint(const Coordinates &p) const {
+  return Coordinates((p.getX() + getX()) / 2, (p.getY() + getY()) / 2);
 }
 
 std::ostream &operator<<(std::ostream &os, const Scalar2D &sca2d) {
@@ -87,10 +87,10 @@ Direction Direction::operator/(double div) const {
   return div < 1e-5 ? Direction(0, 0) : Direction(getX() / div, getY() / div);
 }
 
-Direction Point::operator-(const Point &p) const {
+Direction Coordinates::operator-(const Coordinates &p) const {
   return Direction(getX() - p.getX(), getY() - p.getY());
 }
 
-Direction Point::operator+(const Point &p) const {
+Direction Coordinates::operator+(const Coordinates &p) const {
   return Direction(p.getX() + getX(), p.getY() + getY());
 }

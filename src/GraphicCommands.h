@@ -22,12 +22,12 @@ using OptGraphic = std::optional<VarGraphic>;
 class Visitor;
 
 class GraphicCommand : public Command {
-  // represents point, to which drawing cursor is moved after the command
-  Point move_point_;
+  // represents Coordinates, to which drawing cursor is moved after the command
+  Coordinates move_point_;
 
 public:
-  GraphicCommand(const Point &move) : move_point_(move) {}
-  Point getMovePoint() const { return move_point_; }
+  GraphicCommand(const Coordinates &move) : move_point_(move) {}
+  Coordinates getMovePoint() const { return move_point_; }
   virtual std::string toString() const = 0;
   virtual void accept(Visitor &v) const = 0;
 
@@ -38,27 +38,27 @@ public:
 //@todo maybe add abstract class for Line?
 class LeftOrientedLineCommand : public GraphicCommand {
 public:
-  LeftOrientedLineCommand(const Point &move) : GraphicCommand(move) {}
+  LeftOrientedLineCommand(const Coordinates &move) : GraphicCommand(move) {}
   virtual std::string toString() const;
   virtual void accept(Visitor &v) const;
   virtual double countDifference(const GraphicCommand &gc) const;
   virtual OptGraphic createMidpoint(const GraphicCommand &gc) const;
-  Direction getDirection() const { return getMovePoint() - Point(0, 0); }
+  Direction getDirection() const { return getMovePoint() - Coordinates(0, 0); }
 };
 
 class RightOrientedLineCommand : public GraphicCommand {
 public:
-  RightOrientedLineCommand(const Point &move) : GraphicCommand(move) {}
+  RightOrientedLineCommand(const Coordinates &move) : GraphicCommand(move) {}
   virtual std::string toString() const;
   virtual void accept(Visitor &v) const;
   virtual double countDifference(const GraphicCommand &gc) const;
   virtual OptGraphic createMidpoint(const GraphicCommand &gc) const;
-  Direction getDirection() const { return getMovePoint() - Point(0, 0); }
+  Direction getDirection() const { return getMovePoint() - Coordinates(0, 0); }
 };
 
 class PointCommand : public GraphicCommand {
 public:
-  PointCommand(const Point &coord) : GraphicCommand(coord) {}
+  PointCommand(const Coordinates &coord) : GraphicCommand(coord) {}
   virtual std::string toString() const;
   virtual void accept(Visitor &v) const;
   virtual double countDifference(const GraphicCommand &gc) const;

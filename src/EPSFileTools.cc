@@ -61,7 +61,7 @@ Header EPSInFileStream::getHeader() {
   return header;
 }
 
-Point EPSInFileStream::readPoint(const std::string &command_line) {
+Coordinates EPSInFileStream::readPoint(const std::string &command_line) {
   std::stringstream s(command_line);
   std::string x, y;
   s >> x >> y;

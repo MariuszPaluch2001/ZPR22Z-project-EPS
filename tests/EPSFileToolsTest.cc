@@ -200,9 +200,9 @@ TEST(EPSFileToolsTest, EPSOutFileWriteHeaderAndCommands) {
                           "9.5 7.5 1.00 1.00 r p2\n";
   Header header(headerStr);
   NonProcessableCommand npc("test");
-  LeftOrientedLineCommand lolc(Point(4.2, 6.7));
-  RightOrientedLineCommand rolc(Point(5.2, 7.7));
-  PointCommand pc(Point(9.5, 7.5));
+  LeftOrientedLineCommand lolc(Coordinates(4.2, 6.7));
+  RightOrientedLineCommand rolc(Coordinates(5.2, 7.7));
+  PointCommand pc(Coordinates(9.5, 7.5));
   std::ostringstream oss("");
   EPSOutFileStream EPSFs(oss);
   EPSFs.putHeader(header);
