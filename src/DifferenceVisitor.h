@@ -9,21 +9,14 @@
 #define ZPR_DIFFERENCEVISITOR_H
 #include "Visitor.h"
 
-
-class DifferenceVisitor : virtual public Visitor {
-double value_ = 0;
-protected:
-    void setValue(double new_value) { value_ = new_value; }
-public:
-    const static double MAX_DIFFERENCE;
-    double getValue() const { return value_;}
-};
-
+using DifferenceCarrier = ValueCarrier<double>;
+extern const double MAX_DIFFERENCE;
 
 /*
  * class counts difference between Left Line and other graphic commannds
  */
-class DifferenceLeftLineVisitor : public LeftLineVisitor, public DifferenceVisitor {
+class DifferenceLeftLineVisitor : public LeftLineVisitor,
+                                  public DifferenceCarrier {
 
 public:
   DifferenceLeftLineVisitor(const LeftOrientedLineCommand &ll)
@@ -36,23 +29,23 @@ public:
 /*
  * class counts difference between Right Line and other graphic commannds
  */
-class DifferenceRightLineVisitor : public RightLineVisitor, public DifferenceVisitor {
+class DifferenceRightLineVisitor : public RightLineVisitor,
+                                   public DifferenceCarrier {
 public:
   DifferenceRightLineVisitor(const RightOrientedLineCommand &rl)
       : RightLineVisitor(rl) {}
   virtual void visit(const LeftOrientedLineCommand &ll) override;
   virtual void visit(const RightOrientedLineCommand &rl) override;
   virtual void visit(const PointCommand &p) override;
-
 };
 
 /*
  * class counts difference between Point and other graphic commannds
  */
 
-class DifferencePointVisitor : public PointVisitor, public DifferenceVisitor {
+class DifferencePointVisitor : public PointVisitor, public DifferenceCarrier {
 public:
-  DifferencePointVisitor(const PointCommand &p) : PointVisitor(p){}
+  DifferencePointVisitor(const PointCommand &p) : PointVisitor(p) {}
   virtual void visit(const LeftOrientedLineCommand &ll) override;
   virtual void visit(const RightOrientedLineCommand &rl) override;
   virtual void visit(const PointCommand &p) override;

@@ -18,7 +18,7 @@ public:
   Visitor &operator=(const Visitor &) = delete;
 };
 
-class LeftLineVisitor : virtual public Visitor {
+class LeftLineVisitor : public Visitor {
 protected:
   const LeftOrientedLineCommand &ll_;
 
@@ -26,7 +26,7 @@ public:
   LeftLineVisitor(const LeftOrientedLineCommand &ll) : ll_(ll) {}
 };
 
-class RightLineVisitor : virtual public Visitor {
+class RightLineVisitor : public Visitor {
 protected:
   const RightOrientedLineCommand &rl_;
 
@@ -34,7 +34,7 @@ public:
   RightLineVisitor(const RightOrientedLineCommand &rl) : rl_(rl) {}
 };
 
-class PointVisitor : virtual public Visitor {
+class PointVisitor : public Visitor {
 protected:
   const PointCommand &p_;
 
@@ -42,4 +42,13 @@ public:
   PointVisitor(const PointCommand &p) : p_(p) {}
 };
 
+template <typename T> class ValueCarrier {
+  T value_{};
+
+protected:
+  void setValue(const T &value) { value_ = value; }
+
+public:
+  T getValue() const { return value_; }
+};
 #endif // ZPR_VISITOR_H

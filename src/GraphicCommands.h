@@ -34,7 +34,6 @@ public:
   virtual OptGraphic createMidpoint(const GraphicCommand &gc) const = 0;
 };
 
-
 class LeftOrientedLineCommand : public GraphicCommand {
 public:
   LeftOrientedLineCommand(const Coordinates &move) : GraphicCommand(move) {}

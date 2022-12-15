@@ -13,11 +13,14 @@
 using VarGraphic = std::variant<LeftOrientedLineCommand,
                                 RightOrientedLineCommand, PointCommand>;
 using OptGraphic = std::optional<VarGraphic>;
+
+using MidpointCarrier = ValueCarrier<OptGraphic>;
+
 /*
  *  Class used to determine middle point between Left Line and other graphic
  * commands
  */
-class MidpointLeftLineVisitor : public LeftLineVisitor {
+class MidpointLeftLineVisitor : public LeftLineVisitor, public MidpointCarrier {
 private:
   OptGraphic gc_;
 
@@ -34,7 +37,7 @@ public:
  *  Class used to determine middle point between Right Line and other graphic
  * commands
  */
-class MidpointRightLineVisitor : public RightLineVisitor {
+class MidpointRightLineVisitor : public RightLineVisitor, MidpointCarrier {
 private:
   OptGraphic gc_;
 
@@ -51,7 +54,7 @@ public:
  *  Class used to determine middle point between Point and other graphic
  * commands
  */
-class MidpointPointVisitor : public PointVisitor {
+class MidpointPointVisitor : public PointVisitor, MidpointCarrier {
 private:
   OptGraphic gc_;
 
