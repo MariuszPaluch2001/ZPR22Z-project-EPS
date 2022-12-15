@@ -54,7 +54,7 @@ TEST(VisitorTest, DifferenceLeftLineVisitRightLine) {
   auto rl = RightOrientedLineCommand({-1, -1});
   auto diff_visitor = DifferenceLeftLineVisitor(ll);
   diff_visitor.visit(rl);
-  ASSERT_TRUE(abs(diff_visitor.getValue() - MAX_DIFFERENCE) < 1e-5);
+  ASSERT_TRUE(abs(diff_visitor.getValue() - DifferenceVisitor::MAX_DIFFERENCE) < 1e-5);
 }
 
 TEST(VisitorTest, DifferenceLeftLineVisitPoint) {
@@ -86,7 +86,7 @@ TEST(VisitorTest, DifferenceRightLineVisitLeftLine) {
   auto rl = RightOrientedLineCommand({-1, -1});
   auto diff_visitor = DifferenceRightLineVisitor(rl);
   diff_visitor.visit(ll);
-  ASSERT_TRUE(abs(diff_visitor.getValue() - MAX_DIFFERENCE) < 1e-5);
+  ASSERT_TRUE(abs(diff_visitor.getValue() - DifferenceVisitor::MAX_DIFFERENCE) < 1e-5);
 }
 
 TEST(VisitorTest, DifferenceRightLineVisitPoint) {

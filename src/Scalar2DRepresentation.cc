@@ -54,7 +54,6 @@ double countDistanceBetweenConjoinedDirections(const Direction &d1,
   return std::sin(angleInBetween) * length(d2);
 }
 
-//@todo maybe exception if div is near zero?
 Direction Direction::operator/(double div) const {
   return div < 1e-5 ? Direction(0, 0) : Direction(getX() / div, getY() / div);
 }

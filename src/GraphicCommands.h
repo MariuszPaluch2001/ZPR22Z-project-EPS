@@ -34,7 +34,7 @@ public:
   virtual OptGraphic createMidpoint(const GraphicCommand &gc) const = 0;
 };
 
-//@todo maybe add abstract class for Line?
+
 class LeftOrientedLineCommand : public GraphicCommand {
 public:
   LeftOrientedLineCommand(const Coordinates &move) : GraphicCommand(move) {}
