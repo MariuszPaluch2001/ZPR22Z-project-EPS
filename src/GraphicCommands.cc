@@ -3,8 +3,8 @@
 //
 #include <sstream>
 
-#include "GraphicCommands.h"
 #include "DifferenceVisitor.h"
+#include "GraphicCommands.h"
 #include "MidpointVisitor.h"
 
 std::string LeftOrientedLineCommand::toString() const {

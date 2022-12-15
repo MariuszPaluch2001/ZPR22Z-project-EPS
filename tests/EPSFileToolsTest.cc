@@ -112,15 +112,15 @@ TEST(EPSFileToolsTest, TestCommandRead) {
   ASSERT_EQ(c->toString(), "newpath");
   v = EPSFs.getCommand();
   ASSERT_TRUE(c = std::get_if<RightOrientedLineCommand>(
-          std::get_if<ProcessableGraphicVar>(&v)));
+                  std::get_if<ProcessableGraphicVar>(&v)));
   ASSERT_EQ(c->toString(), "10.03 2.46 l");
   v = EPSFs.getCommand();
   ASSERT_TRUE(c = std::get_if<LeftOrientedLineCommand>(
-          std::get_if<ProcessableGraphicVar>(&v)));
+                  std::get_if<ProcessableGraphicVar>(&v)));
   ASSERT_EQ(c->toString(), "164.72 100.9 lineto");
   v = EPSFs.getCommand();
-  ASSERT_TRUE(c = std::get_if<PointCommand>(
-          std::get_if<ProcessableGraphicVar>(&v)));
+  ASSERT_TRUE(
+      c = std::get_if<PointCommand>(std::get_if<ProcessableGraphicVar>(&v)));
   ASSERT_EQ(c->toString(), "234.12 374.92 1.00 1.00 r p2");
 }
 

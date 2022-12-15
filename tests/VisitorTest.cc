@@ -1,10 +1,10 @@
 //
 // Created by kacper on 10.12.2022.
 //
-#include <cmath>
-#include <gtest/gtest.h>
 #include "DifferenceVisitor.h"
 #include "MidpointVisitor.h"
+#include <cmath>
+#include <gtest/gtest.h>
 
 /// midpoint visitors
 TEST(VisitorTest, TestCreateMidpointLeftLineVisitor) {

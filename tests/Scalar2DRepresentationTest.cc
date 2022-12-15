@@ -1,7 +1,6 @@
+#include "Scalar2DRepresentation.h"
 #include <cmath>
 #include <gtest/gtest.h>
-#include "Scalar2DRepresentation.h"
-
 
 TEST(Scalar2DRepresentationTest, TestPointCordsGetters) {
   Coordinates p(2.2, 5);
@@ -17,8 +16,8 @@ TEST(Scalar2DRepresentationTest, TestDirectionCordsGetters) {
 
 TEST(Scalar2DRepresentationTest, TestResolutionCordsGetters) {
   Resolution r(6, 8);
-  ASSERT_TRUE(abs(r.getX() - 6) < 1e-5);
-  ASSERT_TRUE(abs(r.getY() - 8) < 1e-5);
+  ASSERT_EQ(r.getX(), 6);
+  ASSERT_EQ(r.getY(), 8);
 }
 
 TEST(Scalar2DRepresentationTest, TestPointToString) {
@@ -48,8 +47,8 @@ TEST(Scalar2DRepresentationTest, TestResolutionSetXY) {
   Resolution r(7, 10);
   r.setX(5);
   r.setY(9);
-  ASSERT_TRUE(abs(r.getX() - 5) < 1e-5);
-  ASSERT_TRUE(abs(r.getY() - 9) < 1e-5);
+  ASSERT_EQ(r.getX(), 5);
+  ASSERT_EQ(r.getY(), 9);
 }
 
 TEST(Scalar2DRepresentationTest, TestDirectionDivOperator) {
@@ -124,22 +123,6 @@ TEST(Scalar2DRepresentationTest, TestNormalizeDirection) {
   ASSERT_TRUE(abs(d2.getX() - 0.6) < 1e-5);
   ASSERT_TRUE(abs(d2.getY() - 0.8) < 1e-5);
   ASSERT_TRUE(abs(length(d2) - 1) < 1e-5);
-}
-
-TEST(Scalar2DRepresentationTest, TestPointSetNegativeValues) {
-  auto p = Coordinates(1, 2);
-  p.setX(-1);
-  p.setY(-2.5);
-  ASSERT_TRUE(abs(p.getX() - 1) < 1e-5);
-  ASSERT_TRUE(abs(p.getY() - 2) < 1e-5);
-}
-
-TEST(Scalar2DRepresentationTest, TestResolutionSetNegativeValues) {
-  auto r = Resolution(1, 2);
-  r.setX(-2);
-  r.setY(-5);
-  ASSERT_TRUE(abs(r.getX() - 1) < 1e-5);
-  ASSERT_TRUE(abs(r.getY() - 2) < 1e-5);
 }
 
 TEST(Scalar2DRepresentationTest, TestDirectionZeroAngle) {

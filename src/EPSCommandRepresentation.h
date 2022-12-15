@@ -5,8 +5,8 @@
 
 #ifndef ZPR_EPSCOMMANDREPRESENTATION_H
 #define ZPR_EPSCOMMANDREPRESENTATION_H
-#include <iostream>
 #include "Scalar2DRepresentation.h"
+#include <iostream>
 
 class Command {
 public:

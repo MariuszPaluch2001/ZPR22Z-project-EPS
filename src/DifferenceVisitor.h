@@ -1,8 +1,8 @@
 //
 // Created by kacper on 28.11.2022.
-// This file contains Visitor classes used for counting scaled difference between two
-// adjacent commands. This difference will be used to determine whether we can substitute
-// two commands by just one (and so on)
+// This file contains Visitor classes used for counting scaled difference
+// between two adjacent commands. This difference will be used to determine
+// whether we can substitute two commands by just one (and so on)
 //
 
 #ifndef ZPR_DIFFERENCEVISITOR_H

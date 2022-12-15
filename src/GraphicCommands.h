@@ -1,15 +1,14 @@
 //
 // Created by kacper on 04.11.2022.
-// File contains classes representing Processable Graphic Commands - the ones which we will try
-// to compress
+// File contains classes representing Processable Graphic Commands - the ones
+// which we will try to compress
 //
 
 #ifndef ZPR_GRAPHICCOMMANDS_H
 #define ZPR_GRAPHICCOMMANDS_H
+#include "EPSCommandRepresentation.h"
 #include <optional>
 #include <variant>
-#include "EPSCommandRepresentation.h"
-
 
 class GraphicCommand;
 class LeftOrientedLineCommand;

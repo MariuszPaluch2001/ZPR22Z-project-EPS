@@ -1,20 +1,21 @@
 //
 // Created by kacper on 28.11.2022.
-// File contains classes used to determine "middle point" between two graphic commands
-// eg. two adjacent, colinear lines can be replaced by one
+// File contains classes used to determine "middle point" between two graphic
+// commands eg. two adjacent, colinear lines can be replaced by one
 //
 
 #ifndef ZPR_MIDPOINTVISITOR_H
 #define ZPR_MIDPOINTVISITOR_H
+#include "Visitor.h"
 #include <optional>
 #include <variant>
-#include "Visitor.h"
 
 using VarGraphic = std::variant<LeftOrientedLineCommand,
                                 RightOrientedLineCommand, PointCommand>;
 using OptGraphic = std::optional<VarGraphic>;
 /*
- *  Class used to determine middle point between Left Line and other graphic commands
+ *  Class used to determine middle point between Left Line and other graphic
+ * commands
  */
 class MidpointLeftLineVisitor : public LeftLineVisitor {
 private:
@@ -30,7 +31,8 @@ public:
 };
 
 /*
- *  Class used to determine middle point between Right Line and other graphic commands
+ *  Class used to determine middle point between Right Line and other graphic
+ * commands
  */
 class MidpointRightLineVisitor : public RightLineVisitor {
 private:
@@ -46,7 +48,8 @@ public:
 };
 
 /*
- *  Class used to determine middle point between Point and other graphic commands
+ *  Class used to determine middle point between Point and other graphic
+ * commands
  */
 class MidpointPointVisitor : public PointVisitor {
 private:

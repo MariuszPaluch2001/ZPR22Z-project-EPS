@@ -1,56 +1,51 @@
 //
 // Created by kacper on 04.11.2022.
-// File contains classes representing entity from linear algebra having two values - (x,y)
+// File contains classes representing entity from linear algebra having two
+// values - (x,y)
 //
 
 #ifndef ZPR_SCALAR2DREPRESENTATION_H
 #define ZPR_SCALAR2DREPRESENTATION_H
 #include <iostream>
-
-class Scalar2D {
-  double x_, y_;
+template <typename T> class Scalar2D {
+  T x_, y_;
 
 public:
-  Scalar2D(double x, double y) : x_(x), y_(y) {}
-  double getX() const { return x_; }
-  double getY() const { return y_; }
-  virtual void setX(double new_x) { x_ = new_x; }
-  virtual void setY(double new_y) { y_ = new_y; }
+  Scalar2D(T x, T y) : x_(x), y_(y) {}
+  T getX() const { return x_; }
+  T getY() const { return y_; }
+  virtual void setX(T new_x) { x_ = new_x; }
+  virtual void setY(T new_y) { y_ = new_y; }
   virtual std::string toString() const = 0;
 };
 
-class Direction : public Scalar2D {
+class Direction : public Scalar2D<double> {
 public:
   Direction(double x, double y) : Scalar2D(x, y) {}
-  virtual std::string toString() const;
+  virtual std::string toString() const override;
   virtual Direction operator/(double div) const;
 };
 
-//@todo rename to Coordinates
-class Coordinates : public Scalar2D {
+class Coordinates : public Scalar2D<double> {
 public:
-    Coordinates(double x, double y) : Scalar2D(x, y) {}
-  // Point coordinates can't be negative
-  virtual void setX(double new_x);
-  virtual void setY(double new_y);
-  virtual std::string toString() const;
+  Coordinates(double x, double y) : Scalar2D(x, y) {}
+  virtual std::string toString() const override;
   virtual Coordinates getMidpoint(const Coordinates &p) const;
   virtual Direction operator-(const Coordinates &p) const;
   virtual Direction operator+(const Coordinates &p) const;
 };
 
-//@todo delete inherition?
-class Resolution : public Scalar2D {
+class Resolution : public Scalar2D<unsigned int> {
 public:
+  //@todo remove = 0
   Resolution(unsigned int x = 0, unsigned int y = 0) : Scalar2D(x, y) {}
-  // Resolution can't be negative
-  // problem with doubles - we will disable inherition in next version
-  virtual void setX(double new_x);
-  virtual void setY(double new_y);
-  virtual std::string toString() const;
+  virtual std::string toString() const override;
 };
+template <typename T>
+std::ostream &operator<<(std::ostream &os, const Scalar2D<T> &sca2d) {
+  return os << sca2d.toString();
+}
 
-std::ostream &operator<<(std::ostream &os, const Scalar2D &sca2d);
 double length(const Direction &d);
 Direction normalizeDirection(const Direction &d);
 double getDirectionAngle(const Direction &d);

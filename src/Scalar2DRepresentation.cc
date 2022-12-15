@@ -1,9 +1,9 @@
 //
 // Created by kacper on 04.11.2022.
 //
+#include "Scalar2DRepresentation.h"
 #include <cmath>
 #include <sstream>
-#include "Scalar2DRepresentation.h"
 
 std::string Coordinates::toString() const {
   std::stringstream s;
@@ -23,36 +23,8 @@ std::string Resolution::toString() const {
   return s.str();
 }
 
-void Coordinates::setX(double new_x) {
-  //@todo maybe exception?
-  if (new_x >= 0)
-    Scalar2D::setX(new_x);
-}
-
-void Coordinates::setY(double new_y) {
-  //@todo maybe exception?
-  if (new_y >= 0)
-    Scalar2D::setY(new_y);
-}
-
-void Resolution::setX(double new_x) {
-  //@todo maybe exception?
-  if (new_x >= 0)
-    Scalar2D::setX(static_cast<int>(new_x));
-}
-
-void Resolution::setY(double new_y) {
-  //@todo maybe exception?
-  if (new_y >= 0)
-    Scalar2D::setY(static_cast<int>(new_y));
-}
-
 Coordinates Coordinates::getMidpoint(const Coordinates &p) const {
   return Coordinates((p.getX() + getX()) / 2, (p.getY() + getY()) / 2);
-}
-
-std::ostream &operator<<(std::ostream &os, const Scalar2D &sca2d) {
-  return os << sca2d.toString();
 }
 
 double length(const Direction &d) {
