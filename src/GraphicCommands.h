@@ -37,30 +37,30 @@ public:
 class LeftOrientedLineCommand : public GraphicCommand {
 public:
   LeftOrientedLineCommand(const Coordinates &move) : GraphicCommand(move) {}
-  virtual std::string toString() const;
-  virtual void accept(Visitor &v) const;
-  virtual double countDifference(const GraphicCommand &gc) const;
-  virtual OptGraphic createMidpoint(const GraphicCommand &gc) const;
+  virtual std::string toString() const override;
+  virtual void accept(Visitor &v) const override;
+  virtual double countDifference(const GraphicCommand &gc) const override;
+  virtual OptGraphic createMidpoint(const GraphicCommand &gc) const override;
   Direction getDirection() const { return getMovePoint() - Coordinates(0, 0); }
 };
 
 class RightOrientedLineCommand : public GraphicCommand {
 public:
   RightOrientedLineCommand(const Coordinates &move) : GraphicCommand(move) {}
-  virtual std::string toString() const;
-  virtual void accept(Visitor &v) const;
-  virtual double countDifference(const GraphicCommand &gc) const;
-  virtual OptGraphic createMidpoint(const GraphicCommand &gc) const;
+  virtual std::string toString() const override;
+  virtual void accept(Visitor &v) const override;
+  virtual double countDifference(const GraphicCommand &gc) const override;
+  virtual OptGraphic createMidpoint(const GraphicCommand &gc) const override;
   Direction getDirection() const { return getMovePoint() - Coordinates(0, 0); }
 };
 
 class PointCommand : public GraphicCommand {
 public:
   PointCommand(const Coordinates &coord) : GraphicCommand(coord) {}
-  virtual std::string toString() const;
-  virtual void accept(Visitor &v) const;
-  virtual double countDifference(const GraphicCommand &gc) const;
-  virtual OptGraphic createMidpoint(const GraphicCommand &gc) const;
+  virtual std::string toString() const override;
+  virtual void accept(Visitor &v) const override;
+  virtual double countDifference(const GraphicCommand &gc) const override;
+  virtual OptGraphic createMidpoint(const GraphicCommand &gc) const override;
 };
 
 #endif // ZPR_GRAPHICCOMMANDS_H
