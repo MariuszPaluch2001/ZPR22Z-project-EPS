@@ -22,6 +22,7 @@ Resolution Header::findResolution() {
     }
   }
   if (!is_res_found)
+      ///not found xD - 3 forma czasownika find
     throw std::runtime_error("Resolution not founded.");
   return {x_res, y_res};
 }
@@ -35,6 +36,8 @@ std::string EPSInFileStream::readHeader() {
   std::string text;
   std::string header_buffer;
   bool is_finished_flag;
+  ///lepiej na start if(was_header_read) throw ... - bardziej czytelnie
+  /// potem lecisz bez else'a, bo i tak sie wykona albo to, albo dalsze
   if (!was_header_read) {
     is_finished_flag = isFinished();
     while (!is_finished_flag) {
@@ -56,6 +59,7 @@ std::string EPSInFileStream::readHeader() {
 }
 
 Header EPSInFileStream::getHeader() {
+    ///to mozna w jednej linijce - return Header(readHeader())
   std::string header_str = readHeader();
   Header header(header_str);
   return header;
@@ -63,6 +67,7 @@ Header EPSInFileStream::getHeader() {
 
 Coordinates EPSInFileStream::readPoint(const std::string &command_line) {
   std::stringstream s(command_line);
+  ///nie trzeba stod, jak zadeklarujesz x i y jako liczby, to >> potraktuje je jako liczby
   std::string x, y;
   s >> x >> y;
   return {std::stod(x), std::stod(y)};
@@ -80,6 +85,7 @@ EPSInFileStream::stripCommandSignature(const std::string &command_line) {
   return command_signature;
 }
 
+///tutaj mozna jednak wcisnac fabrykę, ale to jak chcesz
 VariantCommand
 EPSInFileStream::makeVariantCommand(const std::string &command_line,
                                     const std::string &command_signature) {
@@ -97,7 +103,9 @@ EPSInFileStream::makeVariantCommand(const std::string &command_line,
 VariantCommand EPSInFileStream::getCommand() {
   std::string text;
   std::string command_signature;
+  ///if(!was_header_read) throw ...
   if (was_header_read) {
+      ///tutaj znowu - if(isFinished()) throw .. - bardziej czytelne
     if (!isFinished()) {
       std::getline(file_, text);
       command_signature = stripCommandSignature(text);
@@ -105,13 +113,14 @@ VariantCommand EPSInFileStream::getCommand() {
     } else {
       throw std::runtime_error("File is finished.");
     }
-  } else
+  } else ///hasn't been read, ale to szczegół
     throw std::runtime_error("Header hasn't read yet.");
 }
 
 void EPSOutFileStream::putHeader(Header &header) {
   if (was_header_write)
     throw std::runtime_error("Header has already written.");
+  ///mozna w jedna linijke mniej - bez zmiennej header_string
   std::string header_string = header.getHeaderString();
   file_ << header_string;
   was_header_write = true;
@@ -119,6 +128,7 @@ void EPSOutFileStream::putHeader(Header &header) {
 
 void EPSOutFileStream::putCommand(Command &command) {
   if (!was_header_write)
+      ///hasn't been written
     throw std::runtime_error("Header hasn't written.");
   file_ << command.toString() << '\n';
 }

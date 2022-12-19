@@ -26,6 +26,8 @@ class Header {
   Resolution findResolution();
 
 public:
+    ///używaj list inicjacyjnych konstruktora
+    ///findResolution może przyjmować header jako argument - wtedy można wywalić default konstruktor z Resolution
   explicit Header(const std::string &header) {
     header_ = header;
     resolution_ = findResolution();
@@ -54,10 +56,12 @@ class EPSInFileStream {
 
 public:
   explicit EPSInFileStream(std::istream &f) : file_(f) {}
+  ///ma być const EPSInFIleStream! - i w kopii, i w przypisaniu
   EPSInFileStream(EPSInFileStream &) = delete;
   EPSInFileStream &operator=(EPSInFileStream &) = delete;
   Header getHeader();
   VariantCommand getCommand();
+  ///isFinished może być  const
   bool isFinished() { return file_.peek() == EOF; }
 };
 
@@ -73,6 +77,7 @@ class EPSOutFileStream {
 
 public:
   explicit EPSOutFileStream(std::ostream &f) : file_(f) {}
+  ///to samo co wyżej
   EPSOutFileStream(EPSOutFileStream &) = delete;
   EPSOutFileStream &operator=(EPSOutFileStream &) = delete;
   void putHeader(Header &header);
