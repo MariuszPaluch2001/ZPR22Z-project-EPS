@@ -23,13 +23,9 @@ using VariantCommand =
 class Header {
   Resolution resolution_;
   std::string header_;
-  Resolution findResolution();
-
+  static Resolution findResolution(const std::string &header);
 public:
-  explicit Header(const std::string &header) {
-    header_ = header;
-    resolution_ = findResolution();
-  };
+  explicit Header(const std::string &header) : resolution_(findResolution(header)), header_(header) {}
   void setResolution(const Resolution &resolution);
   std::string getHeaderString() const { return header_; }
   Resolution getResolution() const { return resolution_; }
@@ -54,11 +50,11 @@ class EPSInFileStream {
 
 public:
   explicit EPSInFileStream(std::istream &f) : file_(f) {}
-  EPSInFileStream(EPSInFileStream &) = delete;
-  EPSInFileStream &operator=(EPSInFileStream &) = delete;
+  EPSInFileStream(const EPSInFileStream &) = delete;
+  EPSInFileStream &operator=(const EPSInFileStream &) = delete;
   Header getHeader();
   VariantCommand getCommand();
-  bool isFinished() { return file_.peek() == EOF; }
+  bool isFinished() const { return file_.peek() == EOF; }
 };
 
 /*
@@ -73,8 +69,8 @@ class EPSOutFileStream {
 
 public:
   explicit EPSOutFileStream(std::ostream &f) : file_(f) {}
-  EPSOutFileStream(EPSOutFileStream &) = delete;
-  EPSOutFileStream &operator=(EPSOutFileStream &) = delete;
+  EPSOutFileStream(const EPSOutFileStream &) = delete;
+  EPSOutFileStream &operator=(const EPSOutFileStream &) = delete;
   void putHeader(Header &header);
   void putCommand(Command &c);
 };
