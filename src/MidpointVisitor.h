@@ -12,9 +12,7 @@
 
 using VarGraphic = std::variant<LeftOrientedLineCommand,
                                 RightOrientedLineCommand, PointCommand>;
-using OptGraphic = std::optional<VarGraphic>;
-
-using MidpointCarrier = ValueCarrier<OptGraphic>;
+using MidpointCarrier = ValueCarrier<VarGraphic>;
 
 /*
  *  Class used to determine middle point between Left Line and other graphic
@@ -23,7 +21,7 @@ using MidpointCarrier = ValueCarrier<OptGraphic>;
 class MidpointLeftLineVisitor : public LeftLineVisitor, public MidpointCarrier {
 public:
   MidpointLeftLineVisitor(const LeftOrientedLineCommand &ll)
-      : LeftLineVisitor(ll) {}
+      : LeftLineVisitor(ll),MidpointCarrier(ll) {}
   virtual void visit(const LeftOrientedLineCommand &ll) override;
   virtual void visit(const RightOrientedLineCommand &rl) override;
   virtual void visit(const PointCommand &p) override;
@@ -36,7 +34,7 @@ public:
 class MidpointRightLineVisitor : public RightLineVisitor, public MidpointCarrier {
 public:
   MidpointRightLineVisitor(const RightOrientedLineCommand &rl)
-      : RightLineVisitor(rl) {}
+      : RightLineVisitor(rl),MidpointCarrier(rl) {}
   virtual void visit(const LeftOrientedLineCommand &ll) override;
   virtual void visit(const RightOrientedLineCommand &rl) override;
   virtual void visit(const PointCommand &p) override;
@@ -48,7 +46,7 @@ public:
  */
 class MidpointPointVisitor : public PointVisitor, public MidpointCarrier {
 public:
-  MidpointPointVisitor(const PointCommand &p) : PointVisitor(p) {}
+  MidpointPointVisitor(const PointCommand &p) : PointVisitor(p), MidpointCarrier(p) {}
   virtual void visit(const LeftOrientedLineCommand &ll) override;
   virtual void visit(const RightOrientedLineCommand &rl) override;
   virtual void visit(const PointCommand &p) override;

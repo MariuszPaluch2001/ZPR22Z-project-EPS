@@ -17,7 +17,6 @@ class PointCommand;
 
 using VarGraphic = std::variant<LeftOrientedLineCommand,
                                 RightOrientedLineCommand, PointCommand>;
-using OptGraphic = std::optional<VarGraphic>;
 class Visitor;
 
 class GraphicCommand : public Command {
@@ -31,7 +30,7 @@ public:
   virtual void accept(Visitor &v) const = 0;
 
   virtual double countDifference(const GraphicCommand &gc) const = 0;
-  virtual OptGraphic createMidpoint(const GraphicCommand &gc) const = 0;
+  virtual VarGraphic createMidpoint(const GraphicCommand &gc) const = 0;
 };
 
 class LeftOrientedLineCommand : public GraphicCommand {
@@ -40,7 +39,7 @@ public:
   virtual std::string toString() const override;
   virtual void accept(Visitor &v) const override;
   virtual double countDifference(const GraphicCommand &gc) const override;
-  virtual OptGraphic createMidpoint(const GraphicCommand &gc) const override;
+  virtual VarGraphic createMidpoint(const GraphicCommand &gc) const override;
   Direction getDirection() const { return getMovePoint() - Coordinates(0, 0); }
 };
 
@@ -50,7 +49,7 @@ public:
   virtual std::string toString() const override;
   virtual void accept(Visitor &v) const override;
   virtual double countDifference(const GraphicCommand &gc) const override;
-  virtual OptGraphic createMidpoint(const GraphicCommand &gc) const override;
+  virtual VarGraphic createMidpoint(const GraphicCommand &gc) const override;
   Direction getDirection() const { return getMovePoint() - Coordinates(0, 0); }
 };
 
@@ -60,7 +59,7 @@ public:
   virtual std::string toString() const override;
   virtual void accept(Visitor &v) const override;
   virtual double countDifference(const GraphicCommand &gc) const override;
-  virtual OptGraphic createMidpoint(const GraphicCommand &gc) const override;
+  virtual VarGraphic createMidpoint(const GraphicCommand &gc) const override;
 };
 
 #endif // ZPR_GRAPHICCOMMANDS_H

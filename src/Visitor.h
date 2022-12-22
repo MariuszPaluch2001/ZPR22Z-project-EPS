@@ -49,6 +49,8 @@ protected:
   void setValue(const T &value) { value_ = value; }
 
 public:
+    ValueCarrier() = default;
+    ValueCarrier(const T & value) : value_(value) {}
   T getValue() const { return value_; }
 };
 #endif // ZPR_VISITOR_H
