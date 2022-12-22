@@ -22,7 +22,7 @@ using ProcessableGraphicVector = std::vector<ProcessableGraphicVar>;
 class Algorithm {
 private:
   Resolution resolution_;
-  double max_difference_ = 0;
+  double max_difference_ = 20;
 
 public:
   Algorithm(const Resolution &res) : resolution_(res) {}

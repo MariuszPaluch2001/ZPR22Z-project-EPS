@@ -33,11 +33,11 @@ void DifferenceRightLineVisitor::visit(const PointCommand &p) {
 }
 
 void DifferencePointVisitor::visit(const LeftOrientedLineCommand &ll) {
-  DifferenceCarrier::setValue(0);
+  DifferenceCarrier::setValue(MAX_DIFFERENCE);
 }
 
 void DifferencePointVisitor::visit(const RightOrientedLineCommand &rl) {
-  DifferenceCarrier::setValue(0);
+  DifferenceCarrier::setValue(MAX_DIFFERENCE);
 }
 
 void DifferencePointVisitor::visit(const PointCommand &p) {
