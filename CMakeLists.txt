@@ -1,27 +1,21 @@
 cmake_minimum_required(VERSION 3.1.0)
 project(zpr)
+
 set (CMAKE_CXX_STANDARD 17)
+set(wxWidgets_USE_LIBS)
+find_package(wxWidgets)
+include(${wxWidgets_USE_FILE})
 
+include_directories(${wxWidgets_INCLUDE_DIRS})
 
-add_executable(${PROJECT_NAME} Main.cc
-        src/Scalar2DRepresentation.h
-        src/Scalar2DRepresentation.cc
-        src/EPSCommandRepresentation.h
-        src/EPSCommandRepresentation.cc
-        src/GraphicCommands.h
-        src/GraphicCommands.cc
-        src/Visitor.cc
-        src/Visitor.h
-        src/EPSFileTools.cc
-        src/EPSFileTools.h
-        src/DifferenceVisitor.h
-        src/DifferenceVisitor.cc
-        src/Visitor.h
-        src/MidpointVisitor.cc
-        src/MidpointVisitor.h
-        src/EPSDrawing.cc
-        src/EPSDrawing.h
+add_executable(${PROJECT_NAME}
+  Main.cc
+  src/GUI.h
+  src/GUI.cc
 )
+
+target_link_libraries(${PROJECT_NAME}
+  ${wxWidgets_LIBRARIES})
 
 
 add_compile_options(-Wall -Werror)
@@ -33,5 +27,5 @@ include_directories(src)
 add_subdirectory(src)
 add_subdirectory(tests)
 
-target_link_libraries(${PROJECT_NAME} Scalar2DRepresentation EPSFileTools EPSCommands Algorithm)
+target_link_libraries(${PROJECT_NAME})
 
