@@ -19,20 +19,18 @@ using VarGraphic = std::variant<LeftOrientedLineCommand,
                                 RightOrientedLineCommand, PointCommand>;
 class Visitor;
 
-class GraphicCommand : public Command {
+class GraphicCommand : public RescalableCommand {
   // represents Coordinates, to which drawing cursor is moved after the command
-  Coordinates move_point_;
 
 public:
-  GraphicCommand(const Coordinates &move) : move_point_(move) {}
-  Coordinates getMovePoint() const { return move_point_; }
+  GraphicCommand(const Coordinates &move) : RescalableCommand(move) {}
   virtual std::string toString() const = 0;
   virtual void accept(Visitor &v) const = 0;
 
   virtual double countDifference(const GraphicCommand &gc) const = 0;
   virtual VarGraphic createMidpoint(const GraphicCommand &gc) const = 0;
 
-  void rescale(double factor) { move_point_ = move_point_ * factor; }
+
 };
 
 class LeftOrientedLineCommand : public GraphicCommand {

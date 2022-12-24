@@ -14,6 +14,22 @@ public:
   virtual ~Command() = default;
 };
 
+class RescalableCommand : public Command {
+    Coordinates move_point_;
+public:
+    RescalableCommand(const Coordinates &move) : move_point_(move) {}
+    Coordinates getMovePoint() const { return move_point_; }
+    virtual std::string toString() const = 0;
+    void rescale(double factor) { move_point_ = move_point_ * factor; }
+
+};
+
+
+class MoveCommand : public RescalableCommand {
+    MoveCommand(const Coordinates &move) : RescalableCommand(move) {}
+    virtual std::string toString() const { /* implement */ return ""; }
+};
+
 std::ostream &operator<<(std::ostream &os, const Command &com);
 
 /*
@@ -24,7 +40,8 @@ class NonProcessableCommand : public Command {
 
 public:
   NonProcessableCommand(const std::string &s) : text_representation_(s) {}
-  std::string toString() const { return text_representation_; }
+  virtual std::string toString() const override { return text_representation_; }
 };
+
 
 #endif // ZPR_EPSCOMMANDREPRESENTATION_H
