@@ -33,7 +33,7 @@ public:
   virtual std::string toString() const override;
   virtual Coordinates getMidpoint(const Coordinates &p) const;
   virtual Direction operator-(const Coordinates &p) const;
-  virtual Direction operator+(const Coordinates &p) const;
+  virtual Coordinates operator+(const Coordinates &p) const;
   virtual Coordinates operator*(double scale) const;
 };
 

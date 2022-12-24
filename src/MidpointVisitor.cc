@@ -2,9 +2,10 @@
 // Created by kacper on 06.11.2022.
 //
 #include "MidpointVisitor.h"
-//@todo change dummy implementations
+
 void MidpointLeftLineVisitor::visit(const LeftOrientedLineCommand &ll) {
-    MidpointCarrier::setValue(ll);
+    auto midpoint = LeftOrientedLineCommand(ll_.getMovePoint() + ll.getMovePoint());
+    MidpointCarrier::setValue(midpoint);
 }
 
 void MidpointLeftLineVisitor::visit(const RightOrientedLineCommand &rl) {
@@ -12,7 +13,8 @@ void MidpointLeftLineVisitor::visit(const RightOrientedLineCommand &rl) {
 }
 
 void MidpointLeftLineVisitor::visit(const PointCommand &p) {
-    MidpointCarrier::setValue(LeftOrientedLineCommand(p.getMovePoint()));
+    auto midpoint = LeftOrientedLineCommand(ll_.getMovePoint() + p.getMovePoint());
+    MidpointCarrier::setValue(midpoint);
 }
 
 void MidpointRightLineVisitor::visit(const LeftOrientedLineCommand &rl) {
@@ -20,11 +22,15 @@ void MidpointRightLineVisitor::visit(const LeftOrientedLineCommand &rl) {
 }
 
 void MidpointRightLineVisitor::visit(const RightOrientedLineCommand &rl) {
-    MidpointCarrier::setValue(rl);
+
+    auto midpoint = RightOrientedLineCommand(rl_.getMovePoint() + rl.getMovePoint());
+    MidpointCarrier::setValue(midpoint);
+
 }
 
 void MidpointRightLineVisitor::visit(const PointCommand &p) {
-    MidpointCarrier::setValue(RightOrientedLineCommand(p.getMovePoint()));
+    auto midpoint = RightOrientedLineCommand(rl_.getMovePoint() + p.getMovePoint());
+    MidpointCarrier::setValue(midpoint);
 }
 
 void MidpointPointVisitor::visit(const LeftOrientedLineCommand &ll) {
@@ -36,5 +42,6 @@ void MidpointPointVisitor::visit(const RightOrientedLineCommand &ll) {
 }
 
 void MidpointPointVisitor::visit(const PointCommand &p) {
-    MidpointCarrier::setValue(p);
+    auto midpoint = PointCommand(p_.getMovePoint() + p.getMovePoint());
+    MidpointCarrier::setValue(midpoint);
 }

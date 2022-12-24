@@ -62,8 +62,8 @@ Direction Coordinates::operator-(const Coordinates &p) const {
   return Direction(getX() - p.getX(), getY() - p.getY());
 }
 
-Direction Coordinates::operator+(const Coordinates &p) const {
-  return Direction(p.getX() + getX(), p.getY() + getY());
+Coordinates Coordinates::operator+(const Coordinates &p) const {
+  return Coordinates(p.getX() + getX(), p.getY() + getY());
 }
 
 Coordinates Coordinates::operator*(double scale) const {

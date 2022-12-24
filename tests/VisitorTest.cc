@@ -7,18 +7,137 @@
 #include <gtest/gtest.h>
 
 /// midpoint visitors
+
+static auto extractMovePoint = [](const auto & gc) {return gc.getMovePoint();};
+
 TEST(VisitorTest, TestCreateMidpointLeftLineVisitor) {
-  auto _ = MidpointLeftLineVisitor(LeftOrientedLineCommand({1, 1}));
+  auto m = MidpointLeftLineVisitor(LeftOrientedLineCommand({1, 1}));
+  auto mp = std::visit(extractMovePoint, m.getValue());
+  ASSERT_FLOAT_EQ(mp.getX(), 1);
+  ASSERT_FLOAT_EQ(mp.getY(), 1);
+
 }
 
 TEST(VisitorTest, TestCreateMidpointRightLineVisitor) {
-  auto _ = MidpointRightLineVisitor(RightOrientedLineCommand({1, 1}));
+  auto m = MidpointRightLineVisitor(RightOrientedLineCommand({1, 1}));
+    auto mp = std::visit(extractMovePoint, m.getValue());
+    ASSERT_FLOAT_EQ(mp.getX(), 1);
+    ASSERT_FLOAT_EQ(mp.getY(), 1);
 }
 
 TEST(VisitorTest, TestCreateMidpointPointVisitor) {
-  auto _ = MidpointPointVisitor(PointCommand({1, 1}));
+  auto m = MidpointPointVisitor(PointCommand({1, 1}));
+    auto mp = std::visit(extractMovePoint, m.getValue());
+    ASSERT_FLOAT_EQ(mp.getX(), 1);
+    ASSERT_FLOAT_EQ(mp.getY(), 1);
 }
-//@todo add tests after adding actual implementation
+
+
+
+TEST(VisitorTest, TestLeftLineMidpointVisitLeftLine) {
+    auto m = MidpointLeftLineVisitor(LeftOrientedLineCommand({1, 1}));
+    m.visit(LeftOrientedLineCommand({1,1}));
+    auto var = m.getValue();
+    auto new_line_pointer = std::get_if<LeftOrientedLineCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 2);
+    ASSERT_FLOAT_EQ(mp.getY(), 2);
+
+}
+
+TEST(VisitorTest, TestLeftLineMidpointVisitRightLine) {
+    auto m = MidpointLeftLineVisitor(LeftOrientedLineCommand({1, 1}));
+    m.visit(RightOrientedLineCommand({1,1}));
+    auto var = m.getValue();
+    auto new_line_pointer = std::get_if<LeftOrientedLineCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 1);
+    ASSERT_FLOAT_EQ(mp.getY(), 1);
+
+}
+
+TEST(VisitorTest, TestLeftLineMidpointVisitPoint) {
+    auto m = MidpointLeftLineVisitor(LeftOrientedLineCommand({1, 1}));
+    m.visit(PointCommand({1,1}));
+    auto var = m.getValue();
+    auto new_line_pointer = std::get_if<LeftOrientedLineCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 2);
+    ASSERT_FLOAT_EQ(mp.getY(), 2);
+
+}
+
+TEST(VisitorTest, TestRightMidpointVisitLeftLine) {
+    auto m = MidpointRightLineVisitor(RightOrientedLineCommand({1, 1}));
+    m.visit(LeftOrientedLineCommand({1,1}));
+    auto var = m.getValue();
+    auto new_line_pointer = std::get_if<RightOrientedLineCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 1);
+    ASSERT_FLOAT_EQ(mp.getY(), 1);
+}
+
+TEST(VisitorTest, TestRightMidpointVisitRightLine) {
+    auto m = MidpointRightLineVisitor(RightOrientedLineCommand({1, 1}));
+    m.visit(RightOrientedLineCommand({1,1}));
+    auto var = m.getValue();
+    auto new_line_pointer = std::get_if<RightOrientedLineCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 2);
+    ASSERT_FLOAT_EQ(mp.getY(), 2);
+}
+
+TEST(VisitorTest, TestRightMidpointVisitPoint) {
+    auto m = MidpointRightLineVisitor(RightOrientedLineCommand({1, 1}));
+    m.visit(PointCommand({1,1}));
+    auto var = m.getValue();
+    auto new_line_pointer = std::get_if<RightOrientedLineCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 2);
+    ASSERT_FLOAT_EQ(mp.getY(), 2);
+}
+
+
+
+
+TEST(VisitorTest, TestPointMidpointVisitLeftLine) {
+    auto m = MidpointPointVisitor(PointCommand({1, 1}));
+    m.visit(LeftOrientedLineCommand({1,1}));
+    auto var = m.getValue();
+    auto new_line_pointer = std::get_if<PointCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 1);
+    ASSERT_FLOAT_EQ(mp.getY(), 1);
+}
+
+TEST(VisitorTest, TestPointMidpointVisitRightLine) {
+    auto m = MidpointPointVisitor(PointCommand({1, 1}));
+    m.visit(RightOrientedLineCommand({1,1}));
+    auto var = m.getValue();
+    auto new_line_pointer = std::get_if<PointCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 1);
+    ASSERT_FLOAT_EQ(mp.getY(), 1);
+}
+
+TEST(VisitorTest, TestPointMidpointVisitPoint) {
+    auto m = MidpointPointVisitor(PointCommand({1, 1}));
+    m.visit(PointCommand({1,1}));
+    auto var = m.getValue();
+    auto new_line_pointer = std::get_if<PointCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 2);
+    ASSERT_FLOAT_EQ(mp.getY(), 2);
+}
 
 /// difference visitors
 TEST(VisitorTest, TestCreateDifferenceLeftLineVisitor) {
