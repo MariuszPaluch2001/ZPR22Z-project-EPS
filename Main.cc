@@ -12,16 +12,17 @@ int main(int argc, char**  args){
         return 1;
     }
 
-    const int MAX_NUMBER_COMMANDS = 1000;
+    const int MAX_NUMBER_COMMANDS = 10000;
     GraphicCommand * command;
     ProcessableGraphicVector process_graphic_vec;
 
+    double scale = 0.5;
     std::ifstream file_in(args[1]);
     std::ofstream file_out(args[2]);
     EPSInFileStream eps_in_file(file_in);
     EPSOutFileStream eps_out_file(file_out);
     Header header = eps_in_file.getHeader();
-    header.setResolution(header.getResolution()); // We don't change resolution ... so far.
+    header.setResolution(header.getResolution() * scale); // We don't change resolution ... so far.
     Algorithm algorithm(header.getResolution());
     eps_out_file.putHeader(header);
 
@@ -31,7 +32,7 @@ int main(int argc, char**  args){
         auto not_process_command = std::get_if<NonProcessableCommand>(&variant_command);
 
         if (not_process_command || process_graphic_vec.size() >= MAX_NUMBER_COMMANDS){
-
+            algorithm.rescaleBatch(process_graphic_vec, scale);
             process_graphic_vec = algorithm.processBatch(process_graphic_vec);
 
             for (auto var : process_graphic_vec){
@@ -51,6 +52,7 @@ int main(int argc, char**  args){
         }
     }
     if (!process_graphic_vec.empty()){
+        algorithm.rescaleBatch(process_graphic_vec, scale);
         process_graphic_vec = algorithm.processBatch(process_graphic_vec);
         for (auto var : process_graphic_vec){
 

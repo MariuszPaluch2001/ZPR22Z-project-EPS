@@ -5,7 +5,7 @@
 #include "Algorithm.h"
 
 ProcessableGraphicVector
-Algorithm::processBatch(const ProcessableGraphicVector &batch) {
+Algorithm::processBatch(const ProcessableGraphicVector &batch) const {
     static auto differenceVisit = [](const auto &prevGraphic, const auto &nextGraphic) {
         return prevGraphic.countDifference(nextGraphic);
     };
@@ -15,22 +15,31 @@ Algorithm::processBatch(const ProcessableGraphicVector &batch) {
 // no processing is needed
 if (batch.size() < 2)
   return batch;
-auto prevGraphicCommand = batch.at(0);
-ProcessableGraphicVector postProcessing{};
+auto prev_graphic_command = batch.at(0);
+ProcessableGraphicVector post_processing{};
 
 
 // starting with second element of the batch we process batch elements
 for (auto iter = batch.cbegin() + 1; iter != batch.cend(); iter++) {
-  double difference = std::visit(differenceVisit, prevGraphicCommand, *iter);
+  double difference = std::visit(differenceVisit, prev_graphic_command, *iter);
   if (difference <= max_difference_)
-      prevGraphicCommand = std::visit(midpointVisit, prevGraphicCommand, *iter);
+      prev_graphic_command = std::visit(midpointVisit, prev_graphic_command, *iter);
   else {
-    postProcessing.push_back(prevGraphicCommand);
-    prevGraphicCommand = *iter;
+    post_processing.push_back(prev_graphic_command);
+    prev_graphic_command = *iter;
   }
 }
 // we push the last element of the processed batch
-postProcessing.push_back(prevGraphicCommand);
-return postProcessing;
+post_processing.push_back(prev_graphic_command);
+return post_processing;
 
+}
+
+
+void Algorithm::rescaleBatch(ProcessableGraphicVector & batch, double scaling_factor) const {
+    static auto rescaleVisit = [&scaling_factor](auto & graphic) {
+        graphic.rescale(scaling_factor);
+    };
+    for (auto & graphic : batch)
+        std::visit(rescaleVisit, graphic);
 }

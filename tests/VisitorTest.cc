@@ -102,7 +102,7 @@ TEST(VisitorTest, DifferencePointVisitLeftLine) {
   auto p = PointCommand({3, 4});
   auto diff_visitor = DifferencePointVisitor(p);
   diff_visitor.visit(ll);
-  ASSERT_TRUE(abs(diff_visitor.getValue()) < 1e-5);
+  ASSERT_TRUE(abs(diff_visitor.getValue() - MAX_DIFFERENCE) < 1e-5);
 }
 
 TEST(VisitorTest, DifferencePointVisitRightLine) {
@@ -110,7 +110,7 @@ TEST(VisitorTest, DifferencePointVisitRightLine) {
   auto p = PointCommand({3, 4});
   auto diff_visitor = DifferencePointVisitor(p);
   diff_visitor.visit(rl);
-  ASSERT_TRUE(abs(diff_visitor.getValue()) < 1e-5);
+  ASSERT_TRUE(abs(diff_visitor.getValue() - MAX_DIFFERENCE) < 1e-5);
 }
 
 TEST(VisitorTest, DifferencePointVisitPoint) {

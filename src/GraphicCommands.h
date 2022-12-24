@@ -31,6 +31,8 @@ public:
 
   virtual double countDifference(const GraphicCommand &gc) const = 0;
   virtual VarGraphic createMidpoint(const GraphicCommand &gc) const = 0;
+
+  void rescale(double factor) { move_point_ = move_point_ * factor; }
 };
 
 class LeftOrientedLineCommand : public GraphicCommand {

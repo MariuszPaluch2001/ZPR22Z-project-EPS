@@ -22,13 +22,14 @@ using ProcessableGraphicVector = std::vector<ProcessableGraphicVar>;
 class Algorithm {
 private:
   Resolution resolution_;
-  double max_difference_ = 20;
+  double max_difference_ = 10;
 
 public:
   Algorithm(const Resolution &res) : resolution_(res) {}
   void setResolution(const Resolution &res) { resolution_ = res; }
   Resolution getResolution() const { return resolution_; }
-  ProcessableGraphicVector processBatch(const ProcessableGraphicVector &batch);
+  void rescaleBatch(ProcessableGraphicVector & batch, double scaling_factor) const;
+  ProcessableGraphicVector processBatch(const ProcessableGraphicVector &batch) const;
 };
 
 #endif // ZPR_ALGORITHM_H

@@ -33,13 +33,15 @@ public:
   virtual Coordinates getMidpoint(const Coordinates &p) const;
   virtual Direction operator-(const Coordinates &p) const;
   virtual Direction operator+(const Coordinates &p) const;
+  virtual Coordinates operator*(double scale) const;
 };
 
 class Resolution : public Scalar2D<unsigned int> {
 public:
-  //@todo remove = 0
-  Resolution(unsigned int x = 0, unsigned int y = 0) : Scalar2D(x, y) {}
+  Resolution(unsigned int x, unsigned int y) : Scalar2D(x, y) {}
   virtual std::string toString() const override;
+  virtual Resolution operator*(double scale) const;
+
 };
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const Scalar2D<T> &sca2d) {
