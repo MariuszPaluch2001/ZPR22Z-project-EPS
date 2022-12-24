@@ -24,6 +24,7 @@ public:
   Direction(double x, double y) : Scalar2D(x, y) {}
   virtual std::string toString() const override;
   virtual Direction operator/(double div) const;
+  virtual Direction operator*(double scale) const;
 };
 
 class Coordinates : public Scalar2D<double> {

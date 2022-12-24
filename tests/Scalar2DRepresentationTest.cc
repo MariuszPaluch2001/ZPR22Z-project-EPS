@@ -201,6 +201,35 @@ TEST(Scalar2DRepresentationTest, TestDistanceBetweenNormalizedDirections) {
   ASSERT_TRUE(abs(res - sqrt(2) / 2.) < 1e-5);
 }
 
+TEST(Scalar2DRepresentationTest, TestRescaleDirection) {
+    auto d1 = Direction(2,3);
+    auto d2 = d1 * 2;
+    ASSERT_FLOAT_EQ(d2.getX(), 4);
+    ASSERT_FLOAT_EQ(d2.getY(), 6);
+}
+
+TEST(Scalar2DRepresentationTest, TestRescaleCoordinate) {
+    auto c1 = Coordinates(2,3);
+    auto c2 = c1 * 0.5;
+    ASSERT_FLOAT_EQ(c2.getX(), 1);
+    ASSERT_FLOAT_EQ(c2.getY(), 1.5);
+}
+
+TEST(Scalar2DRepresentationTest, TestRescaleResolution) {
+    auto c1 = Resolution(2,3);
+    auto c2 = c1 * 0.5;
+    ASSERT_FLOAT_EQ(c2.getX(), 1);
+    ASSERT_FLOAT_EQ(c2.getY(), 1);
+}
+
+TEST(Scalar2DRepresentationTest, TestRescaleResolutionByNegativeFactor) {
+    auto c1 = Resolution(2,3);
+    auto c2 = c1 * -0.5;
+    ASSERT_FLOAT_EQ(c2.getX(), 0);
+    ASSERT_FLOAT_EQ(c2.getY(), 0);
+}
+
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

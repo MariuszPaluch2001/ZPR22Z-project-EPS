@@ -70,6 +70,10 @@ Coordinates Coordinates::operator*(double scale) const {
     return { getX() * scale, getY() * scale};
 }
 
+Direction Direction::operator*(double scale) const {
+    return { getX() * scale, getY() * scale};
+}
+
 Resolution Resolution::operator*(double scale) const {
     return (scale >= 0) ? Resolution(static_cast<unsigned int>(getX() * scale), static_cast<unsigned int>(getY() * scale)) : Resolution(0,0);
 }
