@@ -5,22 +5,16 @@
 #include <cmath>
 #include <gtest/gtest.h>
 
-TEST(AlgorithmTest, TestCreateAlgorithm) { Algorithm({1, 2}); }
+TEST(AlgorithmTest, TestCreateAlgorithm) { Algorithm(0.01); }
 
 TEST(AlgorithmTest, TestGetResolution) {
-  auto a = Algorithm({1, 2});
-  auto res = a.getResolution();
-  ASSERT_EQ(res.getX(), 1);
-  ASSERT_EQ(res.getY(), 2);
+  auto a = Algorithm(0.01);
+  auto res = a.getMinDifference();
+  ASSERT_FLOAT_EQ(res, 0.01);
+
 }
 
-TEST(Algorithm, TestSetResolution) {
-  auto a = Algorithm({1, 2});
-  a.setResolution({3, 4});
-  auto res = a.getResolution();
-  ASSERT_EQ(res.getX(), 3);
-  ASSERT_EQ(res.getY(), 4);
-}
+
 
 //@todo test batch processing after implementing it
 

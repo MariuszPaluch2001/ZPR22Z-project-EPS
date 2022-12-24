@@ -21,13 +21,12 @@ using ProcessableGraphicVector = std::vector<ProcessableGraphicVar>;
  */
 class Algorithm {
 private:
-  Resolution resolution_;
-  double max_difference_ = 10;
+  double min_difference_ = 0.01;
 
 public:
-  Algorithm(const Resolution &res) : resolution_(res) {}
-  void setResolution(const Resolution &res) { resolution_ = res; }
-  Resolution getResolution() const { return resolution_; }
+    Algorithm(double min_difference) : min_difference_(min_difference) {}
+  double getMinDifference() const { return min_difference_; }
+  void setMinDifference(double min_difference) { min_difference_ = min_difference >= 0 ? min_difference : min_difference_; }
   void rescaleBatch(ProcessableGraphicVector & batch, double scaling_factor) const;
   ProcessableGraphicVector processBatch(const ProcessableGraphicVector &batch) const;
 };

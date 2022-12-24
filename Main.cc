@@ -23,7 +23,7 @@ int main(int argc, char**  args){
     EPSOutFileStream eps_out_file(file_out);
     Header header = eps_in_file.getHeader();
     header.setResolution(header.getResolution() * scale); // We don't change resolution ... so far.
-    Algorithm algorithm(header.getResolution());
+    Algorithm algorithm(0.01);
     eps_out_file.putHeader(header);
 
     while(!eps_in_file.isFinished()){

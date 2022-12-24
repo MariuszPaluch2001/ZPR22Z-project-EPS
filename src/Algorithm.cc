@@ -22,7 +22,7 @@ ProcessableGraphicVector post_processing{};
 // starting with second element of the batch we process batch elements
 for (auto iter = batch.cbegin() + 1; iter != batch.cend(); iter++) {
   double difference = std::visit(differenceVisit, prev_graphic_command, *iter);
-  if (difference <= max_difference_)
+  if (difference <= min_difference_)
       prev_graphic_command = std::visit(midpointVisit, prev_graphic_command, *iter);
   else {
     post_processing.push_back(prev_graphic_command);
