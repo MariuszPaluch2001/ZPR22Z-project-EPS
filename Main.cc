@@ -32,7 +32,7 @@ int main(int argc, char**  args){
         auto not_process_command = std::get_if<NonProcessableCommand>(&variant_command);
 
         if (not_process_command || process_graphic_vec.size() >= MAX_NUMBER_COMMANDS){
-            algorithm.rescaleBatch(process_graphic_vec, scale);
+            algorithm.rescaleBatch(process_graphic_vec);
             process_graphic_vec = algorithm.processBatch(process_graphic_vec);
 
             for (auto var : process_graphic_vec){
@@ -52,7 +52,7 @@ int main(int argc, char**  args){
         }
     }
     if (!process_graphic_vec.empty()){
-        algorithm.rescaleBatch(process_graphic_vec, scale);
+        algorithm.rescaleBatch(process_graphic_vec);
         process_graphic_vec = algorithm.processBatch(process_graphic_vec);
         for (auto var : process_graphic_vec){
 

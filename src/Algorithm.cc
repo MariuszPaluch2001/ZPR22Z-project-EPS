@@ -36,9 +36,9 @@ return post_processing;
 }
 
 
-void Algorithm::rescaleBatch(ProcessableGraphicVector & batch, double scaling_factor) const {
-    static auto rescaleVisit = [&scaling_factor](auto & graphic) {
-        graphic.rescale(scaling_factor);
+void Algorithm::rescaleBatch(ProcessableGraphicVector & batch) const {
+    static auto rescaleVisit = [this](auto & graphic) {
+        graphic.rescale(scaling_factor_);
     };
     for (auto & graphic : batch)
         std::visit(rescaleVisit, graphic);
