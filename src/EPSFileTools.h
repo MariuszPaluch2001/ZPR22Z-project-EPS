@@ -12,12 +12,17 @@
 #include <memory>
 #include <variant>
 
-#include "Algorithm.h"
+#include "Algorithm.hpp"
 #include "EPSCommandRepresentation.h"
 #include "GraphicCommands.h"
 #include "Scalar2DRepresentation.h"
 
 using RelativeCommandVar= std::variant<LeftOrientedLineCommand, RightOrientedLineCommand>;
+using AbsoluteCommandVar = std::variant<PointCommand, MoveCommand>;
+
+/*
+ * using VariantCommand = std::variant<NonProcessableCommand, RelativeCommandVar, AbsoluteCommandVar>
+ */
 using VariantCommand =
     std::variant<NonProcessableCommand, RelativeCommandVar, PointCommand>;
 

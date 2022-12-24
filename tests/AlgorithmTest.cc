@@ -1,7 +1,7 @@
 //
 // Created by kacper on 10.12.2022.
 //
-#include "Algorithm.h"
+#include "Algorithm.hpp"
 #include <cmath>
 #include <gtest/gtest.h>
 

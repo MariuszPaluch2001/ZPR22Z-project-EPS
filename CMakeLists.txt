@@ -12,6 +12,7 @@ add_executable(${PROJECT_NAME} Main.cc
         src/GraphicCommands.cc
         src/EPSFileTools.cc
         src/EPSFileTools.h
+        src/Algorithm.hpp
 
 )
 
@@ -25,5 +26,5 @@ include_directories(src)
 add_subdirectory(src)
 #add_subdirectory(tests)
 
-target_link_libraries(${PROJECT_NAME} Scalar2DRepresentation EPSFileTools EPSCommands Algorithm)
+target_link_libraries(${PROJECT_NAME} Scalar2DRepresentation EPSFileTools EPSCommands)
 

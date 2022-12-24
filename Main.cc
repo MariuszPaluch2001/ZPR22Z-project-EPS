@@ -4,7 +4,7 @@
 #include "src/EPSFileTools.h"
 #include "src/EPSCommandRepresentation.h"
 #include "src/GraphicCommands.h"
-#include "src/Algorithm.h"
+#include "src/Algorithm.hpp"
 
 int main(int argc, char**  args){
     if (argc != 3){
@@ -33,8 +33,8 @@ int main(int argc, char**  args){
         auto point_command = std::get_if<PointCommand>(&variant_command);
 
         if (not_process_command || point_command || process_graphic_vec.size() >= MAX_NUMBER_COMMANDS){
-            algorithm.rescaleRelativeBatch(process_graphic_vec);
-            process_graphic_vec = algorithm.processRelativeBatch(process_graphic_vec);
+            algorithm.processBatch(process_graphic_vec);
+            process_graphic_vec = algorithm.processBatch(process_graphic_vec);
 
             for (auto var : process_graphic_vec){
                 if ((command = std::get_if<LeftOrientedLineCommand>(&var)) ||
@@ -54,8 +54,8 @@ int main(int argc, char**  args){
         }
     }
     if (!process_graphic_vec.empty()){
-        algorithm.rescaleRelativeBatch(process_graphic_vec);
-        process_graphic_vec = algorithm.processRelativeBatch(process_graphic_vec);
+        algorithm.processBatch(process_graphic_vec);
+        process_graphic_vec = algorithm.processBatch(process_graphic_vec);
         for (auto var : process_graphic_vec){
 
             if ((command = std::get_if<LeftOrientedLineCommand>(&var)) ||
