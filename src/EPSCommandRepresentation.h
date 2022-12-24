@@ -19,7 +19,7 @@ class RescalableCommand : public Command {
 public:
     RescalableCommand(const Coordinates &move) : move_point_(move) {}
     Coordinates getMovePoint() const { return move_point_; }
-    virtual std::string toString() const = 0;
+    virtual std::string toString() const override = 0;
     void rescale(double factor) { move_point_ = move_point_ * factor; }
 
 };
@@ -27,7 +27,7 @@ public:
 
 class MoveCommand : public RescalableCommand {
     MoveCommand(const Coordinates &move) : RescalableCommand(move) {}
-    virtual std::string toString() const { /* implement */ return ""; }
+    virtual std::string toString() const override { /* implement */ return ""; }
 };
 
 std::ostream &operator<<(std::ostream &os, const Command &com);
