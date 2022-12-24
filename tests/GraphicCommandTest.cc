@@ -72,6 +72,35 @@ TEST(GraphicCommandTest, TestPointCommandStringForm) {
 
 //@todo visitor functions
 
+
+TEST(GraphicCommandTest, TestRescaleLeftLine) {
+    auto ll = LeftOrientedLineCommand({2,2});
+    ll.rescale(0.5);
+    auto p = ll.getMovePoint();
+    ASSERT_FLOAT_EQ(p.getX(), 1);
+    ASSERT_FLOAT_EQ(p.getY(), 1);
+
+}
+
+TEST(GraphicCommandTest, TestRescaleRightLine) {
+    auto rl = RightOrientedLineCommand({2,2});
+    rl.rescale(2);
+    auto p = rl.getMovePoint();
+    ASSERT_FLOAT_EQ(p.getX(), 4);
+    ASSERT_FLOAT_EQ(p.getY(), 4);
+}
+
+TEST(GraphicCommandTest, TestRescalePointCommand) {
+    auto pc = PointCommand({2,2});
+    pc.rescale(0);
+    auto p = pc.getMovePoint();
+    ASSERT_FLOAT_EQ(p.getX(), 0);
+    ASSERT_FLOAT_EQ(p.getY(), 0);
+}
+
+TEST(GraphicCommandTest, TestRescalePoint) {
+
+}
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();
