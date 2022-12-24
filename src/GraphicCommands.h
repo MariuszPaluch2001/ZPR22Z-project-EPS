@@ -10,54 +10,69 @@
 #include <optional>
 #include <variant>
 
-class GraphicCommand;
 class LeftOrientedLineCommand;
 class RightOrientedLineCommand;
 class PointCommand;
+class MoveCommand;
 
-using VarGraphic = std::variant<LeftOrientedLineCommand,
-                                RightOrientedLineCommand, PointCommand>;
-class Visitor;
 
-class GraphicCommand : public RescalableCommand {
-  // represents Coordinates, to which drawing cursor is moved after the command
-
+template <typename VisitingType1, typename VisitingType2>
+class GraphicCommand : public ProcessableCommand{
 public:
-  GraphicCommand(const Direction &move) : RescalableCommand(move) {}
-  virtual std::string toString() const = 0;
-  virtual void accept(Visitor &v) const = 0;
+    GraphicCommand(const CoordinateValue & cv) : ProcessableCommand(cv) {}
+    virtual std::string toString() const override = 0;
 
-  virtual double countDifference(const GraphicCommand &gc) const = 0;
-  virtual VarGraphic createMidpoint(const GraphicCommand &gc) const = 0;
-
-
+    virtual double countDifference(const VisitingType1 & vt) const = 0;
+    virtual double countDifference(const VisitingType2 &) const = 0;
+    using VisitingVar = std::variant<VisitingType1, VisitingType2>;
+    virtual VisitingVar createMidpoint(const VisitingType1 & vt) const = 0;
+    virtual VisitingVar createMidpoint(const VisitingType2 & vt) const = 0;
 };
 
-class LeftOrientedLineCommand : public GraphicCommand {
+using RelativeCommand = GraphicCommand<LeftOrientedLineCommand, RightOrientedLineCommand>;
+using AbsoluteCommand = GraphicCommand<PointCommand, MoveCommand>;
+
+class LeftOrientedLineCommand : public RelativeCommand {
 public:
-  LeftOrientedLineCommand(const Direction &move) : GraphicCommand(move) {}
+  LeftOrientedLineCommand(const Direction &move) : RelativeCommand(move) {}
   virtual std::string toString() const override;
-  virtual void accept(Visitor &v) const override;
-  virtual double countDifference(const GraphicCommand &gc) const override;
-  virtual VarGraphic createMidpoint(const GraphicCommand &gc) const override;
+  virtual double countDifference(const LeftOrientedLineCommand &) const override;
+  virtual double countDifference(const RightOrientedLineCommand &) const override;
+
+  virtual RelativeCommand::VisitingVar createMidpoint(const LeftOrientedLineCommand &) const override;
+  virtual RelativeCommand::VisitingVar createMidpoint(const RightOrientedLineCommand &) const override;
 };
 
-class RightOrientedLineCommand : public GraphicCommand {
+class RightOrientedLineCommand : public RelativeCommand {
 public:
-  RightOrientedLineCommand(const Direction &move) : GraphicCommand(move) {}
-  virtual std::string toString() const override;
-  virtual void accept(Visitor &v) const override;
-  virtual double countDifference(const GraphicCommand &gc) const override;
-  virtual VarGraphic createMidpoint(const GraphicCommand &gc) const override;
+    RightOrientedLineCommand(const Direction &move) : RelativeCommand(move) {}
+    virtual std::string toString() const override;
+    virtual double countDifference(const LeftOrientedLineCommand &) const override;
+    virtual double countDifference(const RightOrientedLineCommand &) const override;
+
+    virtual RelativeCommand::VisitingVar createMidpoint(const LeftOrientedLineCommand &) const override;
+    virtual RelativeCommand::VisitingVar createMidpoint(const RightOrientedLineCommand &) const override;
 };
 
-class PointCommand : public GraphicCommand {
+class PointCommand : public AbsoluteCommand {
 public:
-  PointCommand(const CoordinateValue &coord) : GraphicCommand(coord) {}
-  virtual std::string toString() const override;
-  virtual void accept(Visitor &v) const override;
-  virtual double countDifference(const GraphicCommand &gc) const override;
-  virtual VarGraphic createMidpoint(const GraphicCommand &gc) const override;
+  PointCommand(const Coordinates &coord) : AbsoluteCommand(coord) {}
+    virtual std::string toString() const override;
+    virtual double countDifference(const PointCommand &) const override;
+    virtual double countDifference(const MoveCommand &) const override;
+
+    virtual AbsoluteCommand::VisitingVar createMidpoint(const PointCommand &) const override;
+    virtual AbsoluteCommand::VisitingVar createMidpoint(const MoveCommand &) const override;
 };
 
+class MoveCommand : public AbsoluteCommand {
+public:
+    MoveCommand(const Coordinates & coord) : AbsoluteCommand(coord) {}
+    virtual std::string toString() const override;
+    virtual double countDifference(const PointCommand &) const override;
+    virtual double countDifference(const MoveCommand &) const override;
+
+    virtual AbsoluteCommand::VisitingVar createMidpoint(const PointCommand &) const override;
+    virtual AbsoluteCommand::VisitingVar createMidpoint(const MoveCommand &) const override;
+};
 #endif // ZPR_GRAPHICCOMMANDS_H

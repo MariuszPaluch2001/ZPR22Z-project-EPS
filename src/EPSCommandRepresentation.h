@@ -14,21 +14,17 @@ public:
   virtual ~Command() = default;
 };
 
-class RescalableCommand : public Command {
+class ProcessableCommand : public Command {
     CoordinateValue move_point_;
 public:
-    RescalableCommand(const Direction &move) : move_point_(move) {}
-    CoordinateValue getMovePoint() const { return move_point_; }
+    ProcessableCommand(const CoordinateValue &move) : move_point_(move) {}
     virtual std::string toString() const override = 0;
+    CoordinateValue getMovePoint() const { return move_point_; }
     void rescale(double factor) { move_point_ = move_point_ * factor; }
 
 };
 
 
-class MoveCommand : public RescalableCommand {
-    MoveCommand(const CoordinateValue &move) : RescalableCommand(move) {}
-    virtual std::string toString() const override { /* implement */ return ""; }
-};
 
 std::ostream &operator<<(std::ostream &os, const Command &com);
 

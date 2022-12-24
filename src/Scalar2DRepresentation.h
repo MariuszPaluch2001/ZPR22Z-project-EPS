@@ -30,6 +30,7 @@ public:
 };
 
 using Direction = CoordinateValue;
+using Coordinates = CoordinateValue;
 
 class Resolution : public Scalar2D<unsigned int> {
 public:
