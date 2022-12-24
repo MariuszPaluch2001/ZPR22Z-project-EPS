@@ -13,8 +13,8 @@ int main(int argc, char**  args){
     }
 
     const int MAX_NUMBER_COMMANDS = 10000;
-    GraphicCommand * command;
-    ProcessableGraphicVector process_graphic_vec;
+    RelativeCommand * command;
+    RelativeBatch process_graphic_vec;
 
     double scale = 0.5;
     std::ifstream file_in(args[1]);
@@ -30,35 +30,36 @@ int main(int argc, char**  args){
 
         auto variant_command = eps_in_file.getCommand();
         auto not_process_command = std::get_if<NonProcessableCommand>(&variant_command);
+        auto point_command = std::get_if<PointCommand>(&variant_command);
 
-        if (not_process_command || process_graphic_vec.size() >= MAX_NUMBER_COMMANDS){
-            algorithm.rescaleBatch(process_graphic_vec);
-            process_graphic_vec = algorithm.processBatch(process_graphic_vec);
+        if (not_process_command || point_command || process_graphic_vec.size() >= MAX_NUMBER_COMMANDS){
+            algorithm.rescaleRelativeBatch(process_graphic_vec);
+            process_graphic_vec = algorithm.processRelativeBatch(process_graphic_vec);
 
             for (auto var : process_graphic_vec){
                 if ((command = std::get_if<LeftOrientedLineCommand>(&var)) ||
-                        (command = std::get_if<RightOrientedLineCommand>(&var)) ||
-                        (command = std::get_if<PointCommand>(&var))){
+                        (command = std::get_if<RightOrientedLineCommand>(&var)))
                         eps_out_file.putCommand(*command);
-                }
+
             }
 
             if (not_process_command)
                 eps_out_file.putCommand(*not_process_command);
+            else if (point_command)
+                eps_out_file.putCommand(*point_command);
             process_graphic_vec.clear();
         }
         else{
-            process_graphic_vec.push_back(*std::get_if<ProcessableGraphicVar>(&variant_command));
+            process_graphic_vec.push_back(*std::get_if<RelativeCommandVar>(&variant_command));
         }
     }
     if (!process_graphic_vec.empty()){
-        algorithm.rescaleBatch(process_graphic_vec);
-        process_graphic_vec = algorithm.processBatch(process_graphic_vec);
+        algorithm.rescaleRelativeBatch(process_graphic_vec);
+        process_graphic_vec = algorithm.processRelativeBatch(process_graphic_vec);
         for (auto var : process_graphic_vec){
 
             if ((command = std::get_if<LeftOrientedLineCommand>(&var)) ||
-                (command = std::get_if<RightOrientedLineCommand>(&var)) ||
-                (command = std::get_if<PointCommand>(&var))){
+                (command = std::get_if<RightOrientedLineCommand>(&var))){
                 eps_out_file.putCommand(*command);
             }
 
