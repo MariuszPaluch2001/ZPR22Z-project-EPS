@@ -8,7 +8,7 @@ const double MAX_DIFFERENCE = 1e10;
 
 void DifferenceLeftLineVisitor::visit(const LeftOrientedLineCommand &ll) {
   DifferenceCarrier::setValue(countDistanceBetweenConjoinedDirections(
-      ll_.getDirection(), ll.getDirection()));
+      ll_.getMovePoint(), ll.getMovePoint()));
 }
 
 void DifferenceLeftLineVisitor::visit(const RightOrientedLineCommand &rl) {
@@ -25,7 +25,7 @@ void DifferenceRightLineVisitor::visit(const LeftOrientedLineCommand &ll) {
 
 void DifferenceRightLineVisitor::visit(const RightOrientedLineCommand &rl) {
   DifferenceCarrier::setValue(countDistanceBetweenConjoinedDirections(
-      rl_.getDirection(), rl.getDirection()));
+      rl_.getMovePoint(), rl.getMovePoint()));
 }
 
 void DifferenceRightLineVisitor::visit(const PointCommand &p) {

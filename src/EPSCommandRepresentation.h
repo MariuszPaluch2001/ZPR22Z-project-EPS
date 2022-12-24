@@ -15,10 +15,10 @@ public:
 };
 
 class RescalableCommand : public Command {
-    Coordinates move_point_;
+    CoordinateValue move_point_;
 public:
-    RescalableCommand(const Coordinates &move) : move_point_(move) {}
-    Coordinates getMovePoint() const { return move_point_; }
+    RescalableCommand(const Direction &move) : move_point_(move) {}
+    CoordinateValue getMovePoint() const { return move_point_; }
     virtual std::string toString() const override = 0;
     void rescale(double factor) { move_point_ = move_point_ * factor; }
 
@@ -26,7 +26,7 @@ public:
 
 
 class MoveCommand : public RescalableCommand {
-    MoveCommand(const Coordinates &move) : RescalableCommand(move) {}
+    MoveCommand(const CoordinateValue &move) : RescalableCommand(move) {}
     virtual std::string toString() const override { /* implement */ return ""; }
 };
 

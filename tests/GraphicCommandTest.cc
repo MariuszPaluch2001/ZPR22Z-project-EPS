@@ -24,7 +24,7 @@ TEST(GraphicCommandTest, TestLeftOrientedLineStringForm) {
 
 TEST(GraphicCommandTest, TestLeftOrientedLineDirection) {
   auto l = LeftOrientedLineCommand({1, 2});
-  auto d = l.getDirection();
+  auto d = l.getMovePoint();
   ASSERT_EQ(d.getX(), 1);
   ASSERT_EQ(d.getY(), 2);
 }
@@ -49,7 +49,7 @@ TEST(GraphicCommandTest, TestRightOrientedLineStringForm) {
 
 TEST(GraphicCommandTest, TestRightOrientedLineDirection) {
   auto r = RightOrientedLineCommand({1, 2});
-  auto d = r.getDirection();
+  auto d = r.getMovePoint();
   ASSERT_EQ(d.getX(), 1);
   ASSERT_EQ(d.getY(), 2);
 }

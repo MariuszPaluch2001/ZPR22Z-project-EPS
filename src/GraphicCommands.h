@@ -23,7 +23,7 @@ class GraphicCommand : public RescalableCommand {
   // represents Coordinates, to which drawing cursor is moved after the command
 
 public:
-  GraphicCommand(const Coordinates &move) : RescalableCommand(move) {}
+  GraphicCommand(const Direction &move) : RescalableCommand(move) {}
   virtual std::string toString() const = 0;
   virtual void accept(Visitor &v) const = 0;
 
@@ -35,27 +35,25 @@ public:
 
 class LeftOrientedLineCommand : public GraphicCommand {
 public:
-  LeftOrientedLineCommand(const Coordinates &move) : GraphicCommand(move) {}
+  LeftOrientedLineCommand(const Direction &move) : GraphicCommand(move) {}
   virtual std::string toString() const override;
   virtual void accept(Visitor &v) const override;
   virtual double countDifference(const GraphicCommand &gc) const override;
   virtual VarGraphic createMidpoint(const GraphicCommand &gc) const override;
-  Direction getDirection() const { return getMovePoint() - Coordinates(0, 0); }
 };
 
 class RightOrientedLineCommand : public GraphicCommand {
 public:
-  RightOrientedLineCommand(const Coordinates &move) : GraphicCommand(move) {}
+  RightOrientedLineCommand(const Direction &move) : GraphicCommand(move) {}
   virtual std::string toString() const override;
   virtual void accept(Visitor &v) const override;
   virtual double countDifference(const GraphicCommand &gc) const override;
   virtual VarGraphic createMidpoint(const GraphicCommand &gc) const override;
-  Direction getDirection() const { return getMovePoint() - Coordinates(0, 0); }
 };
 
 class PointCommand : public GraphicCommand {
 public:
-  PointCommand(const Coordinates &coord) : GraphicCommand(coord) {}
+  PointCommand(const CoordinateValue &coord) : GraphicCommand(coord) {}
   virtual std::string toString() const override;
   virtual void accept(Visitor &v) const override;
   virtual double countDifference(const GraphicCommand &gc) const override;

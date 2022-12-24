@@ -42,7 +42,7 @@ class EPSInFileStream {
   bool was_header_read = false;
 
   std::string readHeader();
-  static Coordinates readPoint(const std::string &commandLine);
+  static CoordinateValue readPoint(const std::string &commandLine);
   static std::string stripCommandSignature(const std::string &commandLine);
   static VariantCommand
   makeVariantCommand(const std::string &command_line,

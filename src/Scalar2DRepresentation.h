@@ -19,23 +19,17 @@ public:
   virtual std::string toString() const = 0;
 };
 
-class Direction : public Scalar2D<double> {
+class CoordinateValue : public Scalar2D<double> {
 public:
-  Direction(double x, double y) : Scalar2D(x, y) {}
+    CoordinateValue(double x, double y) : Scalar2D(x, y) {}
   virtual std::string toString() const override;
-  virtual Direction operator/(double div) const;
-  virtual Direction operator*(double scale) const;
+    CoordinateValue operator+(const CoordinateValue &d) const;
+    CoordinateValue operator-(const CoordinateValue &d) const;
+    CoordinateValue operator/(double div) const;
+    CoordinateValue operator*(double scale) const;
 };
 
-class Coordinates : public Scalar2D<double> {
-public:
-  Coordinates(double x, double y) : Scalar2D(x, y) {}
-  virtual std::string toString() const override;
-  virtual Coordinates getMidpoint(const Coordinates &p) const;
-  virtual Direction operator-(const Coordinates &p) const;
-  virtual Coordinates operator+(const Coordinates &p) const;
-  virtual Coordinates operator*(double scale) const;
-};
+using Direction = CoordinateValue;
 
 class Resolution : public Scalar2D<unsigned int> {
 public:

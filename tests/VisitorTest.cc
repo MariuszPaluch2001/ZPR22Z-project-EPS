@@ -165,7 +165,7 @@ TEST(VisitorTest, DifferenceLeftLineVisitLeftLinePerpendicular) {
   auto ll2 = LeftOrientedLineCommand({0, 2});
   auto diff_visitor = DifferenceLeftLineVisitor(ll1);
   diff_visitor.visit(ll2);
-  ASSERT_TRUE(abs(diff_visitor.getValue() - length(ll2.getDirection())) < 1e-5);
+  ASSERT_TRUE(abs(diff_visitor.getValue() - length(ll2.getMovePoint())) < 1e-5);
 }
 
 TEST(VisitorTest, DifferenceLeftLineVisitRightLine) {
@@ -197,7 +197,7 @@ TEST(VisitorTest, DifferenceRightLineVisitRightLinePerpendicular) {
   auto rl2 = RightOrientedLineCommand({0, 2});
   auto diff_visitor = DifferenceRightLineVisitor(rl1);
   diff_visitor.visit(rl2);
-  ASSERT_TRUE(abs(diff_visitor.getValue() - length(rl2.getDirection())) < 1e-5);
+  ASSERT_TRUE(abs(diff_visitor.getValue() - length(rl2.getMovePoint())) < 1e-5);
 }
 
 TEST(VisitorTest, DifferenceRightLineVisitLeftLine) {
