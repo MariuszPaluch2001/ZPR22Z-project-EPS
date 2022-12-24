@@ -2,6 +2,7 @@
 // Created by kacper on 04.12.2022.
 //
 #include "GraphicCommands.h"
+#include "MidpointVisitor.h"
 #include <gtest/gtest.h>
 
 TEST(GraphicCommandTest, TestCreateLeftOrientedLine) {
@@ -20,7 +21,6 @@ TEST(GraphicCommandTest, TestLeftOrientedLineStringForm) {
   ASSERT_EQ(l.toString(), std::string("1 2 lineto"));
 }
 
-//@todo visitor functions
 
 TEST(GraphicCommandTest, TestLeftOrientedLineDirection) {
   auto l = LeftOrientedLineCommand({1, 2});
@@ -45,7 +45,7 @@ TEST(GraphicCommandTest, TestRightOrientedLineStringForm) {
   ASSERT_EQ(r.toString(), std::string("1 2 l"));
 }
 
-//@todo visitor functions
+
 
 TEST(GraphicCommandTest, TestRightOrientedLineDirection) {
   auto r = RightOrientedLineCommand({1, 2});
@@ -70,7 +70,6 @@ TEST(GraphicCommandTest, TestPointCommandStringForm) {
   ASSERT_EQ(pc.toString(), "1 2 1.00 1.00 r p2");
 }
 
-//@todo visitor functions
 
 
 TEST(GraphicCommandTest, TestRescaleLeftLine) {
@@ -98,9 +97,46 @@ TEST(GraphicCommandTest, TestRescalePointCommand) {
     ASSERT_FLOAT_EQ(p.getY(), 0);
 }
 
-TEST(GraphicCommandTest, TestRescalePoint) {
-
+TEST(GraphicCommandTest, TestLeftLineAcceptVisitor) {
+    auto m = MidpointLeftLineVisitor(LeftOrientedLineCommand({1, 1}));
+    LeftOrientedLineCommand({1,1}).accept(m);
+    auto var = m.getValue();
+    auto new_line_pointer = std::get_if<LeftOrientedLineCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 2);
+    ASSERT_FLOAT_EQ(mp.getY(), 2);
 }
+
+
+TEST(GraphicCommandTest, TestRightLineAcceptVisitor) {
+    auto m = MidpointRightLineVisitor(RightOrientedLineCommand({1, 1}));
+    RightOrientedLineCommand({1,1}).accept(m);
+    auto var = m.getValue();
+    auto new_line_pointer = std::get_if<RightOrientedLineCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 2);
+    ASSERT_FLOAT_EQ(mp.getY(), 2);
+}
+
+
+TEST(GraphicCommandTest, TestPointAcceptVisitor) {
+    auto m = MidpointPointVisitor(PointCommand({1, 1}));
+    PointCommand({1,1}).accept(m);
+    auto var = m.getValue();
+    auto new_line_pointer = std::get_if<PointCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 2);
+    ASSERT_FLOAT_EQ(mp.getY(), 2);
+}
+
+
+
+
+
+
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

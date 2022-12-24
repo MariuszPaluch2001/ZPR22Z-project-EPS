@@ -233,11 +233,12 @@ TEST(VisitorTest, DifferencePointVisitRightLine) {
 }
 
 TEST(VisitorTest, DifferencePointVisitPoint) {
+    auto p1 = PointCommand({3, 4});
   auto p2 = PointCommand({0, 0});
-  auto p1 = PointCommand({3, 4});
+
   auto diff_visitor = DifferencePointVisitor(p1);
   diff_visitor.visit(p2);
-  ASSERT_TRUE(abs(diff_visitor.getValue() - 5) < 1e-5);
+  ASSERT_TRUE(abs(diff_visitor.getValue()) < 1e-5);
 }
 
 int main(int argc, char **argv) {

@@ -3,7 +3,6 @@
 //
 #include "DifferenceVisitor.h"
 
-//@todo - better logic is needed
 const double MAX_DIFFERENCE = 1e10;
 
 void DifferenceLeftLineVisitor::visit(const LeftOrientedLineCommand &ll) {
@@ -16,7 +15,7 @@ void DifferenceLeftLineVisitor::visit(const RightOrientedLineCommand &rl) {
 }
 
 void DifferenceLeftLineVisitor::visit(const PointCommand &p) {
-  DifferenceCarrier::setValue(length(ll_.getMovePoint() - p.getMovePoint()));
+  DifferenceCarrier::setValue(length(p.getMovePoint()));
 }
 
 void DifferenceRightLineVisitor::visit(const LeftOrientedLineCommand &ll) {
@@ -41,5 +40,5 @@ void DifferencePointVisitor::visit(const RightOrientedLineCommand &rl) {
 }
 
 void DifferencePointVisitor::visit(const PointCommand &p) {
-  DifferenceCarrier::setValue(length(p_.getMovePoint() - p.getMovePoint()));
+  DifferenceCarrier::setValue(length(p.getMovePoint()));
 }
