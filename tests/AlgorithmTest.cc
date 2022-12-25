@@ -5,18 +5,46 @@
 #include <cmath>
 #include <gtest/gtest.h>
 
-TEST(AlgorithmTest, TestCreateAlgorithm) { Algorithm(0.01); }
-
-TEST(AlgorithmTest, TestGetResolution) {
-  auto a = Algorithm(0.01);
-  auto res = a.getMinDifference();
-  ASSERT_FLOAT_EQ(res, 0.01);
-
+TEST(AlgorithmTest, TestCreateAlgorithm) {
+    auto _ = Algorithm(0.01);
+    (void)_;
 }
 
 
+TEST(AlgorithmTest, TestGetSetMinDiff) {
+  auto a = Algorithm(0.01);
+  ASSERT_FLOAT_EQ(a.getMinDifference(), 0.01);
+  a.setMinDifference(0.1);
+  ASSERT_FLOAT_EQ(a.getMinDifference(), 0.1);
+}
 
-//@todo test batch processing after implementing it
+TEST(AlgorithmTest, TestSetNegativeDiff) {
+    auto a = Algorithm(0.01);
+    a.setMinDifference(-0.1);
+    ASSERT_FLOAT_EQ(a.getMinDifference(), 0.01);
+}
+
+TEST(AlgorithmTest, TestGetSetScalingFactor) {
+    auto a = Algorithm(0.01);
+    ASSERT_FLOAT_EQ(a.getScalingFactor(), 1);
+    a.setScalingFactor(0.1);
+    ASSERT_FLOAT_EQ(a.getScalingFactor(), 0.1);
+}
+
+TEST(AlgorithmTest, TestSetNegativeScalingFactor) {
+    auto a = Algorithm(0.01);
+    a.setScalingFactor(-0.1);
+    ASSERT_FLOAT_EQ(a.getMinDifference(), 0.01);
+}
+
+TEST(AlgorithmTest, TestGetSetSortingRange) {
+    auto a = Algorithm(0.01);
+    ASSERT_FLOAT_EQ(a.getSortingRange(), 10);
+    a.setSortingRange(5);
+    ASSERT_FLOAT_EQ(a.getSortingRange(), 5);
+}
+
+
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
