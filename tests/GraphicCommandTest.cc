@@ -69,6 +69,21 @@ TEST(GraphicCommandTest, TestPointCommandStringForm) {
   ASSERT_EQ(pc.toString(), "1 2 1 1 r p2");
 }
 
+TEST(GraphicCommandTest, TestCreateMoveCommand) {
+    auto _ = MoveCommand({1,2});
+}
+
+
+TEST(GraphicCommandTest, TestMoveCommandPointGetter) {
+    auto m = MoveCommand({1, 2});
+    auto p = m.getMovePoint();
+    ASSERT_EQ(p.getX(), 1);
+    ASSERT_EQ(p.getY(), 2);
+}
+
+TEST(GraphicCommandTest, TestMoveCommandStringForm) {
+   ///@todo
+}
 
 
 TEST(GraphicCommandTest, TestRescaleLeftLine) {
