@@ -86,10 +86,6 @@ T Algorithm::processBatch(const T& batch) const {
 }
 template <typename T>
 void Algorithm::sortBatch(T & batch) const {
-    if (batch.size() < 2)
-        return;
-    auto working_element = batch.at(0);
-
     for (int i = 0; i + sorting_range_ <= batch.size(); i+=sorting_range_) {
         auto working_element = batch.at(i);
         for (auto iter = batch.begin() + 1 + i; iter != batch.begin() + 1 + i + sorting_range_; iter++) {
