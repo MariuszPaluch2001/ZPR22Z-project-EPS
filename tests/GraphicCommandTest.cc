@@ -112,7 +112,6 @@ TEST(GraphicCommandTest, TestRescalePointCommand) {
     ASSERT_FLOAT_EQ(p.getY(), 0);
 }
 
-static auto extractMovePoint = [](const auto & gc) {return gc.getMovePoint();};
 
 
 TEST(GraphicCommandTest, TestLeftLeftDifference) {
