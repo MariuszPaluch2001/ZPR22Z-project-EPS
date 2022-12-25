@@ -96,16 +96,31 @@ TEST(GraphicCommandTest, TestRescalePointCommand) {
     ASSERT_FLOAT_EQ(p.getY(), 0);
 }
 
-TEST(GraphicCommandTest, TestLeftLeftDifference) {
+static auto extractMovePoint = [](const auto & gc) {return gc.getMovePoint();};
 
+
+TEST(GraphicCommandTest, TestLeftLeftDifference) {
+    auto ll1 = LeftOrientedLineCommand({1, 1});
+    auto ll2 = LeftOrientedLineCommand({2, 2});
+    auto diff = countDifference(ll1,ll2);
+    ASSERT_FLOAT_EQ(diff, 0);
 }
 
+TEST(GraphicCommandTest, TestLeftLeftDifferencePerpendicular) {
+    auto ll1 = LeftOrientedLineCommand({1, 0});
+    auto ll2 = LeftOrientedLineCommand({0, 2});
+    auto diff = countDifference(ll1,ll2);
+    ASSERT_TRUE(abs(diff - length(ll2.getMovePoint())) < 1e-5);
+}
 TEST(GraphicCommandTest, TestLeftLeftMidpoint) {
 
 }
 
 TEST(GraphicCommandTest, TestLeftRighttDifference) {
-
+    auto ll = LeftOrientedLineCommand({1, 1});
+    auto rl = RightOrientedLineCommand({-1, -1});
+    auto diff = countDifference(ll, rl);
+    ASSERT_TRUE(abs(diff - MAX_DIFFERENCE) < 1e-5);
 }
 
 TEST(GraphicCommandTest, TestLeftRightMidpoint) {
@@ -113,7 +128,10 @@ TEST(GraphicCommandTest, TestLeftRightMidpoint) {
 }
 
 TEST(GraphicCommandTest, TestRightLeftDifference) {
-
+    auto ll = LeftOrientedLineCommand({1, 1});
+    auto rl = RightOrientedLineCommand({-1, -1});
+    auto diff = countDifference(rl, ll);
+    ASSERT_TRUE(abs(diff - MAX_DIFFERENCE) < 1e-5);
 }
 
 TEST(GraphicCommandTest, TestRighLefttMidpoint) {
@@ -121,7 +139,10 @@ TEST(GraphicCommandTest, TestRighLefttMidpoint) {
 }
 
 TEST(GraphicCommandTest, TestRightRightDifference) {
-
+    auto rl1 = RightOrientedLineCommand({1, 1});
+    auto rl2 = RightOrientedLineCommand({2, 2});
+    auto diff = countDifference(rl1, rl2);
+    ASSERT_FLOAT_EQ(diff, 0);
 }
 
 TEST(GraphicCommandTest, TestRightRightMidpoint) {

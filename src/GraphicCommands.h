@@ -61,6 +61,7 @@ using AbsoluteCommandVar = std::variant<PointCommand, MoveCommand>;
 /*
  * visitor functions
  */
+extern const double MAX_DIFFERENCE;
 double countDifference(const LeftOrientedLineCommand & ll1, const LeftOrientedLineCommand & ll2);
 double countDifference(const LeftOrientedLineCommand & ll1, const RightOrientedLineCommand & rl2);
 double countDifference(const RightOrientedLineCommand & rl1, const LeftOrientedLineCommand & ll2);
