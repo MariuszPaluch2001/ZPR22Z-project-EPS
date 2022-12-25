@@ -25,10 +25,32 @@ Resolution Header::findResolution(const std::string &header) {
     throw std::runtime_error("Resolution not found.");
   return {x_res, y_res};
 }
+std::string Header::setResolutionInHeader(){
+    std::string new_header;
+    std::string line;
+    std::stringstream ss(header_);
+    while (std::getline(ss, line)) {
+        if (line.rfind("%%BoundingBox", 0) == 0) {
+            std::stringstream s;
+            s << "%%BoundingBox: 0 0 " << resolution_.getX() << " " << resolution_.getY();
+            new_header += s.str() + '\n';
+        }
+        else if (line.rfind("%%DocumentMedia", 0) == 0){
+            std::stringstream s;
+            s << "%%DocumentMedia: special "<<resolution_.getX() <<" "<< resolution_.getY() <<" 0 () ()";
+            new_header += s.str() + '\n';
+        }
+        else{
+            new_header += line + '\n';
+        }
+    }
+    return new_header;
+}
 
 void Header::setResolution(const Resolution &resolution) {
   resolution_.setX(resolution.getX());
   resolution_.setY(resolution.getY());
+  header_ = setResolutionInHeader();
 }
 
 std::string EPSInFileStream::readHeader() {

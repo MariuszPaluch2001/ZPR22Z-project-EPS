@@ -30,6 +30,7 @@ class Header {
   Resolution resolution_;
   std::string header_;
   static Resolution findResolution(const std::string &header);
+  std::string setResolutionInHeader();
 public:
   explicit Header(const std::string &header) : resolution_(findResolution(header)), header_(header) {}
   void setResolution(const Resolution &resolution);

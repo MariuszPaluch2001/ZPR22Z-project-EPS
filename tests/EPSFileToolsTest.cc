@@ -57,7 +57,7 @@ TEST(EPSFileToolsTest, TestResolutionSize) {
                      "%%Creator: R Software\n"
                      "%%Pages: (atend)\n"
                      "%%BoundingBox: 0 0 302 302\n"
-                     "%%EndComments";
+                     "%%EndComments\n";
 
   std::istringstream iss(data);
   EPSInFileStream EPSFs(iss);
@@ -73,6 +73,45 @@ TEST(EPSFileToolsTest, TestSettingResolutionInHeader) {
   h.setResolution(r);
   ASSERT_EQ(h.getResolution().getX(), 100);
   ASSERT_EQ(h.getResolution().getY(), 150);
+  ASSERT_EQ(h.getHeaderString(), "%%BoundingBox: 0 0 100 150\n%%EndComments\n");
+}
+
+TEST(EPSFileToolsTest, TestSettingResolutionInHeaderWithSecondResolution) {
+    std::string data = "%!PS-Adobe-3.0\n"
+                       "%%DocumentNeededResources: font Helvetica\n"
+                       "%%+ font Helvetica-Bold\n"
+                       "%%+ font Helvetica-Oblique\n"
+                       "%%+ font Helvetica-BoldOblique\n"
+                       "%%+ font Symbol\n"
+                       "%%DocumentMedia: special 576 576 0 () ()\n"
+                       "%%Title: R Graphics Output\n"
+                       "%%Creator: R Software\n"
+                       "%%Pages: (atend)\n"
+                       "%%BoundingBox: 0 0 576 576\n"
+                       "%%EndComments\n"
+                       "%%BeginProlog\n";
+
+    std::string data_expected = "%!PS-Adobe-3.0\n"
+                       "%%DocumentNeededResources: font Helvetica\n"
+                       "%%+ font Helvetica-Bold\n"
+                       "%%+ font Helvetica-Oblique\n"
+                       "%%+ font Helvetica-BoldOblique\n"
+                       "%%+ font Symbol\n"
+                       "%%DocumentMedia: special 100 150 0 () ()\n"
+                       "%%Title: R Graphics Output\n"
+                       "%%Creator: R Software\n"
+                       "%%Pages: (atend)\n"
+                       "%%BoundingBox: 0 0 100 150\n"
+                       "%%EndComments\n"
+                       "%%BeginProlog\n";
+
+
+    Header h(data);
+    Resolution r(100, 150);
+    h.setResolution(r);
+    ASSERT_EQ(h.getResolution().getX(), 100);
+    ASSERT_EQ(h.getResolution().getY(), 150);
+    ASSERT_EQ(h.getHeaderString(), data_expected);
 }
 
 TEST(EPSFileToolsTest, TestCommandRead) {
