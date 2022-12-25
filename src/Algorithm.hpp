@@ -88,8 +88,9 @@ template <typename T>
 void Algorithm::sortBatch(T & batch) const {
     for (int i = 0; i + sorting_range_ <= batch.size(); i+=sorting_range_) {
         auto working_element = batch.at(i);
-        for (auto iter = batch.begin() + 1 + i; iter != batch.begin() + 1 + i + sorting_range_; iter++) {
-            auto minimal = std::min_element(iter, iter + 9, [&working_element](auto & a, auto & b){
+        auto stopping = batch.begin() + 1 + i + sorting_range_;
+        for (auto iter = batch.begin() + 1 + i; iter != stopping; iter++) {
+            auto minimal = std::min_element(iter, stopping, [&working_element](auto & a, auto & b){
                 return std::visit(differenceVisit, working_element, a) < std::visit(differenceVisit, working_element, b);});
             std::iter_swap(iter, minimal);
             working_element = *iter;
