@@ -25,14 +25,15 @@ class Algorithm {
 private:
   double min_difference_;
   double scaling_factor_;
-
+  unsigned sorting_range_;
 public:
-    explicit Algorithm(double min_difference, double scaling_factor=1) : min_difference_(min_difference), scaling_factor_(scaling_factor) {}
+    explicit Algorithm(double min_difference, double scaling_factor=1, unsigned sorting_range=10) : min_difference_(min_difference), scaling_factor_(scaling_factor), sorting_range_(10) {}
   double getMinDifference() const { return min_difference_; }
   void setMinDifference(double min_difference) { min_difference_ = min_difference >= 0 ? min_difference : min_difference_; }
   double getScalingFactor() const { return scaling_factor_; }
   void setScalingFactor(double scaling_factor) { scaling_factor_ = scaling_factor > 0 ? scaling_factor : scaling_factor_; }
-
+  unsigned getSortingRange() const { return sorting_range_; }
+  void setSortingRange(unsigned sorting_range) { sorting_range_ = sorting_range; }
     template <typename T> void rescaleBatch(T&) const;
     template <typename T> T processBatch(const T&) const;
     template <typename T> void sortBatch(T&) const;
@@ -88,11 +89,15 @@ void Algorithm::sortBatch(T & batch) const {
     if (batch.size() < 2)
         return;
     auto working_element = batch.at(0);
-    for (auto iter = batch.begin() + 1; iter != batch.end(); iter++) {
-        auto minimal = std::min_element(iter, batch.end(), [&working_element](auto & a, auto & b){
-            return std::visit(differenceVisit, working_element, a) < std::visit(differenceVisit, working_element, b);});
-        std::iter_swap(iter, minimal);
-        working_element = *iter;
+
+    for (int i = 0; i + sorting_range_ <= batch.size(); i+=sorting_range_) {
+        auto working_element = batch.at(i);
+        for (auto iter = batch.begin() + 1 + i; iter != batch.begin() + 1 + i + sorting_range_; iter++) {
+            auto minimal = std::min_element(iter, iter + 9, [&working_element](auto & a, auto & b){
+                return std::visit(differenceVisit, working_element, a) < std::visit(differenceVisit, working_element, b);});
+            std::iter_swap(iter, minimal);
+            working_element = *iter;
+        }
     }
 }
 #endif // ZPR_ALGORITHM_HPP
