@@ -2,7 +2,6 @@
 // Created by kacper on 04.12.2022.
 //
 #include "GraphicCommands.h"
-#include "MidpointVisitor.h"
 #include <gtest/gtest.h>
 
 TEST(GraphicCommandTest, TestCreateLeftOrientedLine) {
@@ -67,7 +66,7 @@ TEST(GraphicCommandTest, TestPointCommandPointGetter) {
 
 TEST(GraphicCommandTest, TestPointCommandStringForm) {
   auto pc = PointCommand({1, 2});
-  ASSERT_EQ(pc.toString(), "1 2 1.00 1.00 r p2");
+  ASSERT_EQ(pc.toString(), "1 2 1 1 r p2");
 }
 
 
@@ -97,41 +96,69 @@ TEST(GraphicCommandTest, TestRescalePointCommand) {
     ASSERT_FLOAT_EQ(p.getY(), 0);
 }
 
-TEST(GraphicCommandTest, TestLeftLineAcceptVisitor) {
-    auto m = MidpointLeftLineVisitor(LeftOrientedLineCommand({1, 1}));
-    LeftOrientedLineCommand({1,1}).accept(m);
-    auto var = m.getValue();
-    auto new_line_pointer = std::get_if<LeftOrientedLineCommand>(&var);
-    ASSERT_TRUE(new_line_pointer != nullptr);
-    auto mp = new_line_pointer->getMovePoint();
-    ASSERT_FLOAT_EQ(mp.getX(), 2);
-    ASSERT_FLOAT_EQ(mp.getY(), 2);
+TEST(GraphicCommandTest, TestLeftLeftDifference) {
+
 }
 
+TEST(GraphicCommandTest, TestLeftLeftMidpoint) {
 
-TEST(GraphicCommandTest, TestRightLineAcceptVisitor) {
-    auto m = MidpointRightLineVisitor(RightOrientedLineCommand({1, 1}));
-    RightOrientedLineCommand({1,1}).accept(m);
-    auto var = m.getValue();
-    auto new_line_pointer = std::get_if<RightOrientedLineCommand>(&var);
-    ASSERT_TRUE(new_line_pointer != nullptr);
-    auto mp = new_line_pointer->getMovePoint();
-    ASSERT_FLOAT_EQ(mp.getX(), 2);
-    ASSERT_FLOAT_EQ(mp.getY(), 2);
 }
 
+TEST(GraphicCommandTest, TestLeftRighttDifference) {
 
-TEST(GraphicCommandTest, TestPointAcceptVisitor) {
-    auto m = MidpointPointVisitor(PointCommand({1, 1}));
-    PointCommand({1,1}).accept(m);
-    auto var = m.getValue();
-    auto new_line_pointer = std::get_if<PointCommand>(&var);
-    ASSERT_TRUE(new_line_pointer != nullptr);
-    auto mp = new_line_pointer->getMovePoint();
-    ASSERT_FLOAT_EQ(mp.getX(), 2);
-    ASSERT_FLOAT_EQ(mp.getY(), 2);
 }
 
+TEST(GraphicCommandTest, TestLeftRightMidpoint) {
+
+}
+
+TEST(GraphicCommandTest, TestRightLeftDifference) {
+
+}
+
+TEST(GraphicCommandTest, TestRighLefttMidpoint) {
+
+}
+
+TEST(GraphicCommandTest, TestRightRightDifference) {
+
+}
+
+TEST(GraphicCommandTest, TestRightRightMidpoint) {
+
+}
+
+TEST(GraphicCommandTest, TestPointPointDifference) {
+
+}
+
+TEST(GraphicCommandTest, TestPointPointMidpoint) {
+
+}
+
+TEST(GraphicCommandTest, TestPointMoveDifference) {
+
+}
+
+TEST(GraphicCommandTest, TestPointMoveMidpoint) {
+
+}
+
+TEST(GraphicCommandTest, TestMovePointDifference) {
+
+}
+
+TEST(GraphicCommandTest, TestMovePointMidpoint) {
+
+}
+
+TEST(GraphicCommandTest, TestMoveMoveDifference) {
+
+}
+
+TEST(GraphicCommandTest, TestMoveMoveMidpoint) {
+
+}
 
 
 
