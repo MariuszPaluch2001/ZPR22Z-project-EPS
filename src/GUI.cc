@@ -2,7 +2,7 @@
 
 bool App::OnInit()
 {
-  Frame* frame = new Frame("EPS compression", wxPoint(50, 50), wxSize(450, 400));
+  Frame* frame = new Frame("EPS compression", wxPoint(50, 50), wxSize(600, 600));
   frame->Show(true);
   return true;
 }
@@ -46,16 +46,36 @@ Frame::Frame(const wxString& title, const wxPoint& pos, const wxSize& size)
   rowSizer2->Add(label2, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
   rowSizer2->Add(textCtrl, 1, wxEXPAND);
   
-  sizerButtons = new wxBoxSizer(wxVERTICAL);
+  sizerButtons = new wxBoxSizer(wxHORIZONTAL);
   buttonSelectFile = new wxButton(this, wxID_ANY, "Wybierz plik", wxDefaultPosition);
   buttonSubmit = new wxButton(this, wxID_ANY, "Potwierdz", wxDefaultPosition);
   
-  sizerButtons->Add(buttonSelectFile, 0, wxEXPAND | wxALL, 5);
+  sizerButtons->Add(buttonSelectFile, 0, wxEXPAND | wxRIGHT | wxUP | wxDOWN, 5);
   sizerButtons->Add(buttonSubmit, 0, wxEXPAND | wxALL, 5);
+  
+  sizerImages = new wxBoxSizer(wxHORIZONTAL);
+  
+  sizerInputImage = new wxBoxSizer(wxVERTICAL);
+  labelInputImage = new wxStaticText(this, wxID_ANY, "Obrazek wejsciowy");
+  inputImage = new wxStaticBitmap(this, wxID_ANY, wxBitmap("assets/no_eps_available.png", wxBITMAP_TYPE_PNG));
+  
+  sizerInputImage->Add(labelInputImage, 0, wxEXPAND | wxALL, 5);
+  sizerInputImage->Add(inputImage, 0, wxEXPAND | wxALL, 5);
+  
+  sizerOutputImage = new wxBoxSizer(wxVERTICAL);
+  labelOutputImage = new wxStaticText(this, wxID_ANY, "Obrazek wyjsciowy");
+  outputImage = new wxStaticBitmap(this, wxID_ANY, wxBitmap("assets/no_eps_available.png", wxBITMAP_TYPE_PNG));
+  
+  sizerOutputImage->Add(labelOutputImage, 0, wxEXPAND | wxALL, 5);
+  sizerOutputImage->Add(outputImage, 0, wxEXPAND | wxALL, 5);
+  
+  sizerImages->Add(sizerInputImage, 0, wxEXPAND | wxRIGHT | wxUP | wxDOWN, 5);
+  sizerImages->Add(sizerOutputImage, 0, wxEXPAND | wxALL, 5);
   
   sizer->Add(rowSizer1, 0, wxALL, 10);
   sizer->Add(rowSizer2, 0, wxALL, 10);
   sizer->Add(sizerButtons, 0, wxALL, 10);
+  sizer->Add(sizerImages, 0, wxALL, 10);
   
   SetSizer(sizer);
 

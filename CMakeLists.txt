@@ -8,6 +8,8 @@ include(${wxWidgets_USE_FILE})
 
 include_directories(${wxWidgets_INCLUDE_DIRS})
 
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
+
 add_executable(${PROJECT_NAME}
   Main.cc
   src/GUI.h
@@ -22,10 +24,10 @@ add_compile_options(-Wall -Werror)
 
 
 enable_testing()
-
 include_directories(src)
 add_subdirectory(src)
 add_subdirectory(tests)
+
 
 target_link_libraries(${PROJECT_NAME})
 
