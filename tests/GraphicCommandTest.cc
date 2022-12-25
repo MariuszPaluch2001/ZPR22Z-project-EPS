@@ -129,7 +129,13 @@ TEST(GraphicCommandTest, TestLeftLeftDifferencePerpendicular) {
     ASSERT_TRUE(abs(diff - length(ll2.getMovePoint())) < 1e-5);
 }
 TEST(GraphicCommandTest, TestLeftLeftMidpoint) {
-
+    auto ll1 = LeftOrientedLineCommand({1,1});
+    auto ll2 = LeftOrientedLineCommand({1,1});
+    auto midpoint = createMidpoint(ll1, ll2);
+    auto new_line_pointer = std::get_if<LeftOrientedLineCommand>(&midpoint);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 2);
+    ASSERT_FLOAT_EQ(mp.getY(), 2);
 }
 
 TEST(GraphicCommandTest, TestLeftRighttDifference) {
@@ -140,18 +146,32 @@ TEST(GraphicCommandTest, TestLeftRighttDifference) {
 }
 
 TEST(GraphicCommandTest, TestLeftRightMidpoint) {
-
+    auto ll = LeftOrientedLineCommand({1,1});
+    auto rl = RightOrientedLineCommand({-1,-1});
+    auto var = createMidpoint(ll,rl);
+    auto new_line_pointer = std::get_if<LeftOrientedLineCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 1);
+    ASSERT_FLOAT_EQ(mp.getY(), 1);
 }
 
 TEST(GraphicCommandTest, TestRightLeftDifference) {
-    auto ll = LeftOrientedLineCommand({1, 1});
-    auto rl = RightOrientedLineCommand({-1, -1});
+    auto rl = RightOrientedLineCommand({1,1});
+    auto ll = LeftOrientedLineCommand({1,1});
     auto diff = countDifference(rl, ll);
     ASSERT_TRUE(abs(diff - MAX_DIFFERENCE) < 1e-5);
 }
 
 TEST(GraphicCommandTest, TestRighLefttMidpoint) {
-
+    auto rl = RightOrientedLineCommand({1, 1});
+    auto ll = LeftOrientedLineCommand({1, 1});
+    auto var = createMidpoint(rl,ll);
+    auto new_line_pointer = std::get_if<RightOrientedLineCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 1);
+    ASSERT_FLOAT_EQ(mp.getY(), 1);
 }
 
 TEST(GraphicCommandTest, TestRightRightDifference) {
@@ -162,7 +182,14 @@ TEST(GraphicCommandTest, TestRightRightDifference) {
 }
 
 TEST(GraphicCommandTest, TestRightRightMidpoint) {
-
+    auto rl1 = RightOrientedLineCommand({1,1});
+    auto rl2 = RightOrientedLineCommand({1,1});
+    auto var = createMidpoint(rl1, rl2);
+    auto new_line_pointer = std::get_if<RightOrientedLineCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 2);
+    ASSERT_FLOAT_EQ(mp.getY(), 2);
 }
 
 TEST(GraphicCommandTest, TestPointPointDifference) {
