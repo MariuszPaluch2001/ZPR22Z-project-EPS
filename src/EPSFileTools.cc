@@ -162,6 +162,31 @@ bool EPSInFileStream::isNextUnprocessable(){
     return !isNextAbsolute() && !isNextRelative();
 }
 
+RelativeCommandVar EPSInFileStream::getRelativeCommandVar(){
+    std::string command = getCommandLine();
+    std::string signature = stripCommandSignature(command);
+    if (signature == "l")
+        return {RightOrientedLineCommand(readPoint(command))};
+    else if (signature == "lineto")
+        return {LeftOrientedLineCommand(readPoint(command))};
+    else
+        throw std::runtime_error("Unknown command.");
+}
+AbsoluteCommandVar EPSInFileStream::getAbsoluteCommandVar(){
+    std::string command = getCommandLine();
+    std::string signature = stripCommandSignature(command);
+    if (signature == "p2")
+        return {PointCommand(readPoint(command))};
+    else if (signature == "m")
+        return {MoveCommand(readPoint(command))};
+    else
+        throw std::runtime_error("Unknown command.");
+}
+NonProcessableCommand EPSInFileStream::getNonProcessableCommand(){
+    std::string command = getCommandLine();
+    return { command };
+}
+
 void EPSOutFileStream::putHeader(Header &header) {
   if (was_header_write)
     throw std::runtime_error("Header has already written.");

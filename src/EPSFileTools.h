@@ -20,9 +20,6 @@
 using RelativeCommandVar= std::variant<LeftOrientedLineCommand, RightOrientedLineCommand>;
 using AbsoluteCommandVar = std::variant<PointCommand, MoveCommand>;
 
-/*
- * using VariantCommand = std::variant<NonProcessableCommand, RelativeCommandVar, AbsoluteCommandVar>
- */
 using VariantCommand =
     std::variant<NonProcessableCommand, RelativeCommandVar, PointCommand>;
 
@@ -65,6 +62,9 @@ public:
   bool isNextRelative();
   bool isNextAbsolute();
   bool isNextUnprocessable();
+  RelativeCommandVar getRelativeCommandVar();
+  AbsoluteCommandVar getAbsoluteCommandVar();
+  NonProcessableCommand getNonProcessableCommand();
 };
 
 /*
