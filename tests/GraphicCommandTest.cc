@@ -200,7 +200,14 @@ TEST(GraphicCommandTest, TestPointPointDifference) {
 }
 
 TEST(GraphicCommandTest, TestPointPointMidpoint) {
-
+    auto p1 = PointCommand({1,1});
+    auto p2 = PointCommand({2,2});
+    auto var = createMidpoint(p1, p2);
+    auto new_line_pointer = std::get_if<PointCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 2);
+    ASSERT_FLOAT_EQ(mp.getY(), 2);
 }
 
 TEST(GraphicCommandTest, TestPointMoveDifference) {
@@ -211,7 +218,14 @@ TEST(GraphicCommandTest, TestPointMoveDifference) {
 }
 
 TEST(GraphicCommandTest, TestPointMoveMidpoint) {
-
+    auto p1 = PointCommand({1,1});
+    auto m2 = MoveCommand({2,2});
+    auto var = createMidpoint(p1, m2);
+    auto new_line_pointer = std::get_if<PointCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 2);
+    ASSERT_FLOAT_EQ(mp.getY(), 2);
 }
 
 TEST(GraphicCommandTest, TestMovePointDifference) {
@@ -222,7 +236,15 @@ TEST(GraphicCommandTest, TestMovePointDifference) {
 }
 
 TEST(GraphicCommandTest, TestMovePointMidpoint) {
+    auto m1 = MoveCommand({2,2});
+    auto p2 = PointCommand({1,1});
 
+    auto var = createMidpoint(m1, p2);
+    auto new_line_pointer = std::get_if<PointCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 1);
+    ASSERT_FLOAT_EQ(mp.getY(), 1);
 }
 
 TEST(GraphicCommandTest, TestMoveMoveDifference) {
@@ -233,7 +255,15 @@ TEST(GraphicCommandTest, TestMoveMoveDifference) {
 }
 
 TEST(GraphicCommandTest, TestMoveMoveMidpoint) {
+    auto m1 = MoveCommand({2,2});
+    auto m2 = MoveCommand({1,1});
 
+    auto var = createMidpoint(m1, m2);
+    auto new_line_pointer = std::get_if<MoveCommand>(&var);
+    ASSERT_TRUE(new_line_pointer != nullptr);
+    auto mp = new_line_pointer->getMovePoint();
+    ASSERT_FLOAT_EQ(mp.getX(), 1);
+    ASSERT_FLOAT_EQ(mp.getY(), 1);
 }
 
 
