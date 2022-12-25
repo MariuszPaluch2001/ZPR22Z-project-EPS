@@ -29,8 +29,10 @@ std::string PointCommand::toString() const {
 }
 
 std::string MoveCommand::toString() const {
-    ///@todo implement
-    return "";
+    std::stringstream s;
+    s << getMovePoint().getX() << " " << getMovePoint().getY()
+      << " m";
+    return s.str();
 }
 
 double countDifference(const LeftOrientedLineCommand & ll1, const LeftOrientedLineCommand & ll2) {
