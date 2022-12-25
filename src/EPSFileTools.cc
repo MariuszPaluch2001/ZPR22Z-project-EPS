@@ -113,7 +113,8 @@ EPSInFileStream::makeVariantCommand(const std::string &command_line,
   }
 }
 
-VariantCommand EPSInFileStream::getCommand() {
+VariantCommand
+EPSInFileStream::getCommand() {
   std::string text;
   std::string command_signature;
   if (!was_header_read) {
@@ -126,6 +127,39 @@ VariantCommand EPSInFileStream::getCommand() {
   } else {
       throw std::runtime_error("File is finished.");
   }
+}
+
+std::string
+EPSInFileStream::getCommandLine() {
+    std::string line;
+    if (!was_header_read) {
+        throw std::runtime_error("Header hasn't been read yet.");
+    }
+    if (!isFinished()) {
+        std::getline(file_, line);
+    } else {
+        throw std::runtime_error("File is finished.");
+    }
+    return line;
+}
+
+bool EPSInFileStream::isNextRelative(){
+    std::string signature;
+    long len = file_.tellg();
+    signature = stripCommandSignature(getCommandLine());
+    file_.seekg(len ,std::ios_base::beg);
+    return signature == "l" or signature == "lineto";
+}
+
+bool EPSInFileStream::isNextAbsolute(){
+    std::string signature;
+    long len = file_.tellg();
+    signature = stripCommandSignature(getCommandLine());
+    file_.seekg(len ,std::ios_base::beg);
+    return signature == "p2" or signature == "m";
+}
+bool EPSInFileStream::isNextUnprocessable(){
+    return !isNextAbsolute() && !isNextRelative();
 }
 
 void EPSOutFileStream::putHeader(Header &header) {

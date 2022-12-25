@@ -113,6 +113,98 @@ TEST(EPSFileToolsTest, TestSettingResolutionInHeaderWithSecondResolution) {
     ASSERT_EQ(h.getResolution().getY(), 150);
     ASSERT_EQ(h.getHeaderString(), data_expected);
 }
+TEST(EPSFileToolsTest, TestIsNextRelativeFalse) {
+    std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                       "%%BoundingBox: 0 0 302 302\n"
+                       "%%EndComments\n"
+                       "/m   { moveto } bind def\n"
+                       "/l  { rlineto } bind def\n"
+                       "\n"
+                       "newpath\n"
+                       "10.03 2.46 l\n";
+    std::istringstream iss(data);
+    EPSInFileStream EPSFs(iss);
+    EPSFs.getHeader();
+    ASSERT_FALSE(EPSFs.isNextRelative());
+}
+
+TEST(EPSFileToolsTest, TestIsNextRelativeLeftOrientedCommand) {
+    std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                       "%%BoundingBox: 0 0 302 302\n"
+                       "%%EndComments\n"
+                       "10.03 2.46 l\n";
+    std::istringstream iss(data);
+    EPSInFileStream EPSFs(iss);
+    EPSFs.getHeader();
+    ASSERT_TRUE(EPSFs.isNextRelative());
+}
+
+TEST(EPSFileToolsTest, TestIsNextRelativeRightOrientedCommand) {
+    std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                       "%%BoundingBox: 0 0 302 302\n"
+                       "%%EndComments\n"
+                       "164.72 100.9 lineto\n";
+    std::istringstream iss(data);
+    EPSInFileStream EPSFs(iss);
+    EPSFs.getHeader();
+    ASSERT_TRUE(EPSFs.isNextRelative());
+}
+
+TEST(EPSFileToolsTest, TestIsNextAbsoluteFalse) {
+    std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                       "%%BoundingBox: 0 0 302 302\n"
+                       "%%EndComments\n"
+                       "10.03 2.46 l\n";
+    std::istringstream iss(data);
+    EPSInFileStream EPSFs(iss);
+    EPSFs.getHeader();
+    ASSERT_FALSE(EPSFs.isNextAbsolute());
+}
+
+TEST(EPSFileToolsTest, TestIsNextAbsolutePointCommand) {
+    std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                       "%%BoundingBox: 0 0 302 302\n"
+                       "%%EndComments\n"
+                       "234.12 374.92 1.00 1.00 r p2\n";
+    std::istringstream iss(data);
+    EPSInFileStream EPSFs(iss);
+    EPSFs.getHeader();
+    ASSERT_TRUE(EPSFs.isNextAbsolute());
+}
+
+TEST(EPSFileToolsTest, TestIsNextAbsoluteMoveCommand) {
+    std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                       "%%BoundingBox: 0 0 302 302\n"
+                       "%%EndComments\n"
+                       "67.47 72.08 m\n";
+    std::istringstream iss(data);
+    EPSInFileStream EPSFs(iss);
+    EPSFs.getHeader();
+    ASSERT_TRUE(EPSFs.isNextAbsolute());
+}
+
+TEST(EPSFileToolsTest, TestIsNextUnprocessableFalse) {
+    std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                       "%%BoundingBox: 0 0 302 302\n"
+                       "%%EndComments\n"
+                       "10.03 2.46 l\n";
+    std::istringstream iss(data);
+    EPSInFileStream EPSFs(iss);
+    EPSFs.getHeader();
+    ASSERT_FALSE(EPSFs.isNextUnprocessable());
+}
+
+TEST(EPSFileToolsTest, TestIsNextUnprocessableTrue) {
+    std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                       "%%BoundingBox: 0 0 302 302\n"
+                       "%%EndComments\n"
+                       "/m   { moveto } bind def\n";
+    std::istringstream iss(data);
+    EPSInFileStream EPSFs(iss);
+    EPSFs.getHeader();
+    ASSERT_TRUE(EPSFs.isNextUnprocessable());
+}
+
 
 TEST(EPSFileToolsTest, TestCommandRead) {
   std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"

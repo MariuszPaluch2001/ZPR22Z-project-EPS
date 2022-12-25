@@ -54,7 +54,7 @@ class EPSInFileStream {
   static VariantCommand
   makeVariantCommand(const std::string &command_line,
                      const std::string &command_signature);
-
+  std::string getCommandLine();
 public:
   explicit EPSInFileStream(std::istream &f) : file_(f) {}
   EPSInFileStream(const EPSInFileStream &) = delete;
@@ -62,6 +62,9 @@ public:
   Header getHeader();
   VariantCommand getCommand();
   bool isFinished() const { return file_.peek() == EOF; }
+  bool isNextRelative();
+  bool isNextAbsolute();
+  bool isNextUnprocessable();
 };
 
 /*
