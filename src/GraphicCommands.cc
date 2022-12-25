@@ -33,67 +33,61 @@ std::string MoveCommand::toString() const {
     return "";
 }
 
-
-double LeftOrientedLineCommand::countDifference(const LeftOrientedLineCommand & ll) const {
-     return countDistanceBetweenConjoinedDirections(getMovePoint(), ll.getMovePoint());
+double countDifference(const LeftOrientedLineCommand & ll1, const LeftOrientedLineCommand & ll2) {
+    return countDistanceBetweenConjoinedDirections(ll1.getMovePoint(), ll2.getMovePoint());
 }
 
-double LeftOrientedLineCommand::countDifference(const RightOrientedLineCommand &) const {
+double countDifference(const LeftOrientedLineCommand & ll1, const RightOrientedLineCommand & rl2) {
+    return MAX_DIFFERENCE;
+
+}
+
+double countDifference(const RightOrientedLineCommand & rl1, const LeftOrientedLineCommand & ll2) {
     return MAX_DIFFERENCE;
 }
 
-double RightOrientedLineCommand::countDifference(const LeftOrientedLineCommand &) const {
-    return MAX_DIFFERENCE;
+
+double countDifference(const RightOrientedLineCommand & rl1, const RightOrientedLineCommand & rl2) {
+    return countDistanceBetweenConjoinedDirections(rl1.getMovePoint(), rl2.getMovePoint());
+
 }
 
-double RightOrientedLineCommand::countDifference(const RightOrientedLineCommand & rl) const {
-    return countDistanceBetweenConjoinedDirections(getMovePoint(), rl.getMovePoint());
+double countDifference(const PointCommand & p1, const PointCommand & p2) {
+    return length(p1.getMovePoint() - p2.getMovePoint());
+}
+double countDifference(const PointCommand & p1, const MoveCommand & m2) {
+    return length(p1.getMovePoint() - m2.getMovePoint());
 }
 
-RelativeCommand::VisitingVar LeftOrientedLineCommand::createMidpoint(const LeftOrientedLineCommand & ll) const {
-    return LeftOrientedLineCommand(getMovePoint() + ll.getMovePoint());
+double countDifference(const MoveCommand & m1, const PointCommand & p2) {
+    return 0;
 }
-
-RelativeCommand::VisitingVar LeftOrientedLineCommand::createMidpoint(const RightOrientedLineCommand &) const {
-    return *this;
-}
-
-RelativeCommand::VisitingVar RightOrientedLineCommand::createMidpoint(const LeftOrientedLineCommand &) const {
-    return *this;
-}
-
-RelativeCommand::VisitingVar RightOrientedLineCommand::createMidpoint(const RightOrientedLineCommand & rl) const {
-    return RightOrientedLineCommand(getMovePoint() + rl.getMovePoint());
-}
-
-double PointCommand::countDifference(const PointCommand & p) const {
-    return length(getMovePoint() - p.getMovePoint());
-}
-
-double PointCommand::countDifference(const MoveCommand & m) const {
-    return length(getMovePoint() - m.getMovePoint());
-}
-
-double MoveCommand::countDifference(const PointCommand &) const {
+double countDifference(const MoveCommand & m1, const MoveCommand & m2) {
     return 0;
 }
 
-double MoveCommand::countDifference(const MoveCommand &) const {
-    return 0;
+RelativeCommandVar createMidpoint(const LeftOrientedLineCommand & ll1, const LeftOrientedLineCommand & ll2) {
+    return LeftOrientedLineCommand(ll1.getMovePoint() + ll2.getMovePoint());
+}
+RelativeCommandVar createMidpoint(const LeftOrientedLineCommand & ll1, const RightOrientedLineCommand & rl2) {
+    return ll1;
+}
+RelativeCommandVar createMidpoint(const RightOrientedLineCommand & rl1, const LeftOrientedLineCommand & ll2) {
+    return rl1;
+}
+RelativeCommandVar createMidpoint(const RightOrientedLineCommand & rl1, const RightOrientedLineCommand & rl2) {
+    return RightOrientedLineCommand(rl1.getMovePoint() + rl2.getMovePoint());
 }
 
-AbsoluteCommand::VisitingVar PointCommand::createMidpoint(const PointCommand & p) const {
-    return PointCommand(p.getMovePoint());
+AbsoluteCommandVar createMidpoint(const PointCommand & p1, const PointCommand & p2) {
+    return p2;
 }
-
-AbsoluteCommand::VisitingVar PointCommand::createMidpoint(const MoveCommand & m) const {
-    return PointCommand(m.getMovePoint());
+AbsoluteCommandVar createMidpoint(const PointCommand & p1, const MoveCommand & m2) {
+    return PointCommand(m2.getMovePoint());
 }
-
-AbsoluteCommand::VisitingVar MoveCommand::createMidpoint(const PointCommand & p) const {
-    return p;
+AbsoluteCommandVar createMidpoint(const MoveCommand & m1, const PointCommand & p2) {
+    return p2;
 }
-
-AbsoluteCommand::VisitingVar MoveCommand::createMidpoint(const MoveCommand & m) const {
-    return m;
+AbsoluteCommandVar createMidpoint(const MoveCommand & m1, const MoveCommand & m2) {
+    return m2;
 }

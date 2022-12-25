@@ -13,8 +13,8 @@
 
 
 
-using RelativeBatch = std::vector<RelativeCommand::VisitingVar>;
-using AbsoluteBatch = std::vector<AbsoluteCommand::VisitingVar>;
+using RelativeBatch = std::vector<RelativeCommandVar>;
+using AbsoluteBatch = std::vector<AbsoluteCommandVar>;
 /*
  * Algorithm is used for processing batch of commands according to final
  * resolution of the picture
@@ -46,10 +46,10 @@ static auto rescaleVisit = [](double scaling_factor) {
 };
 
 static auto differenceVisit = [](const auto &prevGraphic, const auto &nextGraphic) {
-    return prevGraphic.countDifference(nextGraphic);
+    return countDifference(prevGraphic, nextGraphic);
 };
 static auto midpointVisit = [](const auto &prevGraphic, const auto &nextGraphic) {
-    return prevGraphic.createMidpoint(nextGraphic);
+    return createMidpoint(prevGraphic, nextGraphic);
 };
 
 
