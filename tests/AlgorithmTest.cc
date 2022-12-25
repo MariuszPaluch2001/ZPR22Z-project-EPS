@@ -78,7 +78,39 @@ TEST(AlgorithmTest, TestRelativeBatchRescaling) {
 }
 
 TEST(AlgorithmTest, TestSortAbsoluteBatch) {
+    AbsoluteBatch batch;
+    batch.push_back(PointCommand({0,0}));
+    batch.push_back(PointCommand({4,4}));
+    batch.push_back(PointCommand({1,1}));
+    batch.push_back(PointCommand({4,4}));
+    batch.push_back(PointCommand({4,4}));
+    batch.push_back(PointCommand({0,0}));
+    auto a = Algorithm(1,1,5);
 
+    a.sortBatch(batch);
+    auto new_move_point = std::visit(extractMovePoint,batch.at(0));
+    ASSERT_FLOAT_EQ(new_move_point.getX(), 0);
+    ASSERT_FLOAT_EQ(new_move_point.getY(), 0);
+
+    new_move_point = std::visit(extractMovePoint,batch.at(1));
+    ASSERT_FLOAT_EQ(new_move_point.getX(), 1);
+    ASSERT_FLOAT_EQ(new_move_point.getY(), 1);
+
+    new_move_point = std::visit(extractMovePoint,batch.at(2));
+    ASSERT_FLOAT_EQ(new_move_point.getX(), 4);
+    ASSERT_FLOAT_EQ(new_move_point.getY(), 4);
+
+    new_move_point = std::visit(extractMovePoint,batch.at(3));
+    ASSERT_FLOAT_EQ(new_move_point.getX(), 4);
+    ASSERT_FLOAT_EQ(new_move_point.getY(), 4);
+
+    new_move_point = std::visit(extractMovePoint,batch.at(4));
+    ASSERT_FLOAT_EQ(new_move_point.getX(), 4);
+    ASSERT_FLOAT_EQ(new_move_point.getY(), 4);
+
+    new_move_point = std::visit(extractMovePoint,batch.at(5));
+    ASSERT_FLOAT_EQ(new_move_point.getX(), 0);
+    ASSERT_FLOAT_EQ(new_move_point.getY(), 0);
 }
 
 TEST(AlgorithmTest, TestProcessAbsoluteBatch) {

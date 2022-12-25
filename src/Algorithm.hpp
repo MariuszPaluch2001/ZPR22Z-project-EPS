@@ -27,7 +27,7 @@ private:
   double scaling_factor_;
   unsigned sorting_range_;
 public:
-    explicit Algorithm(double min_difference, double scaling_factor=1, unsigned sorting_range=10) : min_difference_(min_difference), scaling_factor_(scaling_factor), sorting_range_(10) {}
+    explicit Algorithm(double min_difference, double scaling_factor=1, unsigned sorting_range=10) : min_difference_(min_difference), scaling_factor_(scaling_factor), sorting_range_(sorting_range) {}
   double getMinDifference() const { return min_difference_; }
   void setMinDifference(double min_difference) { min_difference_ = min_difference >= 0 ? min_difference : min_difference_; }
   double getScalingFactor() const { return scaling_factor_; }
@@ -89,8 +89,8 @@ template <typename T>
 void Algorithm::sortBatch(T & batch) const {
     for (int i = 0; i + sorting_range_ <= batch.size(); i+=sorting_range_) {
         auto working_element = batch.at(i);
-        auto stopping = batch.begin() + 1 + i + sorting_range_;
-        for (auto iter = batch.begin() + 1 + i; iter != stopping; iter++) {
+        auto stopping = batch.begin()  + i + sorting_range_;
+        for (auto iter = batch.begin()  +1 + i; iter != stopping; iter++) {
             auto minimal = std::min_element(iter, stopping, [&working_element](auto & a, auto & b){
                 return std::visit(differenceVisit, working_element, a) < std::visit(differenceVisit, working_element, b);});
             std::iter_swap(iter, minimal);
