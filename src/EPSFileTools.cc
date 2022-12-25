@@ -200,3 +200,22 @@ void EPSOutFileStream::putCommand(Command &command) {
     throw std::runtime_error("Header hasn't been written.");
   file_ << command.toString() << '\n';
 }
+
+void EPSOutFileStream::putCommand(std::string && command) {
+    if (!was_header_write)
+        throw std::runtime_error("Header hasn't been written.");
+    file_ << command << '\n';
+}
+
+static auto lamb = [](const auto &command) {
+    return command.toString();
+};
+
+void EPSOutFileStream::putRelativeBatch(RelativeBatch &batch){
+    for (auto command : batch)
+        putCommand(std::visit(lamb, command));
+}
+void EPSOutFileStream::putAbsoluteBatch(AbsoluteBatch & batch){
+    for (auto command : batch)
+        putCommand(std::visit(lamb, command));
+}

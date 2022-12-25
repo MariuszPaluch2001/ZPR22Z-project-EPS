@@ -83,6 +83,9 @@ public:
   EPSOutFileStream &operator=(const EPSOutFileStream &) = delete;
   void putHeader(Header &header);
   void putCommand(Command &c);
+  void putCommand(std::string &&c);
+  void putRelativeBatch(RelativeBatch &batch);
+  void putAbsoluteBatch(AbsoluteBatch & batch);
 };
 
 #endif // ZPR_EPSFILETOOLS_H

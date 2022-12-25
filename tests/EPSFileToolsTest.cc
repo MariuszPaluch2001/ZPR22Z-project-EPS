@@ -398,6 +398,7 @@ TEST(EPSFileToolsTest, EPSOutFileWriteHeader) {
   std::string headerStr = "%!PS-Adobe-3.0 EPSF-3.0\n"
                           "%%BoundingBox: 0 0 302 302\n"
                           "%%EndComments\n";
+
   Header header(headerStr);
   std::ostringstream oss("");
   EPSOutFileStream EPSFs(oss);
@@ -409,12 +410,14 @@ TEST(EPSFileToolsTest, EPSOutFileWriteHeaderAndCommands) {
   std::string headerStr = "%!PS-Adobe-3.0 EPSF-3.0\n"
                           "%%BoundingBox: 0 0 302 302\n"
                           "%%EndComments\n";
+
   std::string outputStr = "%!PS-Adobe-3.0 EPSF-3.0\n"
                           "%%BoundingBox: 0 0 302 302\n"
                           "%%EndComments\n"
                           "4.2 6.7 lineto\n"
                           "5.2 7.7 l\n"
                           "9.5 7.5 1 1 r p2\n";
+
   Header header(headerStr);
   NonProcessableCommand npc("test");
   LeftOrientedLineCommand lolc(CoordinateValue(4.2, 6.7));
@@ -427,6 +430,49 @@ TEST(EPSFileToolsTest, EPSOutFileWriteHeaderAndCommands) {
   EPSFs.putCommand(rolc);
   EPSFs.putCommand(pc);
   ASSERT_EQ(oss.str(), outputStr);
+}
+TEST(EPSFileToolsTest, EPSOutFilePutAbsoluteBatch){
+    std::string headerStr = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                            "%%BoundingBox: 0 0 302 302\n"
+                            "%%EndComments\n";
+
+    std::string outputStr = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                            "%%BoundingBox: 0 0 302 302\n"
+                            "%%EndComments\n"
+                            "2 2 1 1 r p2\n"
+                            "3 3 m\n";
+
+    Header header(headerStr);
+    AbsoluteBatch batch;
+    batch.emplace_back(PointCommand({2,2}));
+    batch.emplace_back(MoveCommand({3,3}));
+    std::ostringstream oss("");
+    EPSOutFileStream EPSFs(oss);
+    EPSFs.putHeader(header);
+    EPSFs.putAbsoluteBatch(batch);
+    ASSERT_EQ(oss.str(), outputStr);
+}
+
+TEST(EPSFileToolsTest, EPSOutFilePutRelativeBatch){
+    std::string headerStr = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                            "%%BoundingBox: 0 0 302 302\n"
+                            "%%EndComments\n";
+
+    std::string outputStr = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                            "%%BoundingBox: 0 0 302 302\n"
+                            "%%EndComments\n"
+                            "2 2 l\n"
+                            "3 3 lineto\n";
+
+    Header header(headerStr);
+    RelativeBatch batch;
+    batch.emplace_back(RightOrientedLineCommand({2,2}));
+    batch.emplace_back(LeftOrientedLineCommand({3,3}));
+    std::ostringstream oss("");
+    EPSOutFileStream EPSFs(oss);
+    EPSFs.putHeader(header);
+    EPSFs.putRelativeBatch(batch);
+    ASSERT_EQ(oss.str(), outputStr);
 }
 
 int main(int argc, char **argv) {
