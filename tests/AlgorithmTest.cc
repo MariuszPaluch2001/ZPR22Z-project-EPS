@@ -193,7 +193,48 @@ TEST(AlgorithmTest, TestProcessAbsoluteBatchTooSmall) {
 }
 
 TEST(AlgorithmTest, TestProcessRelativeBatch) {
+    auto a = Algorithm(1,1);
+    RelativeBatch batch;
+    batch.push_back(LeftOrientedLineCommand({1,1}));
+    batch.push_back(RightOrientedLineCommand({1,1}));
+    batch.push_back(RightOrientedLineCommand({2,2}));
+    batch.push_back(LeftOrientedLineCommand({4,4}));
+    batch.push_back(LeftOrientedLineCommand({0, 0.1}));
 
+    batch = a.processBatch(batch);
+    ASSERT_EQ(batch.size(), 3);
+    auto left_line_ptr = std::get_if<LeftOrientedLineCommand>(&batch.at(0));
+    ASSERT_NE(left_line_ptr, nullptr);
+    auto new_move_point = left_line_ptr->getMovePoint();
+    ASSERT_FLOAT_EQ(new_move_point.getX(), 1);
+    ASSERT_FLOAT_EQ(new_move_point.getY(), 1);
+
+    auto right_line_ptr = std::get_if<RightOrientedLineCommand>(&batch.at(1));
+    ASSERT_NE(right_line_ptr, nullptr);
+    new_move_point = right_line_ptr->getMovePoint();
+    ASSERT_FLOAT_EQ(new_move_point.getX(), 3);
+    ASSERT_FLOAT_EQ(new_move_point.getY(), 3);
+
+    left_line_ptr = std::get_if<LeftOrientedLineCommand>(&batch.at(2));
+    ASSERT_NE(left_line_ptr, nullptr);
+    new_move_point = left_line_ptr->getMovePoint();
+    ASSERT_FLOAT_EQ(new_move_point.getX(), 4);
+    ASSERT_FLOAT_EQ(new_move_point.getY(), 4.1);
+
+
+}
+
+TEST(AlgorithmTest, TestProcessRelativeBatchTooSmall) {
+    auto a = Algorithm(1);
+    RelativeBatch batch;
+    batch = a.processBatch(batch);
+    ASSERT_EQ(batch.size(), 0);
+    batch.push_back(LeftOrientedLineCommand({1,1}));
+    batch = a.processBatch(batch);
+    ASSERT_EQ(batch.size(), 1);
+    auto new_move_point = std::visit(extractMovePoint,batch.at(0));
+    ASSERT_FLOAT_EQ(new_move_point.getX(), 1);
+    ASSERT_FLOAT_EQ(new_move_point.getY(), 1);
 }
 
 
