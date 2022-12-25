@@ -28,10 +28,15 @@ private:
   wxBoxSizer* sizerOutputImage;
   wxButton* buttonSubmit;
   wxButton* buttonSelectFile;
-  wxStaticText* label1;
-  wxStaticText* label2;
+  wxButton* buttonGetOutput;
+  wxStaticText* labelScaleInput;
+  wxStaticText* labelInputMinDist;
   wxStaticText* labelInputImage;
   wxStaticText* labelOutputImage;
+  wxStaticText* labelInputImageSize;
+  wxStaticText* labelOutputImageSize;
+  wxStaticText* labelInputImageResolution;
+  wxStaticText* labelOutputImageResolution;
   wxComboBox* comboBox;
   wxTextCtrl* textCtrl;
   wxStaticBitmap* inputImage;

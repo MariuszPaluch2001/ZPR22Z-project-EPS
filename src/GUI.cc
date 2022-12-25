@@ -2,7 +2,7 @@
 
 bool App::OnInit()
 {
-  Frame* frame = new Frame("EPS compression", wxPoint(50, 50), wxSize(600, 600));
+  Frame* frame = new Frame("EPS compression", wxPoint(50, 50), wxSize(800, 700));
   frame->Show(true);
   return true;
 }
@@ -25,7 +25,7 @@ Frame::Frame(const wxString& title, const wxPoint& pos, const wxSize& size)
   
   sizer = new wxBoxSizer(wxVERTICAL);
   
-  label1 = new wxStaticText(this, wxID_ANY, "Wybierz pomniejszenie obrazka:     ");
+  labelScaleInput = new wxStaticText(this, wxID_ANY, "Wybierz pomniejszenie obrazka:     ");
   comboBox = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxSize(150, 30), 0, nullptr, wxCB_READONLY);
 
   for (int i = 1; i <= 5; i++)
@@ -36,14 +36,14 @@ Frame::Frame(const wxString& title, const wxPoint& pos, const wxSize& size)
   comboBox->SetSelection(0);
   
   rowSizer1 = new wxBoxSizer(wxHORIZONTAL);
-  rowSizer1->Add(label1, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
+  rowSizer1->Add(labelScaleInput, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
   rowSizer1->Add(comboBox, 1, wxEXPAND);
   
-  label2 = new wxStaticText(this, wxID_ANY, "Min odleglosc pomiedzy punktami:");
+  labelInputMinDist = new wxStaticText(this, wxID_ANY, "Min odleglosc pomiedzy punktami:");
   textCtrl = new wxTextCtrl(this, wxID_ANY, "0.0", wxDefaultPosition, wxSize(150, 30), wxTE_PROCESS_ENTER);
   
   rowSizer2 = new wxBoxSizer(wxHORIZONTAL);
-  rowSizer2->Add(label2, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
+  rowSizer2->Add(labelInputMinDist, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
   rowSizer2->Add(textCtrl, 1, wxEXPAND);
   
   sizerButtons = new wxBoxSizer(wxHORIZONTAL);
@@ -58,29 +58,37 @@ Frame::Frame(const wxString& title, const wxPoint& pos, const wxSize& size)
   sizerInputImage = new wxBoxSizer(wxVERTICAL);
   labelInputImage = new wxStaticText(this, wxID_ANY, "Obrazek wejsciowy");
   inputImage = new wxStaticBitmap(this, wxID_ANY, wxBitmap("assets/no_eps_available.png", wxBITMAP_TYPE_PNG));
+  labelInputImageSize = new wxStaticText(this, wxID_ANY, "Rozmiar przed: ");
+  labelInputImageResolution = new wxStaticText(this, wxID_ANY, "Rozdzielczosc przed: ");
   
   sizerInputImage->Add(labelInputImage, 0, wxEXPAND | wxALL, 5);
   sizerInputImage->Add(inputImage, 0, wxEXPAND | wxALL, 5);
+  sizerInputImage->Add(labelInputImageSize, 0, wxEXPAND | wxALL, 5);
+  sizerInputImage->Add(labelInputImageResolution, 0, wxEXPAND | wxALL, 5);
   
   sizerOutputImage = new wxBoxSizer(wxVERTICAL);
   labelOutputImage = new wxStaticText(this, wxID_ANY, "Obrazek wyjsciowy");
   outputImage = new wxStaticBitmap(this, wxID_ANY, wxBitmap("assets/no_eps_available.png", wxBITMAP_TYPE_PNG));
+  labelOutputImageSize = new wxStaticText(this, wxID_ANY, "Rozmiar po: ");
+  labelOutputImageResolution = new wxStaticText(this, wxID_ANY, "Rozdzielczosc po: ");
   
   sizerOutputImage->Add(labelOutputImage, 0, wxEXPAND | wxALL, 5);
   sizerOutputImage->Add(outputImage, 0, wxEXPAND | wxALL, 5);
+  sizerOutputImage->Add(labelOutputImageSize, 0, wxEXPAND | wxALL, 5);
+  sizerOutputImage->Add(labelOutputImageResolution, 0, wxEXPAND | wxALL, 5);
   
   sizerImages->Add(sizerInputImage, 0, wxEXPAND | wxRIGHT | wxUP | wxDOWN, 5);
   sizerImages->Add(sizerOutputImage, 0, wxEXPAND | wxALL, 5);
+  
+  buttonGetOutput = new wxButton(this, wxID_ANY, "Zapisz", wxDefaultPosition);
   
   sizer->Add(rowSizer1, 0, wxALL, 10);
   sizer->Add(rowSizer2, 0, wxALL, 10);
   sizer->Add(sizerButtons, 0, wxALL, 10);
   sizer->Add(sizerImages, 0, wxALL, 10);
+  sizer->Add(buttonGetOutput, 0, wxALL, 10);
   
   SetSizer(sizer);
-
-  CreateStatusBar();
-  SetStatusText("Welcome to app!");
 }
 
 wxBEGIN_EVENT_TABLE(Frame, wxFrame)
