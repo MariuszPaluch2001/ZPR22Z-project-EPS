@@ -57,8 +57,9 @@ static auto midpointVisit = [](const auto &prevGraphic, const auto &nextGraphic)
 
 template <typename T>
 void Algorithm::rescaleBatch(T& batch) const {
+    auto visit = rescaleVisit(scaling_factor_);
     for (auto & graphic : batch)
-        std::visit(rescaleVisit(scaling_factor_), graphic);
+        std::visit(visit, graphic);
 }
 
 template <typename T>
