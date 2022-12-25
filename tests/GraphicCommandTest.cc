@@ -3,6 +3,7 @@
 //
 #include "GraphicCommands.h"
 #include <gtest/gtest.h>
+#include <cmath>
 
 TEST(GraphicCommandTest, TestCreateLeftOrientedLine) {
   auto _ = LeftOrientedLineCommand({1, 2});
@@ -165,7 +166,10 @@ TEST(GraphicCommandTest, TestRightRightMidpoint) {
 }
 
 TEST(GraphicCommandTest, TestPointPointDifference) {
-
+    auto p1 = PointCommand({1,1});
+    auto p2 = PointCommand({2,2});
+    auto diff = countDifference(p1,p2);
+    ASSERT_FLOAT_EQ(diff, std::sqrt(2));
 }
 
 TEST(GraphicCommandTest, TestPointPointMidpoint) {
@@ -173,7 +177,10 @@ TEST(GraphicCommandTest, TestPointPointMidpoint) {
 }
 
 TEST(GraphicCommandTest, TestPointMoveDifference) {
-
+    auto p1 = PointCommand({1,1});
+    auto m2 = MoveCommand({0,0});
+    auto diff = countDifference(p1, m2);
+    ASSERT_FLOAT_EQ(diff, std::sqrt(2));
 }
 
 TEST(GraphicCommandTest, TestPointMoveMidpoint) {
@@ -181,7 +188,10 @@ TEST(GraphicCommandTest, TestPointMoveMidpoint) {
 }
 
 TEST(GraphicCommandTest, TestMovePointDifference) {
-
+    auto m1 = MoveCommand({0,0});
+    auto p2 = PointCommand({1,1});
+    auto diff = countDifference(m1, p2);
+    ASSERT_FLOAT_EQ(diff, 0);
 }
 
 TEST(GraphicCommandTest, TestMovePointMidpoint) {
@@ -189,7 +199,10 @@ TEST(GraphicCommandTest, TestMovePointMidpoint) {
 }
 
 TEST(GraphicCommandTest, TestMoveMoveDifference) {
-
+    auto m1 = MoveCommand({0,0});
+    auto m2 = MoveCommand({1,1});
+    auto diff = countDifference(m1, m2);
+    ASSERT_FLOAT_EQ(diff, 0);
 }
 
 TEST(GraphicCommandTest, TestMoveMoveMidpoint) {
