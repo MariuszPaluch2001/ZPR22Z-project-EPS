@@ -37,11 +37,18 @@ private:
   wxStaticText* labelOutputImageSize;
   wxStaticText* labelInputImageResolution;
   wxStaticText* labelOutputImageResolution;
-  wxComboBox* comboBox;
+  wxComboBox* comboBoxScale;
   wxTextCtrl* textCtrl;
   wxStaticBitmap* inputImage;
   wxStaticBitmap* outputImage;
   
+  void initMenuBar();
+  void initComboBoxScale();
+  void initInputMinDist();
+  void initButtonsRow();
+  void initImages();
+  void initButtonGetOutput();
+  void initSizer();
   void OnExit(wxCommandEvent& event);
   void OnAbout(wxCommandEvent& event);
 

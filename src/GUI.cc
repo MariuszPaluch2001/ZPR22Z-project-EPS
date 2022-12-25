@@ -11,6 +11,31 @@ Frame::Frame(const wxString& title, const wxPoint& pos, const wxSize& size)
     : wxFrame(NULL, wxID_ANY, title, pos, size)
 {
 
+  initMenuBar();
+
+  SetMenuBar(menuBar);
+  
+  initComboBoxScale();
+  
+  initInputMinDist();
+  
+  initButtonsRow();
+  
+  initImages();
+  
+  initButtonGetOutput();
+  
+  initSizer();
+  
+  SetSizer(sizer);
+}
+
+wxBEGIN_EVENT_TABLE(Frame, wxFrame)
+    EVT_MENU(wxID_EXIT, Frame::OnExit)
+    EVT_MENU(wxID_ABOUT, Frame::OnAbout)
+wxEND_EVENT_TABLE()
+
+void Frame::initMenuBar(){
   menuFile = new wxMenu();
   menuFile->Append(wxID_EXIT);
 
@@ -20,39 +45,43 @@ Frame::Frame(const wxString& title, const wxPoint& pos, const wxSize& size)
   menuBar = new wxMenuBar();
   menuBar->Append(menuFile, "&File");
   menuBar->Append(menuHelp, "&Help");
+}
 
-  SetMenuBar(menuBar);
-  
-  sizer = new wxBoxSizer(wxVERTICAL);
-  
+void Frame::initComboBoxScale(){
   labelScaleInput = new wxStaticText(this, wxID_ANY, "Wybierz pomniejszenie obrazka:     ");
-  comboBox = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxSize(150, 30), 0, nullptr, wxCB_READONLY);
+  comboBoxScale = new wxComboBox(this, wxID_ANY, "", wxDefaultPosition, wxSize(150, 30), 0, nullptr, wxCB_READONLY);
 
   for (int i = 1; i <= 5; i++)
   {
-        comboBox->Append(wxString::Format("%dx", i));
+        comboBoxScale->Append(wxString::Format("%dx", i));
   }
 
-  comboBox->SetSelection(0);
-  
+  comboBoxScale->SetSelection(0);
+
   rowSizer1 = new wxBoxSizer(wxHORIZONTAL);
   rowSizer1->Add(labelScaleInput, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
-  rowSizer1->Add(comboBox, 1, wxEXPAND);
-  
+  rowSizer1->Add(comboBoxScale, 1, wxEXPAND);
+}
+
+void Frame::initInputMinDist(){
   labelInputMinDist = new wxStaticText(this, wxID_ANY, "Min odleglosc pomiedzy punktami:");
   textCtrl = new wxTextCtrl(this, wxID_ANY, "0.0", wxDefaultPosition, wxSize(150, 30), wxTE_PROCESS_ENTER);
   
   rowSizer2 = new wxBoxSizer(wxHORIZONTAL);
   rowSizer2->Add(labelInputMinDist, 0, wxALIGN_CENTER_VERTICAL | wxRIGHT, 5);
   rowSizer2->Add(textCtrl, 1, wxEXPAND);
-  
+}
+
+void Frame::initButtonsRow(){
   sizerButtons = new wxBoxSizer(wxHORIZONTAL);
   buttonSelectFile = new wxButton(this, wxID_ANY, "Wybierz plik", wxDefaultPosition);
   buttonSubmit = new wxButton(this, wxID_ANY, "Potwierdz", wxDefaultPosition);
   
   sizerButtons->Add(buttonSelectFile, 0, wxEXPAND | wxRIGHT | wxUP | wxDOWN, 5);
   sizerButtons->Add(buttonSubmit, 0, wxEXPAND | wxALL, 5);
-  
+}
+
+void Frame::initImages(){
   sizerImages = new wxBoxSizer(wxHORIZONTAL);
   
   sizerInputImage = new wxBoxSizer(wxVERTICAL);
@@ -79,22 +108,20 @@ Frame::Frame(const wxString& title, const wxPoint& pos, const wxSize& size)
   
   sizerImages->Add(sizerInputImage, 0, wxEXPAND | wxRIGHT | wxUP | wxDOWN, 5);
   sizerImages->Add(sizerOutputImage, 0, wxEXPAND | wxALL, 5);
-  
+}
+
+void Frame::initButtonGetOutput(){
   buttonGetOutput = new wxButton(this, wxID_ANY, "Zapisz", wxDefaultPosition);
-  
+}
+
+void Frame::initSizer(){
+  sizer = new wxBoxSizer(wxVERTICAL);
   sizer->Add(rowSizer1, 0, wxALL, 10);
   sizer->Add(rowSizer2, 0, wxALL, 10);
   sizer->Add(sizerButtons, 0, wxALL, 10);
   sizer->Add(sizerImages, 0, wxALL, 10);
   sizer->Add(buttonGetOutput, 0, wxALL, 10);
-  
-  SetSizer(sizer);
 }
-
-wxBEGIN_EVENT_TABLE(Frame, wxFrame)
-    EVT_MENU(wxID_EXIT, Frame::OnExit)
-    EVT_MENU(wxID_ABOUT, Frame::OnAbout)
-wxEND_EVENT_TABLE()
 
 void Frame::OnExit(wxCommandEvent& event) { Close(true); }
 
