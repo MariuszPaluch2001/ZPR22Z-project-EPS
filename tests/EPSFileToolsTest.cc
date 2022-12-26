@@ -449,7 +449,7 @@ TEST(EPSFileToolsTest, EPSOutFilePutAbsoluteBatch){
     std::ostringstream oss("");
     EPSOutFileStream EPSFs(oss);
     EPSFs.putHeader(header);
-    EPSFs.putAbsoluteBatch(batch);
+    EPSFs.putBatch(batch);
     ASSERT_EQ(oss.str(), outputStr);
 }
 
@@ -471,7 +471,7 @@ TEST(EPSFileToolsTest, EPSOutFilePutRelativeBatch){
     std::ostringstream oss("");
     EPSOutFileStream EPSFs(oss);
     EPSFs.putHeader(header);
-    EPSFs.putRelativeBatch(batch);
+    EPSFs.putBatch(batch);
     ASSERT_EQ(oss.str(), outputStr);
 }
 

@@ -21,7 +21,7 @@ using RelativeCommandVar= std::variant<LeftOrientedLineCommand, RightOrientedLin
 using AbsoluteCommandVar = std::variant<PointCommand, MoveCommand>;
 
 using VariantCommand =
-    std::variant<NonProcessableCommand, RelativeCommandVar, PointCommand>;
+    std::variant<NonProcessableCommand, RelativeCommandVar, AbsoluteCommandVar>;
 
 class Header {
   Resolution resolution_;
@@ -82,10 +82,17 @@ public:
   EPSOutFileStream(const EPSOutFileStream &) = delete;
   EPSOutFileStream &operator=(const EPSOutFileStream &) = delete;
   void putHeader(Header &header);
-  void putCommand(Command &c);
+  void putCommand(const Command &c);
   void putCommand(std::string &&c);
-  void putRelativeBatch(RelativeBatch &batch);
-  void putAbsoluteBatch(AbsoluteBatch & batch);
+  template <typename BATCH_TYPE> void putBatch(const BATCH_TYPE &batch);
 };
 
+static auto stringVisit = [](const auto &command) {
+    return command.toString();
+};
+
+template <typename BATCH_TYPE> void EPSOutFileStream::putBatch(const BATCH_TYPE &batch) {
+    for (auto command : batch)
+        putCommand(std::visit(stringVisit, command));
+}
 #endif // ZPR_EPSFILETOOLS_H

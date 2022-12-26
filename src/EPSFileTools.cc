@@ -107,8 +107,12 @@ EPSInFileStream::makeVariantCommand(const std::string &command_line,
   } else if (command_signature == "lineto") {
     return {LeftOrientedLineCommand(readPoint(command_line))};
   } else if (command_signature == "p2") {
-    return {PointCommand(readPoint(command_line))};
-  } else {
+      return {PointCommand(readPoint(command_line))};
+  }
+  else if (command_signature == "m") {
+        return {MoveCommand(readPoint(command_line))};
+  }
+  else {
     return {NonProcessableCommand(command_line)};
   }
 }
@@ -195,7 +199,7 @@ void EPSOutFileStream::putHeader(Header &header) {
   was_header_write = true;
 }
 
-void EPSOutFileStream::putCommand(Command &command) {
+void EPSOutFileStream::putCommand(const Command &command) {
   if (!was_header_write)
     throw std::runtime_error("Header hasn't been written.");
   file_ << command.toString() << '\n';
@@ -207,15 +211,3 @@ void EPSOutFileStream::putCommand(std::string && command) {
     file_ << command << '\n';
 }
 
-static auto lamb = [](const auto &command) {
-    return command.toString();
-};
-
-void EPSOutFileStream::putRelativeBatch(RelativeBatch &batch){
-    for (auto command : batch)
-        putCommand(std::visit(lamb, command));
-}
-void EPSOutFileStream::putAbsoluteBatch(AbsoluteBatch & batch){
-    for (auto command : batch)
-        putCommand(std::visit(lamb, command));
-}

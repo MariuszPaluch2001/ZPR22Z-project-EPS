@@ -6,6 +6,12 @@
 #include "src/GraphicCommands.h"
 #include "src/Algorithm.hpp"
 
+template <typename BATCH_TYPE>
+void put_batch_with_processing(BATCH_TYPE&, EPSOutFileStream &, const Algorithm &);
+void handle_relative_command(RelativeBatch &, AbsoluteBatch &, EPSInFileStream &, EPSOutFileStream &, const Algorithm &);
+void handle_absolute_command(RelativeBatch &, AbsoluteBatch &, EPSInFileStream &, EPSOutFileStream &, const Algorithm &);
+void handle_nonprocessable_command(RelativeBatch &, AbsoluteBatch &, EPSInFileStream &, EPSOutFileStream &, const Algorithm &);
+
 int main(int argc, char**  args){
     if (argc != 3){
         std::cerr << "Incorrect number of args! Should be main.c inFilename outFilename" << std::endl;
@@ -13,58 +19,67 @@ int main(int argc, char**  args){
     }
 
     const int MAX_NUMBER_COMMANDS = 10000;
-    RelativeCommand * command;
-    RelativeBatch process_graphic_vec;
 
     double scale = 0.5;
     std::ifstream file_in(args[1]);
     std::ofstream file_out(args[2]);
     EPSInFileStream eps_in_file(file_in);
     EPSOutFileStream eps_out_file(file_out);
+
+
+    AbsoluteBatch abs_batch;
+    RelativeBatch rel_batch;
+
     Header header = eps_in_file.getHeader();
-    header.setResolution(header.getResolution() * scale); // We don't change resolution ... so far.
-    Algorithm algorithm(0.01);
+    header.setResolution(header.getResolution() * scale);
+    Algorithm algorithm(1, scale);
     eps_out_file.putHeader(header);
 
     while(!eps_in_file.isFinished()){
-
-        auto variant_command = eps_in_file.getCommand();
-        auto not_process_command = std::get_if<NonProcessableCommand>(&variant_command);
-        auto point_command = std::get_if<PointCommand>(&variant_command);
-
-        if (not_process_command || point_command || process_graphic_vec.size() >= MAX_NUMBER_COMMANDS){
-            algorithm.processBatch(process_graphic_vec);
-            process_graphic_vec = algorithm.processBatch(process_graphic_vec);
-
-            for (auto var : process_graphic_vec){
-                if ((command = std::get_if<LeftOrientedLineCommand>(&var)) ||
-                        (command = std::get_if<RightOrientedLineCommand>(&var)))
-                        eps_out_file.putCommand(*command);
-
-            }
-
-            if (not_process_command)
-                eps_out_file.putCommand(*not_process_command);
-            else if (point_command)
-                eps_out_file.putCommand(*point_command);
-            process_graphic_vec.clear();
-        }
-        else{
-            process_graphic_vec.push_back(*std::get_if<RelativeCommandVar>(&variant_command));
-        }
+        if (abs_batch.size() == MAX_NUMBER_COMMANDS)
+            put_batch_with_processing(abs_batch, eps_out_file, algorithm);
+        if (rel_batch.size() == MAX_NUMBER_COMMANDS)
+            put_batch_with_processing(rel_batch, eps_out_file, algorithm);
+        if (eps_in_file.isNextAbsolute())
+            handle_absolute_command(rel_batch, abs_batch, eps_in_file, eps_out_file, algorithm);
+        else if (eps_in_file.isNextRelative())
+            handle_relative_command(rel_batch, abs_batch, eps_in_file, eps_out_file, algorithm);
+        else if (eps_in_file.isNextUnprocessable())
+            handle_nonprocessable_command(rel_batch, abs_batch, eps_in_file, eps_out_file, algorithm);
     }
-    if (!process_graphic_vec.empty()){
-        algorithm.processBatch(process_graphic_vec);
-        process_graphic_vec = algorithm.processBatch(process_graphic_vec);
-        for (auto var : process_graphic_vec){
-
-            if ((command = std::get_if<LeftOrientedLineCommand>(&var)) ||
-                (command = std::get_if<RightOrientedLineCommand>(&var))){
-                eps_out_file.putCommand(*command);
-            }
-
-        }
-        process_graphic_vec.clear();
-    }
+    if (!rel_batch.empty())
+        put_batch_with_processing(rel_batch, eps_out_file, algorithm);
+    if (!abs_batch.empty())
+        put_batch_with_processing(abs_batch, eps_out_file, algorithm);
     return 0;
+}
+
+
+template <typename BATCH_TYPE>
+void put_batch_with_processing(BATCH_TYPE& batch, EPSOutFileStream & file, const Algorithm & algo) {
+    algo.template rescaleBatch(batch);
+    algo.template sortBatch(batch);
+    file.template putBatch(algo.template processBatch(batch));
+    batch.clear();
+}
+
+void handle_relative_command(RelativeBatch & rel_batch, AbsoluteBatch & abs_batch, EPSInFileStream & in_file, EPSOutFileStream & out_file, const Algorithm & algo) {
+    if (!abs_batch.empty())
+        put_batch_with_processing(abs_batch, out_file, algo);
+    rel_batch.push_back(in_file.getRelativeCommandVar());
+}
+
+void handle_absolute_command(RelativeBatch & rel_batch, AbsoluteBatch & abs_batch, EPSInFileStream & in_file, EPSOutFileStream & out_file, const Algorithm & algo) {
+
+        if (!rel_batch.empty())
+            put_batch_with_processing(rel_batch, out_file, algo);
+        abs_batch.push_back(in_file.getAbsoluteCommandVar());
+
+}
+void handle_nonprocessable_command(RelativeBatch & rel_batch, AbsoluteBatch & abs_batch, EPSInFileStream & in_file, EPSOutFileStream & out_file, const Algorithm & algo)  {
+    if (!rel_batch.empty())
+        put_batch_with_processing(rel_batch, out_file, algo);
+    if (!abs_batch.empty())
+        put_batch_with_processing(abs_batch, out_file, algo);
+    out_file.putCommand(in_file.getNonProcessableCommand());
 }

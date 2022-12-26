@@ -98,4 +98,6 @@ void Algorithm::sortBatch(T & batch) const {
         }
     }
 }
+
+
 #endif // ZPR_ALGORITHM_HPP
