@@ -48,16 +48,12 @@ class EPSInFileStream {
   std::string readHeader();
   static CoordinateValue readPoint(const std::string &commandLine);
   static std::string stripCommandSignature(const std::string &commandLine);
-//  static VariantCommand
-//  makeVariantCommand(const std::string &command_line,
-//                     const std::string &command_signature);
   std::string getCommandLine();
 public:
   explicit EPSInFileStream(std::istream &f) : file_(f) {}
   EPSInFileStream(const EPSInFileStream &) = delete;
   EPSInFileStream &operator=(const EPSInFileStream &) = delete;
   Header getHeader();
-//  VariantCommand getCommand();
   bool isFinished() const { return file_.peek() == EOF; }
   bool isNextRelative();
   bool isNextAbsolute();
