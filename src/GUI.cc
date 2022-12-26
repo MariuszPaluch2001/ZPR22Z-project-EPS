@@ -1,4 +1,6 @@
 #include "GUI.h"
+#include "GUIUtils.hpp"
+#include "EPSFileTools.h"
 
 bool App::OnInit() {
   auto *frame = new Frame("EPS compression", wxPoint(50, 50), wxSize(800, 700));
@@ -33,13 +35,11 @@ Frame::Frame(const wxString &title, const wxPoint &pos, const wxSize &size)
 wxBEGIN_EVENT_TABLE(Frame, wxFrame) EVT_MENU(wxID_EXIT, Frame::onExit)
     EVT_MENU(wxID_ABOUT, Frame::onAbout) wxEND_EVENT_TABLE()
 
-        void Frame::initMenuBar() {
+void Frame::initMenuBar() {
   menu_file = new wxMenu();
   menu_file->Append(wxID_EXIT);
-
   menu_help = new wxMenu();
   menu_help->Append(wxID_ABOUT);
-
   menu_bar = new wxMenuBar();
   menu_bar->Append(menu_file, "&File");
   menu_bar->Append(menu_help, "&Help");
@@ -94,10 +94,10 @@ void Frame::initSortingRange() {
 
 void Frame::initButtonsRow() {
   sizer_buttons = new wxBoxSizer(wxHORIZONTAL);
-  button_select_file =
-      new wxButton(this, wxID_ANY, "Wybierz plik", wxDefaultPosition);
+  button_select_file = new wxButton(this, wxID_ANY, "Wybierz plik", wxDefaultPosition);
   button_select_file->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Frame::chooseFile,
                            this);
+
   button_submit = new wxButton(this, wxID_ANY, "Potwierdz", wxDefaultPosition);
   button_submit->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &Frame::submit, this);
   sizer_buttons->Add(button_select_file, 0, wxEXPAND | wxRIGHT | wxUP | wxDOWN,
@@ -106,7 +106,7 @@ void Frame::initButtonsRow() {
 }
 
 void Frame::initImages() {
-  sizer_images = new wxBoxSizer(wxHORIZONTAL);
+  sizer_images = new wxBoxSizer(wxVERTICAL);
 
   sizer_input_image = new wxBoxSizer(wxVERTICAL);
   label_input_image = new wxStaticText(this, wxID_ANY, "Obrazek wejsciowy");
@@ -119,8 +119,6 @@ void Frame::initImages() {
 
   sizer_input_image->Add(label_input_image, 0, wxEXPAND | wxALL, 5);
   sizer_input_image->Add(input_image, 0, wxEXPAND | wxALL, 5);
-  sizer_input_image->Add(label_input_image_size, 0, wxEXPAND | wxALL, 5);
-  sizer_input_image->Add(label_input_image_resolution, 0, wxEXPAND | wxALL, 5);
 
   sizer_output_image = new wxBoxSizer(wxVERTICAL);
   label_output_image = new wxStaticText(this, wxID_ANY, "Obrazek wyjsciowy");
@@ -133,9 +131,6 @@ void Frame::initImages() {
 
   sizer_output_image->Add(label_output_image, 0, wxEXPAND | wxALL, 5);
   sizer_output_image->Add(output_image, 0, wxEXPAND | wxALL, 5);
-  sizer_output_image->Add(label_output_image_size, 0, wxEXPAND | wxALL, 5);
-  sizer_output_image->Add(label_output_image_resolution, 0, wxEXPAND | wxALL,
-                          5);
 
   sizer_images->Add(sizer_input_image, 0, wxEXPAND | wxRIGHT | wxUP | wxDOWN,
                     5);
@@ -148,16 +143,26 @@ void Frame::initButtonGetOutput() {
 }
 
 void Frame::initSizer() {
-  sizer = new wxBoxSizer(wxVERTICAL);
-  sizer->Add(row_sizer1, 0, wxALL, 10);
-  sizer->Add(row_sizer2, 0, wxALL, 10);
-  sizer->Add(row_sizer3, 0, wxALL, 10);
-  sizer->Add(sizer_buttons, 0, wxALL, 10);
-  sizer->Add(sizer_images, 0, wxALL, 10);
-  sizer->Add(button_get_output, 0, wxALL, 10);
+  sizer = new wxBoxSizer(wxHORIZONTAL);
+  sizer_left = new wxBoxSizer(wxVERTICAL);
+  sizer_right =  new wxBoxSizer(wxVERTICAL);
+  sizer_left->Add(row_sizer1, 0, wxALL, 10);
+  sizer_left->Add(row_sizer2, 0, wxALL, 10);
+  sizer_left->Add(row_sizer3, 0, wxALL, 10);
+  sizer_left->Add(sizer_buttons, 0, wxALL, 10);
+  sizer_right->Add(sizer_images, 0, wxALL, 10);
+  sizer_left->Add(button_get_output, 0, wxALL, 10);
+  sizer_left->Add(label_input_image_size, 0, wxALL, 10);
+  sizer_left->Add(label_input_image_resolution, 0, wxALL, 10);
+  sizer_left->Add(label_output_image_size, 0, wxALL, 10);
+  sizer_left->Add(label_output_image_resolution, 0, wxALL, 10);
+  sizer->Add(sizer_left, 0, wxALL, 10);
+  sizer->Add(sizer_right, 0, wxALL, 10);
 }
 
-void Frame::onExit(wxCommandEvent &event) { Close(true); }
+void Frame::onExit(wxCommandEvent &event) {
+    Close(true);
+}
 
 void Frame::onAbout(wxCommandEvent &event) {
   wxMessageBox("It's our EPS file compression app.", "About app",
@@ -165,7 +170,29 @@ void Frame::onAbout(wxCommandEvent &event) {
 }
 
 void Frame::chooseFile(wxCommandEvent &event) {
-  std::cout << "Choose file ..." << std::endl;
+    wxBitmap newBitmap;
+    auto openFileDialog = new wxFileDialog(this, "Otwórz plik", "", "",
+                                                    "Pliki eps (*.eps)|*.eps", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+
+    if (openFileDialog->ShowModal() == wxID_CANCEL)
+        return;
+
+    wxString path = openFileDialog->GetPath();
+    convertEPSFileToPNG(path.ToStdString());
+    newBitmap.LoadFile("tmp/output.png", wxBITMAP_TYPE_PNG);
+
+    input_image->SetBitmap(newBitmap);
+    std::stringstream s;
+    s << "Rozmiar przed: " << getFileSize(path.ToStdString()) << "kB";
+    label_input_image_size->SetLabel(wxString(s.str()));
+    s.str(std::string());
+    std::ifstream f(path.ToStdString());
+    EPSInFileStream EPSFs(f);
+    Header h = EPSFs.getHeader();
+    Resolution res = h.getResolution();
+    s << "Rozdzielczosc przed: " << res.getX() << 'x' << res.getY();
+    label_input_image_resolution->SetLabel(wxString(s.str()));
+    f.close();
 }
 
 void Frame::submit(wxCommandEvent &event) {

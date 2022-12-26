@@ -14,6 +14,16 @@ add_executable(${PROJECT_NAME}
   Main.cc
   src/GUI.h
   src/GUI.cc
+  src/EPSFileTools.h
+  src/EPSFileTools.cc
+  src/GraphicCommands.h
+  src/GraphicCommands.cc
+  src/DifferenceVisitor.h
+  src/DifferenceVisitor.cc
+  src/Scalar2DRepresentation.h
+  src/Scalar2DRepresentation.cc
+  src/MidpointVisitor.h
+  src/MidpointVisitor.cc
 )
 
 target_link_libraries(${PROJECT_NAME}
@@ -27,7 +37,8 @@ enable_testing()
 include_directories(src)
 add_subdirectory(src)
 add_subdirectory(tests)
-
+include_directories(tmp)
+add_subdirectory(tmp)
 
 target_link_libraries(${PROJECT_NAME})
 

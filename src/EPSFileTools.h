@@ -75,4 +75,4 @@ public:
   void putCommand(Command &c);
 };
 
-#endif // ZPR_EPSFILETOOLS_H
+#endif
