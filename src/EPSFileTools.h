@@ -20,14 +20,11 @@
 using RelativeCommandVar= std::variant<LeftOrientedLineCommand, RightOrientedLineCommand>;
 using AbsoluteCommandVar = std::variant<PointCommand, MoveCommand>;
 
-//using VariantCommand =
-//    std::variant<NonProcessableCommand, RelativeCommandVar, AbsoluteCommandVar>;
-
 class Header {
   Resolution resolution_;
   std::string header_;
   static Resolution findResolution(const std::string &header);
-  std::string setResolutionInHeader();
+  std::string setResolutionInHeader() const;
 public:
   explicit Header(const std::string &header) : resolution_(findResolution(header)), header_(header) {}
   void setResolution(const Resolution &resolution);
@@ -48,19 +45,19 @@ class EPSInFileStream {
   std::string readHeader();
   static CoordinateValue readPoint(const std::string &commandLine);
   static std::string stripCommandSignature(const std::string &commandLine);
-  std::string getCommandLine();
+  std::string getCommandLine() const;
 public:
   explicit EPSInFileStream(std::istream &f) : file_(f) {}
   EPSInFileStream(const EPSInFileStream &) = delete;
   EPSInFileStream &operator=(const EPSInFileStream &) = delete;
   Header getHeader();
   bool isFinished() const { return file_.peek() == EOF; }
-  bool isNextRelative();
-  bool isNextAbsolute();
-  bool isNextUnprocessable();
-  RelativeCommandVar getRelativeCommandVar();
-  AbsoluteCommandVar getAbsoluteCommandVar();
-  NonProcessableCommand getNonProcessableCommand();
+  bool isNextRelative() const;
+  bool isNextAbsolute() const;
+  bool isNextUnprocessable() const;
+  RelativeCommandVar getRelativeCommandVar() const;
+  AbsoluteCommandVar getAbsoluteCommandVar() const;
+  NonProcessableCommand getNonProcessableCommand() const;
 };
 
 /*
@@ -78,16 +75,16 @@ public:
   EPSOutFileStream(const EPSOutFileStream &) = delete;
   EPSOutFileStream &operator=(const EPSOutFileStream &) = delete;
   void putHeader(Header &header);
-  void putCommand(const Command &c);
-  void putCommand(const std::string &c);
-  template <typename BATCH_TYPE> void putBatch(const BATCH_TYPE &batch);
+  void putCommand(const Command &c) const;
+  void putCommand(const std::string &c) const;
+  template <typename BATCH_TYPE> void putBatch(const BATCH_TYPE &batch) const;
 };
 
 static auto stringVisit = [](const auto &command) {
     return command.toString();
 };
 
-template <typename BATCH_TYPE> void EPSOutFileStream::putBatch(const BATCH_TYPE &batch) {
+template <typename BATCH_TYPE> void EPSOutFileStream::putBatch(const BATCH_TYPE &batch) const{
     for (auto command : batch)
         putCommand(std::visit(stringVisit, command));
 }
