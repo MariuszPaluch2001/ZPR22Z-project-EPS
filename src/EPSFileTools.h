@@ -4,7 +4,7 @@
 /*
     File EPSFileTools.h contains class definitions representing the File Header,
     and classes representing input and output files. They are used to read text
-   from input, pass data to algorithm and send data to output file.
+    from input, pass data to algorithm and send data to output file.
 */
 #ifndef ZPR_EPSFILETOOLS_H
 #define ZPR_EPSFILETOOLS_H
@@ -20,8 +20,8 @@
 using RelativeCommandVar= std::variant<LeftOrientedLineCommand, RightOrientedLineCommand>;
 using AbsoluteCommandVar = std::variant<PointCommand, MoveCommand>;
 
-using VariantCommand =
-    std::variant<NonProcessableCommand, RelativeCommandVar, AbsoluteCommandVar>;
+//using VariantCommand =
+//    std::variant<NonProcessableCommand, RelativeCommandVar, AbsoluteCommandVar>;
 
 class Header {
   Resolution resolution_;
@@ -38,8 +38,8 @@ public:
 /*
     This class represent input file. As arguments in constructor class require
     reference to input stream. Before reading commands, class's object should
-   read header by call method 'getHeader', otherwise method getCommand throw
-   runtime exception. Class don't close the input stream.
+    read header by call method 'getHeader', otherwise method getCommand throw
+    runtime exception. Class don't close the input stream.
 */
 class EPSInFileStream {
   std::istream &file_;
@@ -48,16 +48,16 @@ class EPSInFileStream {
   std::string readHeader();
   static CoordinateValue readPoint(const std::string &commandLine);
   static std::string stripCommandSignature(const std::string &commandLine);
-  static VariantCommand
-  makeVariantCommand(const std::string &command_line,
-                     const std::string &command_signature);
+//  static VariantCommand
+//  makeVariantCommand(const std::string &command_line,
+//                     const std::string &command_signature);
   std::string getCommandLine();
 public:
   explicit EPSInFileStream(std::istream &f) : file_(f) {}
   EPSInFileStream(const EPSInFileStream &) = delete;
   EPSInFileStream &operator=(const EPSInFileStream &) = delete;
   Header getHeader();
-  VariantCommand getCommand();
+//  VariantCommand getCommand();
   bool isFinished() const { return file_.peek() == EOF; }
   bool isNextRelative();
   bool isNextAbsolute();
@@ -70,8 +70,8 @@ public:
 /*
     This class represent output file. As arguments in constructor class require
     reference to output stream. Before writing commands, class's object should
-   write header by call method 'putHeader', otherwise method putCommand throw
-   runtime exception. Class don't close the output stream.
+    write header by call method 'putHeader', otherwise method putCommand throw
+    runtime exception. Class don't close the output stream.
 */
 class EPSOutFileStream {
   std::ostream &file_;
@@ -83,7 +83,7 @@ public:
   EPSOutFileStream &operator=(const EPSOutFileStream &) = delete;
   void putHeader(Header &header);
   void putCommand(const Command &c);
-  void putCommand(std::string &&c);
+  void putCommand(const std::string &c);
   template <typename BATCH_TYPE> void putBatch(const BATCH_TYPE &batch);
 };
 

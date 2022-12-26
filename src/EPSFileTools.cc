@@ -99,39 +99,39 @@ EPSInFileStream::stripCommandSignature(const std::string &command_line) {
   return command_signature;
 }
 
-VariantCommand
-EPSInFileStream::makeVariantCommand(const std::string &command_line,
-                                    const std::string &command_signature) {
-  if (command_signature == "l") {
-    return {RightOrientedLineCommand(readPoint(command_line))};
-  } else if (command_signature == "lineto") {
-    return {LeftOrientedLineCommand(readPoint(command_line))};
-  } else if (command_signature == "p2") {
-      return {PointCommand(readPoint(command_line))};
-  }
-  else if (command_signature == "m") {
-        return {MoveCommand(readPoint(command_line))};
-  }
-  else {
-    return {NonProcessableCommand(command_line)};
-  }
-}
+//VariantCommand
+//EPSInFileStream::makeVariantCommand(const std::string &command_line,
+//                                    const std::string &command_signature) {
+//  if (command_signature == "l") {
+//    return {RightOrientedLineCommand(readPoint(command_line))};
+//  } else if (command_signature == "lineto") {
+//    return {LeftOrientedLineCommand(readPoint(command_line))};
+//  } else if (command_signature == "p2") {
+//      return {PointCommand(readPoint(command_line))};
+//  }
+//  else if (command_signature == "m") {
+//        return {MoveCommand(readPoint(command_line))};
+//  }
+//  else {
+//    return {NonProcessableCommand(command_line)};
+//  }
+//}
 
-VariantCommand
-EPSInFileStream::getCommand() {
-  std::string text;
-  std::string command_signature;
-  if (!was_header_read) {
-      throw std::runtime_error("Header hasn't been read yet.");
-  }
-  if (!isFinished()) {
-      std::getline(file_, text);
-      command_signature = stripCommandSignature(text);
-      return makeVariantCommand(text, command_signature);
-  } else {
-      throw std::runtime_error("File is finished.");
-  }
-}
+//VariantCommand
+//EPSInFileStream::getCommand() {
+//  std::string text;
+//  std::string command_signature;
+//  if (!was_header_read) {
+//      throw std::runtime_error("Header hasn't been read yet.");
+//  }
+//  if (!isFinished()) {
+//      std::getline(file_, text);
+//      command_signature = stripCommandSignature(text);
+//      return makeVariantCommand(text, command_signature);
+//  } else {
+//      throw std::runtime_error("File is finished.");
+//  }
+//}
 
 std::string
 EPSInFileStream::getCommandLine() {
@@ -205,7 +205,7 @@ void EPSOutFileStream::putCommand(const Command &command) {
   file_ << command.toString() << '\n';
 }
 
-void EPSOutFileStream::putCommand(std::string && command) {
+void EPSOutFileStream::putCommand(const std::string &command) {
     if (!was_header_write)
         throw std::runtime_error("Header hasn't been written.");
     file_ << command << '\n';

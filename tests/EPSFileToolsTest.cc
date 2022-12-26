@@ -294,7 +294,7 @@ TEST(EPSFileToolsTest, TestGetNonProcessableCommand){
     ASSERT_EQ(c.toString(), "/m   { moveto } bind def");
 }
 
-TEST(EPSFileToolsTest, TestCommandRead) {
+TEST(EPSFileToolsTest, TestGetCommandsFunctions) {
   std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
                      "%%DocumentNeededResources: font Courier\n"
                      "%%+ font Courier-Bold\n"
@@ -315,49 +315,73 @@ TEST(EPSFileToolsTest, TestCommandRead) {
                      "234.12 374.92 1.00 1.00 r p2\n";
 
   std::istringstream iss(data);
-  Command *c;
   EPSInFileStream EPSFs(iss);
   EPSFs.getHeader();
-  VariantCommand v = EPSFs.getCommand();
-  ASSERT_TRUE(c = std::get_if<NonProcessableCommand>(&v));
-  ASSERT_EQ(c->toString(), "/m   { moveto } bind def");
-  v = EPSFs.getCommand();
-  ASSERT_TRUE(c = std::get_if<NonProcessableCommand>(&v));
-  ASSERT_EQ(c->toString(), "/l  { rlineto } bind def");
-  v = EPSFs.getCommand();
-  ASSERT_TRUE(c = std::get_if<NonProcessableCommand>(&v));
-  ASSERT_EQ(c->toString(), "");
-  v = EPSFs.getCommand();
-  ASSERT_TRUE(c = std::get_if<NonProcessableCommand>(&v));
-  ASSERT_EQ(c->toString(), "newpath");
-  v = EPSFs.getCommand();
-  ASSERT_TRUE(c = std::get_if<RightOrientedLineCommand>(
-                  std::get_if<RelativeCommandVar>(&v)));
-  ASSERT_EQ(c->toString(), "10.03 2.46 l");
-  v = EPSFs.getCommand();
-  ASSERT_TRUE(c = std::get_if<LeftOrientedLineCommand>(
-                  std::get_if<RelativeCommandVar>(&v)));
-  ASSERT_EQ(c->toString(), "164.72 100.9 lineto");
-  v = EPSFs.getCommand();
+  NonProcessableCommand npc = EPSFs.getNonProcessableCommand();
+  ASSERT_EQ(npc.toString(), "/m   { moveto } bind def");
+  npc = EPSFs.getNonProcessableCommand();
+  ASSERT_EQ(npc.toString(), "/l  { rlineto } bind def");
+  npc = EPSFs.getNonProcessableCommand();
+  ASSERT_EQ(npc.toString(), "");
+  npc = EPSFs.getNonProcessableCommand();
+  ASSERT_EQ(npc.toString(), "newpath");
+  RelativeCommandVar rcv = EPSFs.getRelativeCommandVar();
+  RightOrientedLineCommand* rolc = std::get_if<RightOrientedLineCommand>(&rcv);
+  ASSERT_TRUE(rolc);
+  ASSERT_EQ(rolc->toString(), "10.03 2.46 l");
+  rcv = EPSFs.getRelativeCommandVar();
+  LeftOrientedLineCommand* lolc = std::get_if<LeftOrientedLineCommand>(&rcv);
+  ASSERT_TRUE(lolc);
+  ASSERT_EQ(lolc->toString(), "164.72 100.9 lineto");
+  AbsoluteCommandVar acv = EPSFs.getAbsoluteCommandVar();
+  PointCommand* pc = std::get_if<PointCommand>(&acv);
+  ASSERT_TRUE(pc);
+  ASSERT_EQ(pc->toString(), "234.12 374.92 1 1 r p2");
 }
 
-TEST(EPSFileToolsTest, TestCommandReadWhenFileIsEnd) {
+TEST(EPSFileToolsTest, TestGetRelativeCommandVarWhenFileIsEnd) {
+    std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                       "%%BoundingBox: 0 0 302 302\n"
+                       "%%EndComments\n"
+                       "5.52 1.50 l\n"
+                       "164.72 100.90 lineto\n";
+
+    std::istringstream iss(data);
+    EPSInFileStream EPSFs(iss);
+    EPSFs.getHeader();
+    for (int i = 1; i < 3; i++)
+        EPSFs.getRelativeCommandVar();
+    ASSERT_ANY_THROW(EPSFs.getRelativeCommandVar());
+}
+
+TEST(EPSFileToolsTest, TestGetAbsoluteCommandVarWhenFileIsEnd) {
+    std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
+                       "%%BoundingBox: 0 0 302 302\n"
+                       "%%EndComments\n"
+                       "234.12 374.92 1.00 1.00 r p2\n"
+                       "67.47 72.08 m\n";
+
+    std::istringstream iss(data);
+    EPSInFileStream EPSFs(iss);
+    EPSFs.getHeader();
+    for (int i = 1; i < 3; i++)
+        EPSFs.getAbsoluteCommandVar();
+    ASSERT_ANY_THROW(EPSFs.getAbsoluteCommandVar());
+}
+
+TEST(EPSFileToolsTest, TestGetNonProcessableCommandWhenFileIsEnd) {
   std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
                      "%%BoundingBox: 0 0 302 302\n"
                      "%%EndComments\n"
                      "/m   { moveto } bind def\n"
-                     "/l  { rlineto } bind def\n"
-                     "\n"
-                     "newpath\n"
-                     "10.03 2.46 l\n"
-                     "164.72 100.9 lineto\n"
-                     "234.12 374.92 1.00 1.00 r p2\n";
+                     "/l  { rlineto } bind def\n";
+
   std::istringstream iss(data);
   EPSInFileStream EPSFs(iss);
   EPSFs.getHeader();
-  for (int i = 1; i < 8; i++)
-    EPSFs.getCommand();
-  ASSERT_ANY_THROW(EPSFs.getCommand());
+  for (int i = 1; i < 3; i++)
+    EPSFs.getNonProcessableCommand();
+  ASSERT_ANY_THROW(EPSFs.getNonProcessableCommand());
 }
 
 TEST(EPSFileToolsTest, ThrowExceptionCommandReadWithoutHeaderRead) {
@@ -369,11 +393,11 @@ TEST(EPSFileToolsTest, ThrowExceptionCommandReadWithoutHeaderRead) {
                      "%%BoundingBox: 0 0 302 302\n"
                      "%%EndComments\n"
                      "67.47 72.08 m\n"
-                     "2.36 0.66 l";
+                     "2.36 0.66 l\n";
 
   std::istringstream iss(data);
   EPSInFileStream EPSFs(iss);
-  ASSERT_ANY_THROW(EPSFs.getCommand());
+  ASSERT_ANY_THROW(EPSFs.getAbsoluteCommandVar());
 }
 
 TEST(EPSFileToolsTest, EPSOutFileExceptionHeaderDoubleWrite) {
