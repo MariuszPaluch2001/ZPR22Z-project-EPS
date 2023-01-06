@@ -46,7 +46,7 @@ void Frame::initMenuBar() {
 void Frame::initComboBoxScale() {
 
   for (int i = 1; i <= 5; i++) {
-    combo_box_scale->Append(wxString::Format("%dx", i));
+    combo_box_scale->Append(wxString::Format("%d", i));
   }
 
   combo_box_scale->SetSelection(0);
@@ -133,44 +133,52 @@ void Frame::chooseFile(wxCommandEvent &event) {
 
     path_to_input = openFileDialog->GetPath().ToStdString();
     convertEPSFileToPNG(path_to_input);
-    newBitmap.LoadFile("tmp/output.png", wxBITMAP_TYPE_PNG);
-
+    newBitmap.LoadFile(path_to_image_buff, wxBITMAP_TYPE_PNG);
     input_image->SetBitmap(newBitmap);
-    std::stringstream s;
-    s << "Rozmiar przed: " << getFileSize(path_to_input) << "kB";
-    label_input_image_size->SetLabel(wxString(s.str()));
-    s.str(std::string());
-    std::ifstream f(path_to_input);
-    EPSInFileStream EPSFs(f);
-    Header h = EPSFs.getHeader();
-    Resolution res = h.getResolution();
-    s << "Rozdzielczosc przed: " << res.getX() << 'x' << res.getY();
-    label_input_image_resolution->SetLabel(wxString(s.str()));
-    f.close();
+
+    newBitmap.LoadFile(path_to_no_available, wxBITMAP_TYPE_PNG);
+    output_image->SetBitmap(newBitmap);
+    label_output_image_size->SetLabel("Rozmiar po: ");
+    label_output_image_resolution->SetLabel("Rozdzielczosc po: ");
+
+    label_input_image_size->SetLabel(updateSizeLabel("Rozmiar przed: ", path_to_input));
+    label_input_image_resolution->SetLabel(updateResolutionLabel("Rozdzielczosc przed: ", path_to_input));
 }
 
 void Frame::submit(wxCommandEvent &event) {
     if(!path_to_input.empty()){
-        mainFunction(path_to_input, "tmp/output.eps");
+        mainFunction(path_to_input,
+                     path_to_out_file_eps,
+                     1 / stod(combo_box_scale->GetValue().ToStdString()),
+                     stod(min_dist_ctrl->GetValue().ToStdString()),
+                     stoi(combo_box_sorting_range->GetValue().ToStdString()));
     } else { return; }
     wxBitmap newBitmap;
-    convertEPSFileToPNG("tmp/output.eps");
-    newBitmap.LoadFile("tmp/output.png", wxBITMAP_TYPE_PNG);
-
+    convertEPSFileToPNG(path_to_out_file_eps);
+    newBitmap.LoadFile(path_to_image_buff, wxBITMAP_TYPE_PNG);
     output_image->SetBitmap(newBitmap);
-    std::stringstream s;
-    s << "Rozmiar po: " << getFileSize("tmp/output.eps") << "kB";
-    label_output_image_size->SetLabel(wxString(s.str()));
-    s.str(std::string());
-    std::ifstream f("tmp/output.eps");
-    EPSInFileStream EPSFs(f);
-    Header h = EPSFs.getHeader();
-    Resolution res = h.getResolution();
-    s << "Rozdzielczosc po: " << res.getX() << 'x' << res.getY();
-    label_output_image_resolution->SetLabel(wxString(s.str()));
-    f.close();
+
+    label_output_image_size->SetLabel(updateSizeLabel("Rozmiar po: ", path_to_out_file_eps));
+    label_output_image_resolution->SetLabel(updateResolutionLabel("Rozdzielczosc po: ", path_to_out_file_eps));
 }
 
 void Frame::save(wxCommandEvent &event) {
     std::cout << "Save ..." << std::endl;
+}
+
+wxString Frame::updateSizeLabel(const std::string& left_part_label, const std::string& path_to_file){
+    std::stringstream s;
+    s << left_part_label << getFileSize(path_to_file) << "kB";
+    return { s.str() };
+}
+
+wxString Frame::updateResolutionLabel(const std::string& left_part_label, const std::string& path_to_file){
+    std::stringstream s;
+    std::ifstream f(path_to_file);
+    EPSInFileStream EPSFs(f);
+    Header h = EPSFs.getHeader();
+    Resolution res = h.getResolution();
+    s << left_part_label << res.getX() << 'x' << res.getY();
+    f.close();
+    return { s.str() };
 }

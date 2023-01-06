@@ -59,11 +59,14 @@ private:
   PwxTextCtrl min_dist_ctrl{new wxTextCtrl(this, wxID_ANY, "0.0", wxDefaultPosition,
                                            wxSize(150, 30), wxTE_PROCESS_ENTER)};
   PwxStaticBitmap input_image{new wxStaticBitmap(this, wxID_ANY,
-          wxBitmap("assets/no_eps_available.png", wxBITMAP_TYPE_PNG))};
+          wxBitmap(path_to_no_available, wxBITMAP_TYPE_PNG))};
   PwxStaticBitmap output_image{new wxStaticBitmap(this, wxID_ANY,
-          wxBitmap("assets/no_eps_available.png", wxBITMAP_TYPE_PNG))};
+          wxBitmap(path_to_no_available, wxBITMAP_TYPE_PNG))};
 
-  std::string path_to_input = "";
+  std::string path_to_input;
+  inline static const std::string path_to_no_available ="assets/no_eps_available.png";
+  inline static const std::string path_to_out_file_eps ="tmp/.eps_output.eps";
+  inline static const std::string path_to_image_buff ="tmp/.output_image.png";
   void initMenuBar();
   void initComboBoxScale();
   void initInputMinDist();
@@ -77,7 +80,11 @@ private:
   void chooseFile(wxCommandEvent &event);
   void submit(wxCommandEvent &event);
   void save(wxCommandEvent &event);
-  wxDECLARE_EVENT_TABLE();
+
+  static wxString updateSizeLabel(const std::string& left_part_label, const std::string& path_to_file);
+  static wxString updateResolutionLabel(const std::string& left_part_label, const std::string& path_to_file);
+
+wxDECLARE_EVENT_TABLE();
 };
 
 #endif

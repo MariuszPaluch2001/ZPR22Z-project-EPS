@@ -12,11 +12,14 @@ void handle_relative_command(RelativeBatch &, AbsoluteBatch &, EPSInFileStream &
 void handle_absolute_command(RelativeBatch &, AbsoluteBatch &, EPSInFileStream &, EPSOutFileStream &, const Algorithm &);
 void handle_nonprocessable_command(RelativeBatch &, AbsoluteBatch &, EPSInFileStream &, EPSOutFileStream &, const Algorithm &);
 
-void mainFunction(const std::string& file_in_name, const std::string& file_out_name){
+void mainFunction(const std::string& file_in_name,
+                  const std::string& file_out_name,
+                  double scale = 0.5,
+                  double min_difference = 1.0,
+                  unsigned sorting_range = 10){
 
     const int MAX_NUMBER_COMMANDS = 10000;
 
-    double scale = 0.5;
     std::ifstream file_in(file_in_name);
     std::ofstream file_out(file_out_name);
     EPSInFileStream eps_in_file(file_in);
@@ -28,7 +31,7 @@ void mainFunction(const std::string& file_in_name, const std::string& file_out_n
 
     Header header = eps_in_file.getHeader();
     header.setResolution(header.getResolution() * scale);
-    Algorithm algorithm(1, scale);
+    Algorithm algorithm(min_difference, scale, sorting_range);
     eps_out_file.putHeader(header);
 
     while(!eps_in_file.isFinished()){
