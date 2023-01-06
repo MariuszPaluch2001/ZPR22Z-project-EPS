@@ -25,7 +25,7 @@ using PwxStaticBitmap = std::unique_ptr<wxStaticBitmap>;
 class Frame : public wxFrame {
 public:
   Frame(const wxString &title, const wxPoint &pos, const wxSize &size);
-
+  void onExit(wxCloseEvent &e);
 private:
   PwxMenu menu_file{new wxMenu};
   PwxMenu menu_help{new wxMenu};
@@ -67,6 +67,7 @@ private:
   inline static const std::string path_to_no_available ="assets/no_eps_available.png";
   inline static const std::string path_to_out_file_eps ="tmp/.eps_output.eps";
   inline static const std::string path_to_image_buff ="tmp/.output_image.png";
+  void setFontForLabels();
   void initMenuBar();
   void initComboBoxScale();
   void initInputMinDist();
@@ -75,7 +76,7 @@ private:
   void initImages();
   void initButtonGetOutput();
   void initSizer();
-  void onExit(wxCommandEvent &event);
+  void onExitMenu(wxCommandEvent &event);
   void onAbout(wxCommandEvent &event);
   void chooseFile(wxCommandEvent &event);
   void submit(wxCommandEvent &event);
@@ -83,7 +84,6 @@ private:
 
   static wxString updateSizeLabel(const std::string& left_part_label, const std::string& path_to_file);
   static wxString updateResolutionLabel(const std::string& left_part_label, const std::string& path_to_file);
-
 wxDECLARE_EVENT_TABLE();
 };
 

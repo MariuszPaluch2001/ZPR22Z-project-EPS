@@ -1,7 +1,13 @@
+#include <filesystem>
+
 #include "GUI.h"
 #include "GUIUtils.hpp"
 #include "EPSFileTools.h"
 #include "utils.hpp"
+#include <wx/file.h>
+#include <wx/filename.h>
+#include <wx/stdpaths.h>
+#include <wx/textdlg.h>
 
 bool App::OnInit() {
   auto *frame = new Frame("EPS compression", wxPoint(50, 50), wxSize(800, 700));
@@ -31,10 +37,32 @@ Frame::Frame(const wxString &title, const wxPoint &pos, const wxSize &size)
   initSizer();
 
   SetSizer(sizer.get());
+
+  setFontForLabels();
+
+  Bind(wxEVT_CLOSE_WINDOW, &Frame::onExit, this);
 }
 
-wxBEGIN_EVENT_TABLE(Frame, wxFrame) EVT_MENU(wxID_EXIT, Frame::onExit)
-    EVT_MENU(wxID_ABOUT, Frame::onAbout) wxEND_EVENT_TABLE()
+wxBEGIN_EVENT_TABLE(Frame, wxFrame)
+    EVT_MENU(wxID_EXIT, Frame::onExitMenu)
+    EVT_MENU(wxID_ABOUT, Frame::onAbout)
+wxEND_EVENT_TABLE()
+
+void Frame::setFontForLabels() {
+    wxFont font;
+    font = label_output_image_size->GetFont();
+    font.SetWeight(wxFONTWEIGHT_BOLD);
+    label_output_image_size->SetFont(font);
+    font = label_output_image_resolution->GetFont();
+    font.SetWeight(wxFONTWEIGHT_BOLD);
+    label_output_image_resolution->SetFont(font);
+    font = label_input_image_size->GetFont();
+    font.SetWeight(wxFONTWEIGHT_BOLD);
+    label_input_image_size->SetFont(font);
+    font = label_input_image_resolution->GetFont();
+    font.SetWeight(wxFONTWEIGHT_BOLD);
+    label_input_image_resolution->SetFont(font);
+}
 
 void Frame::initMenuBar() {
   menu_file->Append(wxID_EXIT);
@@ -114,8 +142,16 @@ void Frame::initSizer() {
   sizer->Add(sizer_right.get(), 0, wxALL, 10);
 }
 
-void Frame::onExit(wxCommandEvent &event) {
-    Close(true);
+void Frame::onExit(wxCloseEvent &e) {
+    std::filesystem::remove(path_to_out_file_eps);
+    std::filesystem::remove(path_to_image_buff);
+    Destroy();
+}
+
+void Frame::onExitMenu(wxCommandEvent &event) {
+    std::filesystem::remove(path_to_out_file_eps);
+    std::filesystem::remove(path_to_image_buff);
+    Destroy();
 }
 
 void Frame::onAbout(wxCommandEvent &event) {
@@ -163,7 +199,28 @@ void Frame::submit(wxCommandEvent &event) {
 }
 
 void Frame::save(wxCommandEvent &event) {
-    std::cout << "Save ..." << std::endl;
+    wxFileName source_file(path_to_out_file_eps);
+    if (!source_file.FileExists())
+    {
+        wxMessageBox("Brak skompresowanego pliku.", "Error", wxOK | wxICON_ERROR);
+        return;
+    }
+    wxFileDialog fileDialog(this, "Wybierz lokalizację docelową", "", "",
+                            "Pliki eps (*.eps)|*.eps", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+
+    if (fileDialog.ShowModal() == wxID_CANCEL)
+        return;
+
+    wxFileName target_file(fileDialog.GetPath().ToStdString());
+
+    if (wxCopyFile(source_file.GetFullPath(), target_file.GetFullPath()))
+    {
+        wxMessageBox("Plik został zapisany.", "Success", wxOK | wxICON_INFORMATION);
+    } else
+    {
+        wxMessageBox("Nie udało się zapisać plików.", "Error", wxOK | wxICON_ERROR);
+    }
+
 }
 
 wxString Frame::updateSizeLabel(const std::string& left_part_label, const std::string& path_to_file){
