@@ -11,7 +11,7 @@ include_directories(${wxWidgets_INCLUDE_DIRS})
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(${PROJECT_NAME}
-  Main.cc
+        GUIMain.cc
   src/GUI.h
   src/GUI.cc
   src/EPSFileTools.h
