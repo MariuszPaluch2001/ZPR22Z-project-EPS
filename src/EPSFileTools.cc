@@ -5,7 +5,7 @@
 
 #include "EPSFileTools.h"
 
-Resolution Header::findResolution(const std::string &header) {
+Resolution Header::findResolution(const std::string &header){
   unsigned int x_res = 0;
   unsigned int y_res = 0;
   std::string line;
@@ -25,10 +25,32 @@ Resolution Header::findResolution(const std::string &header) {
     throw std::runtime_error("Resolution not found.");
   return {x_res, y_res};
 }
+std::string Header::setResolutionInHeader() const{
+    std::string new_header;
+    std::string line;
+    std::stringstream ss(header_);
+    while (std::getline(ss, line)) {
+        if (line.rfind("%%BoundingBox", 0) == 0) {
+            std::stringstream s;
+            s << "%%BoundingBox: 0 0 " << resolution_.getX() << " " << resolution_.getY();
+            new_header += s.str() + '\n';
+        }
+        else if (line.rfind("%%DocumentMedia", 0) == 0){
+            std::stringstream s;
+            s << "%%DocumentMedia: special "<<resolution_.getX() <<" "<< resolution_.getY() <<" 0 () ()";
+            new_header += s.str() + '\n';
+        }
+        else{
+            new_header += line + '\n';
+        }
+    }
+    return new_header;
+}
 
 void Header::setResolution(const Resolution &resolution) {
   resolution_.setX(resolution.getX());
   resolution_.setY(resolution.getY());
+  header_ = setResolutionInHeader();
 }
 
 std::string EPSInFileStream::readHeader() {
@@ -54,11 +76,11 @@ std::string EPSInFileStream::readHeader() {
   return header_buffer;
 }
 
-Header EPSInFileStream::getHeader() {
+Header EPSInFileStream::getHeader(){
   return Header(readHeader());
 }
 
-Coordinates EPSInFileStream::readPoint(const std::string &command_line) {
+CoordinateValue EPSInFileStream::readPoint(const std::string &command_line) {
   std::stringstream s(command_line);
   double x, y;
   s >> x >> y;
@@ -77,33 +99,62 @@ EPSInFileStream::stripCommandSignature(const std::string &command_line) {
   return command_signature;
 }
 
-VariantCommand
-EPSInFileStream::makeVariantCommand(const std::string &command_line,
-                                    const std::string &command_signature) {
-  if (command_signature == "l") {
-    return {RightOrientedLineCommand(readPoint(command_line))};
-  } else if (command_signature == "lineto") {
-    return {LeftOrientedLineCommand(readPoint(command_line))};
-  } else if (command_signature == "p2") {
-    return {PointCommand(readPoint(command_line))};
-  } else {
-    return {NonProcessableCommand(command_line)};
-  }
+std::string
+EPSInFileStream::getCommandLine() const {
+    std::string line;
+    if (!was_header_read) {
+        throw std::runtime_error("Header hasn't been read yet.");
+    }
+    if (!isFinished()) {
+        std::getline(file_, line);
+    } else {
+        throw std::runtime_error("File is finished.");
+    }
+    return line;
 }
 
-VariantCommand EPSInFileStream::getCommand() {
-  std::string text;
-  std::string command_signature;
-  if (!was_header_read) {
-      throw std::runtime_error("Header hasn't been read yet.");
-  }
-  if (!isFinished()) {
-      std::getline(file_, text);
-      command_signature = stripCommandSignature(text);
-      return makeVariantCommand(text, command_signature);
-  } else {
-      throw std::runtime_error("File is finished.");
-  }
+bool EPSInFileStream::isNextRelative() const{
+    std::string signature;
+    long len = file_.tellg();
+    signature = stripCommandSignature(getCommandLine());
+    file_.seekg(len ,std::ios_base::beg);
+    return signature == "l" or signature == "lineto";
+}
+
+bool EPSInFileStream::isNextAbsolute() const{
+    std::string signature;
+    long len = file_.tellg();
+    signature = stripCommandSignature(getCommandLine());
+    file_.seekg(len ,std::ios_base::beg);
+    return signature == "p2" or signature == "m";
+}
+bool EPSInFileStream::isNextUnprocessable() const{
+    return !isNextAbsolute() && !isNextRelative();
+}
+
+RelativeCommandVar EPSInFileStream::getRelativeCommandVar() const{
+    std::string command = getCommandLine();
+    std::string signature = stripCommandSignature(command);
+    if (signature == "l")
+        return {RightOrientedLineCommand(readPoint(command))};
+    else if (signature == "lineto")
+        return {LeftOrientedLineCommand(readPoint(command))};
+    else
+        throw std::runtime_error("Unknown command.");
+}
+AbsoluteCommandVar EPSInFileStream::getAbsoluteCommandVar() const{
+    std::string command = getCommandLine();
+    std::string signature = stripCommandSignature(command);
+    if (signature == "p2")
+        return {PointCommand(readPoint(command))};
+    else if (signature == "m")
+        return {MoveCommand(readPoint(command))};
+    else
+        throw std::runtime_error("Unknown command.");
+}
+NonProcessableCommand EPSInFileStream::getNonProcessableCommand() const{
+    std::string command = getCommandLine();
+    return { command };
 }
 
 void EPSOutFileStream::putHeader(Header &header) {
@@ -114,8 +165,15 @@ void EPSOutFileStream::putHeader(Header &header) {
   was_header_write = true;
 }
 
-void EPSOutFileStream::putCommand(Command &command) {
+void EPSOutFileStream::putCommand(const Command &command) const {
   if (!was_header_write)
     throw std::runtime_error("Header hasn't been written.");
   file_ << command.toString() << '\n';
 }
+
+void EPSOutFileStream::putCommand(const std::string &command) const{
+    if (!was_header_write)
+        throw std::runtime_error("Header hasn't been written.");
+    file_ << command << '\n';
+}
+

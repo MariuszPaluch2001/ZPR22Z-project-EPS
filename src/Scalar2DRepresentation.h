@@ -19,27 +19,25 @@ public:
   virtual std::string toString() const = 0;
 };
 
-class Direction : public Scalar2D<double> {
+class CoordinateValue : public Scalar2D<double> {
 public:
-  Direction(double x, double y) : Scalar2D(x, y) {}
+    CoordinateValue(double x, double y) : Scalar2D(x, y) {}
   virtual std::string toString() const override;
-  virtual Direction operator/(double div) const;
+    CoordinateValue operator+(const CoordinateValue &d) const;
+    CoordinateValue operator-(const CoordinateValue &d) const;
+    CoordinateValue operator/(double div) const;
+    CoordinateValue operator*(double scale) const;
 };
 
-class Coordinates : public Scalar2D<double> {
-public:
-  Coordinates(double x, double y) : Scalar2D(x, y) {}
-  virtual std::string toString() const override;
-  virtual Coordinates getMidpoint(const Coordinates &p) const;
-  virtual Direction operator-(const Coordinates &p) const;
-  virtual Direction operator+(const Coordinates &p) const;
-};
+using Direction = CoordinateValue;
+using Coordinates = CoordinateValue;
 
 class Resolution : public Scalar2D<unsigned int> {
 public:
-  //@todo remove = 0
-  Resolution(unsigned int x = 0, unsigned int y = 0) : Scalar2D(x, y) {}
+  Resolution(unsigned int x, unsigned int y) : Scalar2D(x, y) {}
   virtual std::string toString() const override;
+  virtual Resolution operator*(double scale) const;
+
 };
 template <typename T>
 std::ostream &operator<<(std::ostream &os, const Scalar2D<T> &sca2d) {

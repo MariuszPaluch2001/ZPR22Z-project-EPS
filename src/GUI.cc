@@ -1,6 +1,7 @@
 #include "GUI.h"
 #include "GUIUtils.hpp"
 #include "EPSFileTools.h"
+#include "utils.hpp"
 
 bool App::OnInit() {
   auto *frame = new Frame("EPS compression", wxPoint(50, 50), wxSize(800, 700));
@@ -130,16 +131,16 @@ void Frame::chooseFile(wxCommandEvent &event) {
     if (openFileDialog->ShowModal() == wxID_CANCEL)
         return;
 
-    wxString path = openFileDialog->GetPath();
-    convertEPSFileToPNG(path.ToStdString());
+    path_to_input = openFileDialog->GetPath().ToStdString();
+    convertEPSFileToPNG(path_to_input);
     newBitmap.LoadFile("tmp/output.png", wxBITMAP_TYPE_PNG);
 
     input_image->SetBitmap(newBitmap);
     std::stringstream s;
-    s << "Rozmiar przed: " << getFileSize(path.ToStdString()) << "kB";
+    s << "Rozmiar przed: " << getFileSize(path_to_input) << "kB";
     label_input_image_size->SetLabel(wxString(s.str()));
     s.str(std::string());
-    std::ifstream f(path.ToStdString());
+    std::ifstream f(path_to_input);
     EPSInFileStream EPSFs(f);
     Header h = EPSFs.getHeader();
     Resolution res = h.getResolution();
@@ -149,9 +150,27 @@ void Frame::chooseFile(wxCommandEvent &event) {
 }
 
 void Frame::submit(wxCommandEvent &event) {
-  std::cout << "Submit ..." << std::endl;
+    if(!path_to_input.empty()){
+        mainFunction(path_to_input, "tmp/output.eps");
+    } else { return; }
+    wxBitmap newBitmap;
+    convertEPSFileToPNG("tmp/output.eps");
+    newBitmap.LoadFile("tmp/output.png", wxBITMAP_TYPE_PNG);
+
+    output_image->SetBitmap(newBitmap);
+    std::stringstream s;
+    s << "Rozmiar po: " << getFileSize("tmp/output.eps") << "kB";
+    label_output_image_size->SetLabel(wxString(s.str()));
+    s.str(std::string());
+    std::ifstream f("tmp/output.eps");
+    EPSInFileStream EPSFs(f);
+    Header h = EPSFs.getHeader();
+    Resolution res = h.getResolution();
+    s << "Rozdzielczosc po: " << res.getX() << 'x' << res.getY();
+    label_output_image_resolution->SetLabel(wxString(s.str()));
+    f.close();
 }
 
 void Frame::save(wxCommandEvent &event) {
-  std::cout << "Save ..." << std::endl;
+    std::cout << "Save ..." << std::endl;
 }

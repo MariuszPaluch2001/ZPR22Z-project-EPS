@@ -23,7 +23,6 @@ add_test(EPSFileToolsTest EPSFileToolsTest)
 add_executable(Scalar2DRepresentationTest Scalar2DRepresentationTest.cc)
 add_executable(GraphicCommandTest GraphicCommandTest.cc)
 add_executable(EPSCommandRepresentationTest EPSCommandRepresentationTest.cc)
-add_executable(VisitorTest VisitorTest.cc)
 add_executable(AlgorithmTest AlgorithmTest.cc)
 target_link_libraries(Scalar2DRepresentationTest
  PRIVATE
@@ -43,21 +42,14 @@ target_link_libraries(EPSCommandRepresentationTest
         EPSCommands
         Scalar2DRepresentation)
 
-target_link_libraries(VisitorTest
-        PRIVATE
-        GTest::GTest
-        EPSCommands
-        Scalar2DRepresentation
-        )
+
 target_link_libraries(AlgorithmTest
         PRIVATE
         GTest::GTest
-        Algorithm
         EPSCommands
         Scalar2DRepresentation)
 
 add_test(Scalar2DRepresentationTest Scalar2DRepresentationTest)
 add_test(GraphicCommandTest GraphicCommandTest)
 add_test(EPSCommandRepresentationTest EPSCommandRepresentationTest)
-add_test(VisitorTest VisitorTest)
 add_test(AlgorithmTest AlgorithmTest)

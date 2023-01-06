@@ -62,6 +62,8 @@ private:
           wxBitmap("assets/no_eps_available.png", wxBITMAP_TYPE_PNG))};
   PwxStaticBitmap output_image{new wxStaticBitmap(this, wxID_ANY,
           wxBitmap("assets/no_eps_available.png", wxBITMAP_TYPE_PNG))};
+
+  std::string path_to_input = "";
   void initMenuBar();
   void initComboBoxScale();
   void initInputMinDist();

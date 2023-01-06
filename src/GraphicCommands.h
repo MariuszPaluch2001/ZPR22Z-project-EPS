@@ -10,57 +10,78 @@
 #include <optional>
 #include <variant>
 
-class GraphicCommand;
 class LeftOrientedLineCommand;
 class RightOrientedLineCommand;
 class PointCommand;
+class MoveCommand;
 
-using VarGraphic = std::variant<LeftOrientedLineCommand,
-                                RightOrientedLineCommand, PointCommand>;
-using OptGraphic = std::optional<VarGraphic>;
-class Visitor;
 
-class GraphicCommand : public Command {
-  // represents Coordinates, to which drawing cursor is moved after the command
-  Coordinates move_point_;
-
+class RelativeCommand : public ProcessableCommand {
 public:
-  GraphicCommand(const Coordinates &move) : move_point_(move) {}
-  Coordinates getMovePoint() const { return move_point_; }
-  virtual std::string toString() const = 0;
-  virtual void accept(Visitor &v) const = 0;
-
-  virtual double countDifference(const GraphicCommand &gc) const = 0;
-  virtual OptGraphic createMidpoint(const GraphicCommand &gc) const = 0;
+    RelativeCommand(const Direction &move) : ProcessableCommand(move) {}
+    virtual std::string toString() const override = 0;
 };
 
-class LeftOrientedLineCommand : public GraphicCommand {
+class AbsoluteCommand : public ProcessableCommand {
 public:
-  LeftOrientedLineCommand(const Coordinates &move) : GraphicCommand(move) {}
-  virtual std::string toString() const override;
-  virtual void accept(Visitor &v) const override;
-  virtual double countDifference(const GraphicCommand &gc) const override;
-  virtual OptGraphic createMidpoint(const GraphicCommand &gc) const override;
-  Direction getDirection() const { return getMovePoint() - Coordinates(0, 0); }
+    AbsoluteCommand(const Coordinates &move) : ProcessableCommand(move) {}
+    virtual std::string toString() const override = 0;
 };
 
-class RightOrientedLineCommand : public GraphicCommand {
+class LeftOrientedLineCommand : public RelativeCommand {
 public:
-  RightOrientedLineCommand(const Coordinates &move) : GraphicCommand(move) {}
-  virtual std::string toString() const override;
-  virtual void accept(Visitor &v) const override;
-  virtual double countDifference(const GraphicCommand &gc) const override;
-  virtual OptGraphic createMidpoint(const GraphicCommand &gc) const override;
-  Direction getDirection() const { return getMovePoint() - Coordinates(0, 0); }
+    LeftOrientedLineCommand(const Direction &move) : RelativeCommand(move) {}
+    virtual std::string toString() const override;
+
 };
 
-class PointCommand : public GraphicCommand {
+class RightOrientedLineCommand : public RelativeCommand {
 public:
-  PointCommand(const Coordinates &coord) : GraphicCommand(coord) {}
-  virtual std::string toString() const override;
-  virtual void accept(Visitor &v) const override;
-  virtual double countDifference(const GraphicCommand &gc) const override;
-  virtual OptGraphic createMidpoint(const GraphicCommand &gc) const override;
+    RightOrientedLineCommand(const Direction &move) : RelativeCommand(move) {}
+    virtual std::string toString() const override;
+
 };
+
+class PointCommand : public AbsoluteCommand {
+public:
+    PointCommand(const Coordinates &coord) : AbsoluteCommand(coord) {}
+    virtual std::string toString() const override;
+};
+
+class MoveCommand : public AbsoluteCommand {
+public:
+    MoveCommand(const Coordinates & coord) : AbsoluteCommand(coord) {}
+    virtual std::string toString() const override;
+};
+
+using RelativeCommandVar = std::variant<LeftOrientedLineCommand, RightOrientedLineCommand>;
+using AbsoluteCommandVar = std::variant<PointCommand, MoveCommand>;
+
+
+/*
+ * visitor functions
+ */
+extern const double MAX_DIFFERENCE;
+double countDifference(const LeftOrientedLineCommand & ll1, const LeftOrientedLineCommand & ll2);
+double countDifference(const LeftOrientedLineCommand & ll1, const RightOrientedLineCommand & rl2);
+double countDifference(const RightOrientedLineCommand & rl1, const LeftOrientedLineCommand & ll2);
+double countDifference(const RightOrientedLineCommand & rl1, const RightOrientedLineCommand & rl2);
+
+double countDifference(const PointCommand & p1, const PointCommand & p2);
+double countDifference(const PointCommand & p1, const MoveCommand & m2);
+double countDifference(const MoveCommand & m1, const PointCommand & p2);
+double countDifference(const MoveCommand & m1, const MoveCommand & m2);
+
+RelativeCommandVar createMidpoint(const LeftOrientedLineCommand & ll1, const LeftOrientedLineCommand & ll2);
+RelativeCommandVar createMidpoint(const LeftOrientedLineCommand & ll1, const RightOrientedLineCommand & rl2);
+RelativeCommandVar createMidpoint(const RightOrientedLineCommand & rl1, const LeftOrientedLineCommand & ll2);
+RelativeCommandVar createMidpoint(const RightOrientedLineCommand & rl1, const RightOrientedLineCommand & rl2);
+
+AbsoluteCommandVar createMidpoint(const PointCommand & p1, const PointCommand & p2);
+AbsoluteCommandVar createMidpoint(const PointCommand & p1, const MoveCommand & m2);
+AbsoluteCommandVar createMidpoint(const MoveCommand & m1, const PointCommand & p2);
+AbsoluteCommandVar createMidpoint(const MoveCommand & m1, const MoveCommand & m2);
+
+
 
 #endif // ZPR_GRAPHICCOMMANDS_H

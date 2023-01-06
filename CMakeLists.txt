@@ -10,23 +10,31 @@ include_directories(${wxWidgets_INCLUDE_DIRS})
 
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
-add_executable(${PROJECT_NAME}
-        GUIMain.cc
+add_executable(zprGUI
+  GUIMain.cc
   src/GUI.h
   src/GUI.cc
   src/EPSFileTools.h
   src/EPSFileTools.cc
   src/GraphicCommands.h
   src/GraphicCommands.cc
-  src/DifferenceVisitor.h
-  src/DifferenceVisitor.cc
   src/Scalar2DRepresentation.h
-  src/Scalar2DRepresentation.cc
-  src/MidpointVisitor.h
-  src/MidpointVisitor.cc
-)
+  src/Scalar2DRepresentation.cc)
+add_executable(${PROJECT_NAME}
+        Main.cc
+        src/Scalar2DRepresentation.h
+        src/Scalar2DRepresentation.cc
+        src/EPSCommandRepresentation.h
+        src/EPSCommandRepresentation.cc
+        src/GraphicCommands.h
+        src/GraphicCommands.cc
+        src/EPSFileTools.cc
+        src/EPSFileTools.h
+        src/Algorithm.hpp
+        src/utils.hpp
+        )
 
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(zprGUI
   ${wxWidgets_LIBRARIES})
 
 
@@ -41,4 +49,5 @@ include_directories(tmp)
 add_subdirectory(tmp)
 
 target_link_libraries(${PROJECT_NAME})
+target_link_libraries(zprGUI Scalar2DRepresentation EPSFileTools EPSCommands)
 

@@ -5,15 +5,11 @@
 #include <cmath>
 #include <sstream>
 
-std::string Coordinates::toString() const {
-  std::stringstream s;
-  s << "Coordinates: (" << getX() << ", " << getY() << ")";
-  return s.str();
-}
 
-std::string Direction::toString() const {
+
+std::string CoordinateValue::toString() const {
   std::stringstream s;
-  s << "Direction vector: (" << getX() << ", " << getY() << ")";
+  s << "CoordinateValue: (" << getX() << ", " << getY() << ")";
   return s.str();
 }
 
@@ -22,11 +18,11 @@ std::string Resolution::toString() const {
   s << "Resolution: " << getX() << "p x " << getY() << "p";
   return s.str();
 }
-
+/*
 Coordinates Coordinates::getMidpoint(const Coordinates &p) const {
   return Coordinates((p.getX() + getX()) / 2, (p.getY() + getY()) / 2);
 }
-
+*/
 double length(const Direction &d) {
   return std::sqrt(std::pow(d.getX(), 2) + std::pow(d.getY(), 2));
 }
@@ -54,14 +50,21 @@ double countDistanceBetweenConjoinedDirections(const Direction &d1,
   return std::sin(angleInBetween) * length(d2);
 }
 
-Direction Direction::operator/(double div) const {
+CoordinateValue CoordinateValue::operator/(double div) const {
   return div < 1e-5 ? Direction(0, 0) : Direction(getX() / div, getY() / div);
 }
 
-Direction Coordinates::operator-(const Coordinates &p) const {
-  return Direction(getX() - p.getX(), getY() - p.getY());
+CoordinateValue CoordinateValue::operator+(const CoordinateValue &d) const {
+    return {getX() + d.getX(), getY() + d.getY()};
 }
 
-Direction Coordinates::operator+(const Coordinates &p) const {
-  return Direction(p.getX() + getX(), p.getY() + getY());
+CoordinateValue CoordinateValue::operator-(const CoordinateValue &d) const {
+    return {getX() - d.getX(), getY() - d.getY()};
+}
+CoordinateValue CoordinateValue::operator*(double scale) const {
+    return { getX() * scale, getY() * scale};
+}
+
+Resolution Resolution::operator*(double scale) const {
+    return (scale >= 0) ? Resolution(static_cast<unsigned int>(getX() * scale), static_cast<unsigned int>(getY() * scale)) : Resolution(0,0);
 }

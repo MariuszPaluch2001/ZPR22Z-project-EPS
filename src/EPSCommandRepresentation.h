@@ -14,6 +14,18 @@ public:
   virtual ~Command() = default;
 };
 
+class ProcessableCommand : public Command {
+    CoordinateValue move_point_;
+public:
+    ProcessableCommand(const CoordinateValue &move) : move_point_(move) {}
+    virtual std::string toString() const override = 0;
+    CoordinateValue getMovePoint() const { return move_point_; }
+    void rescale(double factor) { move_point_ = move_point_ * factor; }
+
+};
+
+
+
 std::ostream &operator<<(std::ostream &os, const Command &com);
 
 /*
@@ -24,7 +36,8 @@ class NonProcessableCommand : public Command {
 
 public:
   NonProcessableCommand(const std::string &s) : text_representation_(s) {}
-  std::string toString() const { return text_representation_; }
+  virtual std::string toString() const override { return text_representation_; }
 };
+
 
 #endif // ZPR_EPSCOMMANDREPRESENTATION_H

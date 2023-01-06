@@ -3,7 +3,7 @@
 #include <gtest/gtest.h>
 
 TEST(Scalar2DRepresentationTest, TestPointCordsGetters) {
-  Coordinates p(2.2, 5);
+  CoordinateValue p(2.2, 5);
   ASSERT_TRUE(abs(p.getX() - 2.2) < 1e-5);
   ASSERT_TRUE(abs(p.getY() - 5) < 1e-5);
 }
@@ -21,14 +21,11 @@ TEST(Scalar2DRepresentationTest, TestResolutionCordsGetters) {
 }
 
 TEST(Scalar2DRepresentationTest, TestPointToString) {
-  Coordinates p(3, 5);
-  ASSERT_TRUE(p.toString() == "Coordinates: (3, 5)");
+  CoordinateValue p(3, 5);
+  ASSERT_EQ(p.toString(), "CoordinateValue: (3, 5)");
 }
 
-TEST(Scalar2DRepresentationTest, TestDirectionToString) {
-  Direction d(4.5, 2);
-  ASSERT_TRUE(d.toString() == "Direction vector: (4.5, 2)");
-}
+
 
 TEST(Scalar2DRepresentationTest, TestResolutionToString) {
   Resolution r(7, 10);
@@ -36,7 +33,7 @@ TEST(Scalar2DRepresentationTest, TestResolutionToString) {
 }
 
 TEST(Scalar2DRepresentationTest, TestPointSetXY) {
-  Coordinates p(1, 1);
+  CoordinateValue p(1, 1);
   p.setX(4);
   p.setY(12);
   ASSERT_TRUE(abs(p.getX() - 4) < 1e-5);
@@ -66,27 +63,27 @@ TEST(Scalar2DRepresentationTest, TestDirectionDivOperatorByZero) {
 }
 
 TEST(Scalar2DRepresentationTest, TestPointAdditionOperator) {
-  auto p1 = Coordinates({3, 4});
-  auto p2 = Coordinates({2, 5});
+  auto p1 = CoordinateValue({3, 4});
+  auto p2 = CoordinateValue({2, 5});
   auto p3 = p1 + p2;
   ASSERT_TRUE(abs(p3.getX() - 5) < 1e-5);
   ASSERT_TRUE(abs(p3.getY() - 9) < 1e-5);
 }
 
 TEST(Scalar2DRepresentationTest, TestPointSubtractionOperator) {
-  auto p1 = Coordinates({3, 4});
-  auto p2 = Coordinates({2, 5});
+  auto p1 = CoordinateValue({3, 4});
+  auto p2 = CoordinateValue({2, 5});
   auto p3 = p1 - p2;
   ASSERT_TRUE(abs(p3.getX() - 1) < 1e-5);
   ASSERT_TRUE(abs(p3.getY() + 1) < 1e-5);
 }
 
 TEST(Scalar2DRepresentationTest, TestOstreamOperator) {
-  Coordinates p(3, 5);
+  CoordinateValue p(3, 5);
   std::ostringstream oss;
   oss << p;
 
-  ASSERT_TRUE(oss.str() == "Coordinates: (3, 5)");
+  ASSERT_TRUE(oss.str() == "CoordinateValue: (3, 5)");
 }
 
 TEST(Scalar2DRepresentationTest, TestDirectionLength) {
@@ -100,14 +97,6 @@ TEST(Scalar2DRepresentationTest, TestDirectionLength) {
 TEST(Scalar2DRepresentationTest, TestDirectionZeroLength) {
   Direction d1(0, 0);
   ASSERT_TRUE(abs(length(d1) - 0) < 1e-5);
-}
-
-TEST(Scalar2DRepresentationTest, TestGetMidpoint) {
-  auto p1 = Coordinates(2, 3);
-  auto p2 = Coordinates(1, 7);
-  auto p3 = p1.getMidpoint(p2);
-  ASSERT_TRUE(abs(p3.getX() - 1.5) < 1e-5);
-  ASSERT_TRUE(abs(p3.getY() - 5) < 1e-5);
 }
 
 TEST(Scalar2DRepresentationTest, TestNormalizeZeroLengthDirection) {
@@ -200,6 +189,35 @@ TEST(Scalar2DRepresentationTest, TestDistanceBetweenNormalizedDirections) {
   auto res = countDistanceBetweenConjoinedDirections(d1, d2);
   ASSERT_TRUE(abs(res - sqrt(2) / 2.) < 1e-5);
 }
+
+TEST(Scalar2DRepresentationTest, TestRescaleDirection) {
+    auto d1 = Direction(2,3);
+    auto d2 = d1 * 2;
+    ASSERT_FLOAT_EQ(d2.getX(), 4);
+    ASSERT_FLOAT_EQ(d2.getY(), 6);
+}
+
+TEST(Scalar2DRepresentationTest, TestRescaleCoordinate) {
+    auto c1 = CoordinateValue(2,3);
+    auto c2 = c1 * 0.5;
+    ASSERT_FLOAT_EQ(c2.getX(), 1);
+    ASSERT_FLOAT_EQ(c2.getY(), 1.5);
+}
+
+TEST(Scalar2DRepresentationTest, TestRescaleResolution) {
+    auto c1 = Resolution(2,3);
+    auto c2 = c1 * 0.5;
+    ASSERT_FLOAT_EQ(c2.getX(), 1);
+    ASSERT_FLOAT_EQ(c2.getY(), 1);
+}
+
+TEST(Scalar2DRepresentationTest, TestRescaleResolutionByNegativeFactor) {
+    auto c1 = Resolution(2,3);
+    auto c2 = c1 * -0.5;
+    ASSERT_FLOAT_EQ(c2.getX(), 0);
+    ASSERT_FLOAT_EQ(c2.getY(), 0);
+}
+
 
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
