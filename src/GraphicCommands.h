@@ -10,8 +10,8 @@
 #include <optional>
 #include <variant>
 
-class LeftOrientedLineCommand;
-class RightOrientedLineCommand;
+class LeftLineCommand;
+class RightLineCommand;
 class PointCommand;
 class MoveCommand;
 
@@ -28,16 +28,16 @@ public:
     virtual std::string toString() const override = 0;
 };
 
-class LeftOrientedLineCommand : public RelativeCommand {
+class LeftLineCommand : public RelativeCommand {
 public:
-    LeftOrientedLineCommand(const Direction &move) : RelativeCommand(move) {}
+    LeftLineCommand(const Direction &move) : RelativeCommand(move) {}
     virtual std::string toString() const override;
 
 };
 
-class RightOrientedLineCommand : public RelativeCommand {
+class RightLineCommand : public RelativeCommand {
 public:
-    RightOrientedLineCommand(const Direction &move) : RelativeCommand(move) {}
+    RightLineCommand(const Direction &move) : RelativeCommand(move) {}
     virtual std::string toString() const override;
 
 };
@@ -54,7 +54,7 @@ public:
     virtual std::string toString() const override;
 };
 
-using RelativeCommandVar = std::variant<LeftOrientedLineCommand, RightOrientedLineCommand>;
+using RelativeCommandVar = std::variant<LeftLineCommand, RightLineCommand>;
 using AbsoluteCommandVar = std::variant<PointCommand, MoveCommand>;
 
 
@@ -62,20 +62,20 @@ using AbsoluteCommandVar = std::variant<PointCommand, MoveCommand>;
  * visitor functions
  */
 extern const double MAX_DIFFERENCE;
-double countDifference(const LeftOrientedLineCommand & ll1, const LeftOrientedLineCommand & ll2);
-double countDifference(const LeftOrientedLineCommand & ll1, const RightOrientedLineCommand & rl2);
-double countDifference(const RightOrientedLineCommand & rl1, const LeftOrientedLineCommand & ll2);
-double countDifference(const RightOrientedLineCommand & rl1, const RightOrientedLineCommand & rl2);
+double countDifference(const LeftLineCommand & ll1, const LeftLineCommand & ll2);
+double countDifference(const LeftLineCommand & ll1, const RightLineCommand & rl2);
+double countDifference(const RightLineCommand & rl1, const LeftLineCommand & ll2);
+double countDifference(const RightLineCommand & rl1, const RightLineCommand & rl2);
 
 double countDifference(const PointCommand & p1, const PointCommand & p2);
 double countDifference(const PointCommand & p1, const MoveCommand & m2);
 double countDifference(const MoveCommand & m1, const PointCommand & p2);
 double countDifference(const MoveCommand & m1, const MoveCommand & m2);
 
-RelativeCommandVar createMidpoint(const LeftOrientedLineCommand & ll1, const LeftOrientedLineCommand & ll2);
-RelativeCommandVar createMidpoint(const LeftOrientedLineCommand & ll1, const RightOrientedLineCommand & rl2);
-RelativeCommandVar createMidpoint(const RightOrientedLineCommand & rl1, const LeftOrientedLineCommand & ll2);
-RelativeCommandVar createMidpoint(const RightOrientedLineCommand & rl1, const RightOrientedLineCommand & rl2);
+RelativeCommandVar createMidpoint(const LeftLineCommand & ll1, const LeftLineCommand & ll2);
+RelativeCommandVar createMidpoint(const LeftLineCommand & ll1, const RightLineCommand & rl2);
+RelativeCommandVar createMidpoint(const RightLineCommand & rl1, const LeftLineCommand & ll2);
+RelativeCommandVar createMidpoint(const RightLineCommand & rl1, const RightLineCommand & rl2);
 
 AbsoluteCommandVar createMidpoint(const PointCommand & p1, const PointCommand & p2);
 AbsoluteCommandVar createMidpoint(const PointCommand & p1, const MoveCommand & m2);

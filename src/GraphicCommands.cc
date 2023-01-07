@@ -9,13 +9,13 @@
 
 const double MAX_DIFFERENCE = 1e10;
 
-std::string LeftOrientedLineCommand::toString() const {
+std::string LeftLineCommand::toString() const {
   std::stringstream s;
   s << getMovePoint().getX() << " " << getMovePoint().getY() << " lineto";
   return s.str();
 }
 
-std::string RightOrientedLineCommand::toString() const {
+std::string RightLineCommand::toString() const {
   std::stringstream s;
   s << getMovePoint().getX() << " " << getMovePoint().getY() << " l";
   return s.str();
@@ -35,21 +35,21 @@ std::string MoveCommand::toString() const {
     return s.str();
 }
 
-double countDifference(const LeftOrientedLineCommand & ll1, const LeftOrientedLineCommand & ll2) {
+double countDifference(const LeftLineCommand & ll1, const LeftLineCommand & ll2) {
     return countDistanceBetweenConjoinedDirections(ll1.getMovePoint(), ll2.getMovePoint());
 }
 
-double countDifference(const LeftOrientedLineCommand & ll1, const RightOrientedLineCommand & rl2) {
+double countDifference(const LeftLineCommand & ll1, const RightLineCommand & rl2) {
     return MAX_DIFFERENCE;
 
 }
 
-double countDifference(const RightOrientedLineCommand & rl1, const LeftOrientedLineCommand & ll2) {
+double countDifference(const RightLineCommand & rl1, const LeftLineCommand & ll2) {
     return MAX_DIFFERENCE;
 }
 
 
-double countDifference(const RightOrientedLineCommand & rl1, const RightOrientedLineCommand & rl2) {
+double countDifference(const RightLineCommand & rl1, const RightLineCommand & rl2) {
     return countDistanceBetweenConjoinedDirections(rl1.getMovePoint(), rl2.getMovePoint());
 
 }
@@ -68,17 +68,17 @@ double countDifference(const MoveCommand & m1, const MoveCommand & m2) {
     return 0;
 }
 
-RelativeCommandVar createMidpoint(const LeftOrientedLineCommand & ll1, const LeftOrientedLineCommand & ll2) {
-    return LeftOrientedLineCommand(ll1.getMovePoint() + ll2.getMovePoint());
+RelativeCommandVar createMidpoint(const LeftLineCommand & ll1, const LeftLineCommand & ll2) {
+    return LeftLineCommand(ll1.getMovePoint() + ll2.getMovePoint());
 }
-RelativeCommandVar createMidpoint(const LeftOrientedLineCommand & ll1, const RightOrientedLineCommand & rl2) {
+RelativeCommandVar createMidpoint(const LeftLineCommand & ll1, const RightLineCommand & rl2) {
     return ll1;
 }
-RelativeCommandVar createMidpoint(const RightOrientedLineCommand & rl1, const LeftOrientedLineCommand & ll2) {
+RelativeCommandVar createMidpoint(const RightLineCommand & rl1, const LeftLineCommand & ll2) {
     return rl1;
 }
-RelativeCommandVar createMidpoint(const RightOrientedLineCommand & rl1, const RightOrientedLineCommand & rl2) {
-    return RightOrientedLineCommand(rl1.getMovePoint() + rl2.getMovePoint());
+RelativeCommandVar createMidpoint(const RightLineCommand & rl1, const RightLineCommand & rl2) {
+    return RightLineCommand(rl1.getMovePoint() + rl2.getMovePoint());
 }
 
 AbsoluteCommandVar createMidpoint(const PointCommand & p1, const PointCommand & p2) {

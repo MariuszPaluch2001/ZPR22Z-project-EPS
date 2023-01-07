@@ -128,7 +128,7 @@ TEST(EPSFileToolsTest, TestIsNextRelativeFalse) {
     ASSERT_FALSE(EPSFs.isNextRelative());
 }
 
-TEST(EPSFileToolsTest, TestIsNextRelativeLeftOrientedCommand) {
+TEST(EPSFileToolsTest, TestIsNextRelativeLeftCommand) {
     std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
                        "%%BoundingBox: 0 0 302 302\n"
                        "%%EndComments\n"
@@ -139,7 +139,7 @@ TEST(EPSFileToolsTest, TestIsNextRelativeLeftOrientedCommand) {
     ASSERT_TRUE(EPSFs.isNextRelative());
 }
 
-TEST(EPSFileToolsTest, TestIsNextRelativeRightOrientedCommand) {
+TEST(EPSFileToolsTest, TestIsNextRelativeRightCommand) {
     std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
                        "%%BoundingBox: 0 0 302 302\n"
                        "%%EndComments\n"
@@ -205,7 +205,7 @@ TEST(EPSFileToolsTest, TestIsNextUnprocessableTrue) {
     ASSERT_TRUE(EPSFs.isNextUnprocessable());
 }
 
-TEST(EPSFileToolsTest, TestGetRelativeCommandVarRightOrientedLineCommand){
+TEST(EPSFileToolsTest, TestGetRelativeCommandVarRightLineCommand){
     std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
                        "%%BoundingBox: 0 0 302 302\n"
                        "%%EndComments\n"
@@ -214,10 +214,10 @@ TEST(EPSFileToolsTest, TestGetRelativeCommandVarRightOrientedLineCommand){
     EPSInFileStream EPSFs(iss);
     EPSFs.getHeader();
     RelativeCommandVar RelVar = EPSFs.getRelativeCommandVar();
-    ASSERT_TRUE(std::get_if<RightOrientedLineCommand>(&RelVar));
+    ASSERT_TRUE(std::get_if<RightLineCommand>(&RelVar));
 }
 
-TEST(EPSFileToolsTest, TestGetRelativeCommandVarLeftOrientedLineCommand){
+TEST(EPSFileToolsTest, TestGetRelativeCommandVarLeftLineCommand){
     std::string data = "%!PS-Adobe-3.0 EPSF-3.0\n"
                        "%%BoundingBox: 0 0 302 302\n"
                        "%%EndComments\n"
@@ -226,7 +226,7 @@ TEST(EPSFileToolsTest, TestGetRelativeCommandVarLeftOrientedLineCommand){
     EPSInFileStream EPSFs(iss);
     EPSFs.getHeader();
     RelativeCommandVar RelVar = EPSFs.getRelativeCommandVar();
-    ASSERT_TRUE(std::get_if<LeftOrientedLineCommand>(&RelVar));
+    ASSERT_TRUE(std::get_if<LeftLineCommand>(&RelVar));
 }
 
 TEST(EPSFileToolsTest, TestGetRelativeCommandVarException){
@@ -326,11 +326,11 @@ TEST(EPSFileToolsTest, TestGetCommandsFunctions) {
   npc = EPSFs.getNonProcessableCommand();
   ASSERT_EQ(npc.toString(), "newpath");
   RelativeCommandVar rcv = EPSFs.getRelativeCommandVar();
-  RightOrientedLineCommand* rolc = std::get_if<RightOrientedLineCommand>(&rcv);
+  RightLineCommand* rolc = std::get_if<RightLineCommand>(&rcv);
   ASSERT_TRUE(rolc);
   ASSERT_EQ(rolc->toString(), "10.03 2.46 l");
   rcv = EPSFs.getRelativeCommandVar();
-  LeftOrientedLineCommand* lolc = std::get_if<LeftOrientedLineCommand>(&rcv);
+  LeftLineCommand* lolc = std::get_if<LeftLineCommand>(&rcv);
   ASSERT_TRUE(lolc);
   ASSERT_EQ(lolc->toString(), "164.72 100.9 lineto");
   AbsoluteCommandVar acv = EPSFs.getAbsoluteCommandVar();
@@ -444,8 +444,8 @@ TEST(EPSFileToolsTest, EPSOutFileWriteHeaderAndCommands) {
 
   Header header(headerStr);
   NonProcessableCommand npc("test");
-  LeftOrientedLineCommand lolc(CoordinateValue(4.2, 6.7));
-  RightOrientedLineCommand rolc(CoordinateValue(5.2, 7.7));
+  LeftLineCommand lolc(CoordinateValue(4.2, 6.7));
+  RightLineCommand rolc(CoordinateValue(5.2, 7.7));
   PointCommand pc(CoordinateValue(9.5, 7.5));
   std::ostringstream oss("");
   EPSOutFileStream EPSFs(oss);
@@ -490,8 +490,8 @@ TEST(EPSFileToolsTest, EPSOutFilePutRelativeBatch){
 
     Header header(headerStr);
     RelativeBatch batch;
-    batch.emplace_back(RightOrientedLineCommand({2,2}));
-    batch.emplace_back(LeftOrientedLineCommand({3,3}));
+    batch.emplace_back(RightLineCommand({2,2}));
+    batch.emplace_back(LeftLineCommand({3,3}));
     std::ostringstream oss("");
     EPSOutFileStream EPSFs(oss);
     EPSFs.putHeader(header);

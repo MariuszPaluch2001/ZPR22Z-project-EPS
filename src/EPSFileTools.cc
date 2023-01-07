@@ -136,9 +136,9 @@ RelativeCommandVar EPSInFileStream::getRelativeCommandVar() const{
     std::string command = getCommandLine();
     std::string signature = stripCommandSignature(command);
     if (signature == "l")
-        return {RightOrientedLineCommand(readPoint(command))};
+        return {RightLineCommand(readPoint(command))};
     else if (signature == "lineto")
-        return {LeftOrientedLineCommand(readPoint(command))};
+        return {LeftLineCommand(readPoint(command))};
     else
         throw std::runtime_error("Unknown command.");
 }
