@@ -11,7 +11,7 @@ add_executable(${PROJECT_NAME} Main.cc
         src/GraphicCommands.h
         src/GraphicCommands.cc
         src/EPSFileTools.cc
-        src/EPSFileTools.h
+        src/EPSFileTools.hpp
         src/Algorithm.hpp
 
 )

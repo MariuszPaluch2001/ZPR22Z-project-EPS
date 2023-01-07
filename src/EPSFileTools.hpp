@@ -6,8 +6,8 @@
     and classes representing input and output files. They are used to read text
     from input, pass data to algorithm and send data to output file.
 */
-#ifndef ZPR_EPSFILETOOLS_H
-#define ZPR_EPSFILETOOLS_H
+#ifndef ZPR_EPSFILETOOLS_HPP
+#define ZPR_EPSFILETOOLS_HPP
 #include <fstream>
 #include <memory>
 #include <variant>
@@ -88,4 +88,4 @@ template <typename BATCH_TYPE> void EPSOutFileStream::putBatch(const BATCH_TYPE 
     for (auto command : batch)
         putCommand(std::visit(stringVisit, command));
 }
-#endif // ZPR_EPSFILETOOLS_H
+#endif // ZPR_EPSFILETOOLS_HPP

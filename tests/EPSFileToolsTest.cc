@@ -4,7 +4,7 @@
 #include <gtest/gtest.h>
 #include <sstream>
 
-#include "EPSFileTools.h"
+#include "EPSFileTools.hpp"
 #include "GraphicCommands.h"
 
 TEST(EPSFileToolsTest, ThrowExceptionGetHeaderTest) {

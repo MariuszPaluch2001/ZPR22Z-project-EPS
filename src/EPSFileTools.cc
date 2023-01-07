@@ -3,7 +3,7 @@
 //
 #include <sstream>
 
-#include "EPSFileTools.h"
+#include "EPSFileTools.hpp"
 
 Resolution Header::findResolution(const std::string &header){
   unsigned int x_res = 0;
