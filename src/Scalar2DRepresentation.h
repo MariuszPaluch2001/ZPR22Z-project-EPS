@@ -7,22 +7,16 @@
 #ifndef ZPR_SCALAR2DREPRESENTATION_H
 #define ZPR_SCALAR2DREPRESENTATION_H
 #include <iostream>
-template <typename T> class Scalar2D {
-  T x_, y_;
 
+class CoordinateValue {
+    double x_, y_;
 public:
-  Scalar2D(T x, T y) : x_(x), y_(y) {}
-  T getX() const { return x_; }
-  T getY() const { return y_; }
-  virtual void setX(T new_x) { x_ = new_x; }
-  virtual void setY(T new_y) { y_ = new_y; }
-  virtual std::string toString() const = 0;
-};
-
-class CoordinateValue : public Scalar2D<double> {
-public:
-    CoordinateValue(double x, double y) : Scalar2D(x, y) {}
-  virtual std::string toString() const override;
+    CoordinateValue(double x, double y) : x_(x), y_(y) {}
+    std::string toString() const;
+    double getX() const { return x_; }
+    double getY() const { return y_; }
+    void setX(double new_x) { x_ = new_x; }
+    void setY(double new_y) { y_ = new_y; }
     CoordinateValue operator+(const CoordinateValue &d) const;
     CoordinateValue operator-(const CoordinateValue &d) const;
     CoordinateValue operator/(double div) const;
@@ -32,17 +26,21 @@ public:
 using Direction = CoordinateValue;
 using Coordinates = CoordinateValue;
 
-class Resolution : public Scalar2D<unsigned int> {
+class Resolution {
+    unsigned x_;
+    unsigned y_;
 public:
-  Resolution(unsigned int x, unsigned int y) : Scalar2D(x, y) {}
-  virtual std::string toString() const override;
-  virtual Resolution operator*(double scale) const;
+  Resolution(unsigned int x, unsigned int y) : x_(x), y_(y) {}
+    unsigned getX() const { return x_; }
+    unsigned getY() const { return y_; }
+    void setX(unsigned new_x) { x_ = new_x; }
+    void setY(unsigned new_y) { y_ = new_y; }
+  std::string toString() const;
+  Resolution operator*(double scale) const;
 
 };
-template <typename T>
-std::ostream &operator<<(std::ostream &os, const Scalar2D<T> &sca2d) {
-  return os << sca2d.toString();
-}
+std::ostream &operator<<(std::ostream &os, const Resolution & res);
+std::ostream &operator<<(std::ostream &os, const CoordinateValue & cv);
 
 double length(const Direction &d);
 Direction normalizeDirection(const Direction &d);
