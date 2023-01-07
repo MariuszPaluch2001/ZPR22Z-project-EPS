@@ -53,7 +53,7 @@ void Header::setResolution(const Resolution &resolution) {
   header_ = setResolutionInHeader();
 }
 
-std::string EPSInFileStream::readHeader() {
+std::string EPSInFile::readHeader() {
   std::string text;
   std::string header_buffer;
   bool is_finished_flag;
@@ -76,18 +76,18 @@ std::string EPSInFileStream::readHeader() {
   return header_buffer;
 }
 
-Header EPSInFileStream::getHeader(){
+Header EPSInFile::getHeader(){
   return Header(readHeader());
 }
 
-CoordinateValue EPSInFileStream::readPoint(const std::string &command_line) {
+CoordinateValue EPSInFile::readPoint(const std::string &command_line) {
   std::stringstream s(command_line);
   double x, y;
   s >> x >> y;
   return {x, y};
 }
 std::string
-EPSInFileStream::stripCommandSignature(const std::string &command_line) {
+EPSInFile::stripCommandSignature(const std::string &command_line) {
   std::string command_signature;
   std::size_t found;
   found = command_line.find_last_of(' ');
@@ -100,7 +100,7 @@ EPSInFileStream::stripCommandSignature(const std::string &command_line) {
 }
 
 std::string
-EPSInFileStream::getCommandLine() const {
+EPSInFile::getCommandLine() const {
     std::string line;
     if (!was_header_read) {
         throw std::runtime_error("Header hasn't been read yet.");
@@ -113,7 +113,7 @@ EPSInFileStream::getCommandLine() const {
     return line;
 }
 
-bool EPSInFileStream::isNextRelative() const{
+bool EPSInFile::isNextRelative() const{
     std::string signature;
     long len = file_.tellg();
     signature = stripCommandSignature(getCommandLine());
@@ -121,18 +121,18 @@ bool EPSInFileStream::isNextRelative() const{
     return signature == "l" or signature == "lineto";
 }
 
-bool EPSInFileStream::isNextAbsolute() const{
+bool EPSInFile::isNextAbsolute() const{
     std::string signature;
     long len = file_.tellg();
     signature = stripCommandSignature(getCommandLine());
     file_.seekg(len ,std::ios_base::beg);
     return signature == "p2" or signature == "m";
 }
-bool EPSInFileStream::isNextUnprocessable() const{
+bool EPSInFile::isNextUnprocessable() const{
     return !isNextAbsolute() && !isNextRelative();
 }
 
-RelativeCommandVar EPSInFileStream::getRelativeCommandVar() const{
+RelativeCommandVar EPSInFile::getRelativeCommandVar() const{
     std::string command = getCommandLine();
     std::string signature = stripCommandSignature(command);
     if (signature == "l")
@@ -142,7 +142,7 @@ RelativeCommandVar EPSInFileStream::getRelativeCommandVar() const{
     else
         throw std::runtime_error("Unknown command.");
 }
-AbsoluteCommandVar EPSInFileStream::getAbsoluteCommandVar() const{
+AbsoluteCommandVar EPSInFile::getAbsoluteCommandVar() const{
     std::string command = getCommandLine();
     std::string signature = stripCommandSignature(command);
     if (signature == "p2")
@@ -152,12 +152,12 @@ AbsoluteCommandVar EPSInFileStream::getAbsoluteCommandVar() const{
     else
         throw std::runtime_error("Unknown command.");
 }
-NonProcessableCommand EPSInFileStream::getNonProcessableCommand() const{
+NonProcessableCommand EPSInFile::getNonProcessableCommand() const{
     std::string command = getCommandLine();
     return { command };
 }
 
-void EPSOutFileStream::putHeader(Header &header) {
+void EPSOutFile::putHeader(Header &header) {
   if (was_header_write)
     throw std::runtime_error("Header has already written.");
 
@@ -165,13 +165,13 @@ void EPSOutFileStream::putHeader(Header &header) {
   was_header_write = true;
 }
 
-void EPSOutFileStream::putCommand(const Command &command) const {
+void EPSOutFile::putCommand(const Command &command) const {
   if (!was_header_write)
     throw std::runtime_error("Header hasn't been written.");
   file_ << command.toString() << '\n';
 }
 
-void EPSOutFileStream::putCommand(const std::string &command) const{
+void EPSOutFile::putCommand(const std::string &command) const{
     if (!was_header_write)
         throw std::runtime_error("Header hasn't been written.");
     file_ << command << '\n';

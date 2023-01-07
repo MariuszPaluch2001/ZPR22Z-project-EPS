@@ -14,7 +14,7 @@ TEST(EPSFileToolsTest, ThrowExceptionGetHeaderTest) {
                      "%%EndComments\n";
 
   std::istringstream iss(data);
-  EPSInFileStream EPSFs(iss);
+  EPSInFile EPSFs(iss);
   EPSFs.getHeader();
   ASSERT_ANY_THROW(EPSFs.getHeader());
 }
@@ -25,7 +25,7 @@ TEST(EPSFileToolsTest, ThrowExceptionWhenHeaderDoesntHaveEndTag) {
                      "%%BoundingBox: 0 0 302 302\n";
 
   std::istringstream iss(data);
-  EPSInFileStream EPSFs(iss);
+  EPSInFile EPSFs(iss);
   ASSERT_ANY_THROW(EPSFs.getHeader());
 }
 
@@ -36,7 +36,7 @@ TEST(EPSFileToolsTest, TestReadingHeaderFromFile) {
                      "67.47 72.08 m\n";
 
   std::istringstream iss(data);
-  EPSInFileStream EPSFs(iss);
+  EPSInFile EPSFs(iss);
   Header h = EPSFs.getHeader();
   ASSERT_EQ(h.getHeaderString(),
             "%!PS-Adobe-3.0\n%%BoundingBox: 0 0 302 302\n%%EndComments\n");
@@ -60,7 +60,7 @@ TEST(EPSFileToolsTest, TestResolutionSize) {
                      "%%EndComments\n";
 
   std::istringstream iss(data);
-  EPSInFileStream EPSFs(iss);
+  EPSInFile EPSFs(iss);
   Header h = EPSFs.getHeader();
   Resolution r = h.getResolution();
   ASSERT_EQ(r.getX(), 302);
@@ -123,7 +123,7 @@ TEST(EPSFileToolsTest, TestIsNextRelativeFalse) {
                        "newpath\n"
                        "10.03 2.46 l\n";
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     ASSERT_FALSE(EPSFs.isNextRelative());
 }
@@ -134,7 +134,7 @@ TEST(EPSFileToolsTest, TestIsNextRelativeLeftCommand) {
                        "%%EndComments\n"
                        "10.03 2.46 l\n";
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     ASSERT_TRUE(EPSFs.isNextRelative());
 }
@@ -145,7 +145,7 @@ TEST(EPSFileToolsTest, TestIsNextRelativeRightCommand) {
                        "%%EndComments\n"
                        "164.72 100.9 lineto\n";
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     ASSERT_TRUE(EPSFs.isNextRelative());
 }
@@ -156,7 +156,7 @@ TEST(EPSFileToolsTest, TestIsNextAbsoluteFalse) {
                        "%%EndComments\n"
                        "10.03 2.46 l\n";
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     ASSERT_FALSE(EPSFs.isNextAbsolute());
 }
@@ -167,7 +167,7 @@ TEST(EPSFileToolsTest, TestIsNextAbsolutePointCommand) {
                        "%%EndComments\n"
                        "234.12 374.92 1.00 1.00 r p2\n";
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     ASSERT_TRUE(EPSFs.isNextAbsolute());
 }
@@ -178,7 +178,7 @@ TEST(EPSFileToolsTest, TestIsNextAbsoluteMoveCommand) {
                        "%%EndComments\n"
                        "67.47 72.08 m\n";
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     ASSERT_TRUE(EPSFs.isNextAbsolute());
 }
@@ -189,7 +189,7 @@ TEST(EPSFileToolsTest, TestIsNextUnprocessableFalse) {
                        "%%EndComments\n"
                        "10.03 2.46 l\n";
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     ASSERT_FALSE(EPSFs.isNextUnprocessable());
 }
@@ -200,7 +200,7 @@ TEST(EPSFileToolsTest, TestIsNextUnprocessableTrue) {
                        "%%EndComments\n"
                        "/m   { moveto } bind def\n";
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     ASSERT_TRUE(EPSFs.isNextUnprocessable());
 }
@@ -211,7 +211,7 @@ TEST(EPSFileToolsTest, TestGetRelativeCommandVarRightLineCommand){
                        "%%EndComments\n"
                        "10.03 2.46 l\n";
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     RelativeCommandVar RelVar = EPSFs.getRelativeCommandVar();
     ASSERT_TRUE(std::get_if<RightLineCommand>(&RelVar));
@@ -223,7 +223,7 @@ TEST(EPSFileToolsTest, TestGetRelativeCommandVarLeftLineCommand){
                        "%%EndComments\n"
                        "10.03 2.46 lineto\n";
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     RelativeCommandVar RelVar = EPSFs.getRelativeCommandVar();
     ASSERT_TRUE(std::get_if<LeftLineCommand>(&RelVar));
@@ -238,7 +238,7 @@ TEST(EPSFileToolsTest, TestGetRelativeCommandVarException){
                        "\n"
                        "newpath\n";
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     ASSERT_ANY_THROW(EPSFs.getRelativeCommandVar());
 }
@@ -249,7 +249,7 @@ TEST(EPSFileToolsTest, TestGetAbsoluteCommandVarPointCommand){
                        "%%EndComments\n"
                        "234.12 374.92 1.00 1.00 r p2\n";
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     AbsoluteCommandVar AbsVar = EPSFs.getAbsoluteCommandVar();
     ASSERT_TRUE(std::get_if<PointCommand>(&AbsVar));
@@ -261,7 +261,7 @@ TEST(EPSFileToolsTest, TestGetAbsoluteCommandVarMoveCommand){
                        "%%EndComments\n"
                        "67.47 72.08 m\n";
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     AbsoluteCommandVar AbsVar = EPSFs.getAbsoluteCommandVar();
     ASSERT_TRUE(std::get_if<MoveCommand>(&AbsVar));
@@ -276,7 +276,7 @@ TEST(EPSFileToolsTest, TestGetAbsoluteCommandVarException){
                        "\n"
                        "newpath\n";
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     ASSERT_ANY_THROW(EPSFs.getAbsoluteCommandVar());
 }
@@ -288,7 +288,7 @@ TEST(EPSFileToolsTest, TestGetNonProcessableCommand){
                        "/m   { moveto } bind def\n"
                        "/l  { rlineto } bind def\n";
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     NonProcessableCommand c = EPSFs.getNonProcessableCommand();
     ASSERT_EQ(c.toString(), "/m   { moveto } bind def");
@@ -315,7 +315,7 @@ TEST(EPSFileToolsTest, TestGetCommandsFunctions) {
                      "234.12 374.92 1.00 1.00 r p2\n";
 
   std::istringstream iss(data);
-  EPSInFileStream EPSFs(iss);
+  EPSInFile EPSFs(iss);
   EPSFs.getHeader();
   NonProcessableCommand npc = EPSFs.getNonProcessableCommand();
   ASSERT_EQ(npc.toString(), "/m   { moveto } bind def");
@@ -347,7 +347,7 @@ TEST(EPSFileToolsTest, TestGetRelativeCommandVarWhenFileIsEnd) {
                        "164.72 100.90 lineto\n";
 
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     for (int i = 1; i < 3; i++)
         EPSFs.getRelativeCommandVar();
@@ -362,7 +362,7 @@ TEST(EPSFileToolsTest, TestGetAbsoluteCommandVarWhenFileIsEnd) {
                        "67.47 72.08 m\n";
 
     std::istringstream iss(data);
-    EPSInFileStream EPSFs(iss);
+    EPSInFile EPSFs(iss);
     EPSFs.getHeader();
     for (int i = 1; i < 3; i++)
         EPSFs.getAbsoluteCommandVar();
@@ -377,7 +377,7 @@ TEST(EPSFileToolsTest, TestGetNonProcessableCommandWhenFileIsEnd) {
                      "/l  { rlineto } bind def\n";
 
   std::istringstream iss(data);
-  EPSInFileStream EPSFs(iss);
+  EPSInFile EPSFs(iss);
   EPSFs.getHeader();
   for (int i = 1; i < 3; i++)
     EPSFs.getNonProcessableCommand();
@@ -396,7 +396,7 @@ TEST(EPSFileToolsTest, ThrowExceptionCommandReadWithoutHeaderRead) {
                      "2.36 0.66 l\n";
 
   std::istringstream iss(data);
-  EPSInFileStream EPSFs(iss);
+  EPSInFile EPSFs(iss);
   ASSERT_ANY_THROW(EPSFs.getAbsoluteCommandVar());
 }
 
@@ -406,14 +406,14 @@ TEST(EPSFileToolsTest, EPSOutFileExceptionHeaderDoubleWrite) {
                           "%%EndComments\n";
   Header header(headerStr);
   std::ostringstream oss("");
-  EPSOutFileStream EPSFs(oss);
+  EPSOutFile EPSFs(oss);
   EPSFs.putHeader(header);
   ASSERT_ANY_THROW(EPSFs.putHeader(header));
 }
 
 TEST(EPSFileToolsTest, EPSOutFileExceptionWriteWithoutHeader) {
   std::ostringstream oss("");
-  EPSOutFileStream EPSFs(oss);
+  EPSOutFile EPSFs(oss);
   NonProcessableCommand c("testCommand");
   ASSERT_ANY_THROW(EPSFs.putCommand(c));
 }
@@ -425,7 +425,7 @@ TEST(EPSFileToolsTest, EPSOutFileWriteHeader) {
 
   Header header(headerStr);
   std::ostringstream oss("");
-  EPSOutFileStream EPSFs(oss);
+  EPSOutFile EPSFs(oss);
   EPSFs.putHeader(header);
   ASSERT_EQ(oss.str(), headerStr);
 }
@@ -448,7 +448,7 @@ TEST(EPSFileToolsTest, EPSOutFileWriteHeaderAndCommands) {
   RightLineCommand rolc(CoordinateValue(5.2, 7.7));
   PointCommand pc(CoordinateValue(9.5, 7.5));
   std::ostringstream oss("");
-  EPSOutFileStream EPSFs(oss);
+  EPSOutFile EPSFs(oss);
   EPSFs.putHeader(header);
   EPSFs.putCommand(lolc);
   EPSFs.putCommand(rolc);
@@ -471,7 +471,7 @@ TEST(EPSFileToolsTest, EPSOutFilePutAbsoluteBatch){
     batch.emplace_back(PointCommand({2,2}));
     batch.emplace_back(MoveCommand({3,3}));
     std::ostringstream oss("");
-    EPSOutFileStream EPSFs(oss);
+    EPSOutFile EPSFs(oss);
     EPSFs.putHeader(header);
     EPSFs.putBatch(batch);
     ASSERT_EQ(oss.str(), outputStr);
@@ -493,7 +493,7 @@ TEST(EPSFileToolsTest, EPSOutFilePutRelativeBatch){
     batch.emplace_back(RightLineCommand({2,2}));
     batch.emplace_back(LeftLineCommand({3,3}));
     std::ostringstream oss("");
-    EPSOutFileStream EPSFs(oss);
+    EPSOutFile EPSFs(oss);
     EPSFs.putHeader(header);
     EPSFs.putBatch(batch);
     ASSERT_EQ(oss.str(), outputStr);

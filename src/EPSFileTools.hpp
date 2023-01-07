@@ -38,7 +38,7 @@ public:
     read header by call method 'getHeader', otherwise method getCommand throw
     runtime exception. Class don't close the input stream.
 */
-class EPSInFileStream {
+class EPSInFile {
   std::istream &file_;
   bool was_header_read = false;
 
@@ -47,9 +47,9 @@ class EPSInFileStream {
   static std::string stripCommandSignature(const std::string &commandLine);
   std::string getCommandLine() const;
 public:
-  explicit EPSInFileStream(std::istream &f) : file_(f) {}
-  EPSInFileStream(const EPSInFileStream &) = delete;
-  EPSInFileStream &operator=(const EPSInFileStream &) = delete;
+  explicit EPSInFile(std::istream &f) : file_(f) {}
+  EPSInFile(const EPSInFile &) = delete;
+  EPSInFile &operator=(const EPSInFile &) = delete;
   Header getHeader();
   bool isFinished() const { return file_.peek() == EOF; }
   bool isNextRelative() const;
@@ -66,14 +66,14 @@ public:
     write header by call method 'putHeader', otherwise method putCommand throw
     runtime exception. Class don't close the output stream.
 */
-class EPSOutFileStream {
+class EPSOutFile {
   std::ostream &file_;
   bool was_header_write = false;
 
 public:
-  explicit EPSOutFileStream(std::ostream &f) : file_(f) {}
-  EPSOutFileStream(const EPSOutFileStream &) = delete;
-  EPSOutFileStream &operator=(const EPSOutFileStream &) = delete;
+  explicit EPSOutFile(std::ostream &f) : file_(f) {}
+  EPSOutFile(const EPSOutFile &) = delete;
+  EPSOutFile &operator=(const EPSOutFile &) = delete;
   void putHeader(Header &header);
   void putCommand(const Command &c) const;
   void putCommand(const std::string &c) const;
@@ -84,7 +84,7 @@ static auto stringVisit = [](const auto &command) {
     return command.toString();
 };
 
-template <typename BATCH_TYPE> void EPSOutFileStream::putBatch(const BATCH_TYPE &batch) const{
+template <typename BATCH_TYPE> void EPSOutFile::putBatch(const BATCH_TYPE &batch) const{
     for (auto command : batch)
         putCommand(std::visit(stringVisit, command));
 }
