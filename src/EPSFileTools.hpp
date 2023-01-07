@@ -17,14 +17,15 @@
 #include "GraphicCommands.h"
 #include "Scalar2DRepresentation.h"
 
-
 class Header {
   Resolution resolution_;
   std::string header_;
   static Resolution findResolution(const std::string &header);
   std::string setResolutionInHeader() const;
+
 public:
-  explicit Header(const std::string &header) : resolution_(findResolution(header)), header_(header) {}
+  explicit Header(const std::string &header)
+      : resolution_(findResolution(header)), header_(header) {}
   void setResolution(const Resolution &resolution);
   std::string getHeaderString() const { return header_; }
   Resolution getResolution() const { return resolution_; }
@@ -43,19 +44,20 @@ class EPSInFile {
   std::string readHeader();
   static CoordinateValue readPoint(const std::string &commandLine);
   static std::string stripCommandSignature(const std::string &commandLine);
-  std::string getCommandLine() ;
+  std::string getCommandLine();
+
 public:
   explicit EPSInFile(std::istream &f) : file_(f) {}
   EPSInFile(const EPSInFile &) = delete;
   EPSInFile &operator=(const EPSInFile &) = delete;
   Header getHeader();
-  bool isFinished()  { return file_.peek() == EOF; }
-  bool isNextRelative() ;
-  bool isNextAbsolute() ;
-  bool isNextUnprocessable() ;
-  RelativeCommandVar getRelativeCommandVar() ;
-  AbsoluteCommandVar getAbsoluteCommandVar() ;
-  NonProcessableCommand getNonProcessableCommand() ;
+  bool isFinished() { return file_.peek() == EOF; }
+  bool isNextRelative();
+  bool isNextAbsolute();
+  bool isNextUnprocessable();
+  RelativeCommandVar getRelativeCommandVar();
+  AbsoluteCommandVar getAbsoluteCommandVar();
+  NonProcessableCommand getNonProcessableCommand();
 };
 
 /*
@@ -73,17 +75,18 @@ public:
   EPSOutFile(const EPSOutFile &) = delete;
   EPSOutFile &operator=(const EPSOutFile &) = delete;
   void putHeader(Header &header);
-  void putCommand(const Command &c) ;
-  void putCommand(const std::string &c) ;
-  template <typename BATCH_TYPE> void putBatch(const BATCH_TYPE &batch) ;
+  void putCommand(const Command &c);
+  void putCommand(const std::string &c);
+  template <typename BATCH_TYPE> void putBatch(const BATCH_TYPE &batch);
 };
 
 static auto stringVisit = [](const auto &command) {
-    return command.toString();
+  return command.toString();
 };
 
-template <typename BATCH_TYPE> void EPSOutFile::putBatch(const BATCH_TYPE &batch) {
-    for (auto command : batch)
-        putCommand(std::visit(stringVisit, command));
+template <typename BATCH_TYPE>
+void EPSOutFile::putBatch(const BATCH_TYPE &batch) {
+  for (auto command : batch)
+    putCommand(std::visit(stringVisit, command));
 }
 #endif // ZPR_EPSFILETOOLS_HPP

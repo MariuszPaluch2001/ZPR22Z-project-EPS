@@ -15,73 +15,75 @@ class RightLineCommand;
 class PointCommand;
 class MoveCommand;
 
-
 class RelativeCommand : public ProcessableCommand {
 public:
-    RelativeCommand(const Direction &move) : ProcessableCommand(move) {}
-    virtual std::string toString() const override = 0;
+  RelativeCommand(const Direction &move) : ProcessableCommand(move) {}
+  virtual std::string toString() const override = 0;
 };
 
 class AbsoluteCommand : public ProcessableCommand {
 public:
-    AbsoluteCommand(const Coordinates &move) : ProcessableCommand(move) {}
-    virtual std::string toString() const override = 0;
+  AbsoluteCommand(const Coordinates &move) : ProcessableCommand(move) {}
+  virtual std::string toString() const override = 0;
 };
 
 class LeftLineCommand : public RelativeCommand {
 public:
-    LeftLineCommand(const Direction &move) : RelativeCommand(move) {}
-    virtual std::string toString() const override;
-
+  LeftLineCommand(const Direction &move) : RelativeCommand(move) {}
+  virtual std::string toString() const override;
 };
 
 class RightLineCommand : public RelativeCommand {
 public:
-    RightLineCommand(const Direction &move) : RelativeCommand(move) {}
-    virtual std::string toString() const override;
-
+  RightLineCommand(const Direction &move) : RelativeCommand(move) {}
+  virtual std::string toString() const override;
 };
 
 class PointCommand : public AbsoluteCommand {
 public:
-    PointCommand(const Coordinates &coord) : AbsoluteCommand(coord) {}
-    virtual std::string toString() const override;
+  PointCommand(const Coordinates &coord) : AbsoluteCommand(coord) {}
+  virtual std::string toString() const override;
 };
 
 class MoveCommand : public AbsoluteCommand {
 public:
-    MoveCommand(const Coordinates & coord) : AbsoluteCommand(coord) {}
-    virtual std::string toString() const override;
+  MoveCommand(const Coordinates &coord) : AbsoluteCommand(coord) {}
+  virtual std::string toString() const override;
 };
 
 using RelativeCommandVar = std::variant<LeftLineCommand, RightLineCommand>;
 using AbsoluteCommandVar = std::variant<PointCommand, MoveCommand>;
 
-
 /*
  * visitor functions
  */
 extern const double MAX_DIFFERENCE;
-double countDifference(const LeftLineCommand & ll1, const LeftLineCommand & ll2);
-double countDifference(const LeftLineCommand & ll1, const RightLineCommand & rl2);
-double countDifference(const RightLineCommand & rl1, const LeftLineCommand & ll2);
-double countDifference(const RightLineCommand & rl1, const RightLineCommand & rl2);
+double countDifference(const LeftLineCommand &ll1, const LeftLineCommand &ll2);
+double countDifference(const LeftLineCommand &ll1, const RightLineCommand &rl2);
+double countDifference(const RightLineCommand &rl1, const LeftLineCommand &ll2);
+double countDifference(const RightLineCommand &rl1,
+                       const RightLineCommand &rl2);
 
-double countDifference(const PointCommand & p1, const PointCommand & p2);
-double countDifference(const PointCommand & p1, const MoveCommand & m2);
-double countDifference(const MoveCommand & m1, const PointCommand & p2);
-double countDifference(const MoveCommand & m1, const MoveCommand & m2);
+double countDifference(const PointCommand &p1, const PointCommand &p2);
+double countDifference(const PointCommand &p1, const MoveCommand &m2);
+double countDifference(const MoveCommand &m1, const PointCommand &p2);
+double countDifference(const MoveCommand &m1, const MoveCommand &m2);
 
-RelativeCommandVar createMidpoint(const LeftLineCommand & ll1, const LeftLineCommand & ll2);
-RelativeCommandVar createMidpoint(const LeftLineCommand & ll1, const RightLineCommand & rl2);
-RelativeCommandVar createMidpoint(const RightLineCommand & rl1, const LeftLineCommand & ll2);
-RelativeCommandVar createMidpoint(const RightLineCommand & rl1, const RightLineCommand & rl2);
+RelativeCommandVar createMidpoint(const LeftLineCommand &ll1,
+                                  const LeftLineCommand &ll2);
+RelativeCommandVar createMidpoint(const LeftLineCommand &ll1,
+                                  const RightLineCommand &rl2);
+RelativeCommandVar createMidpoint(const RightLineCommand &rl1,
+                                  const LeftLineCommand &ll2);
+RelativeCommandVar createMidpoint(const RightLineCommand &rl1,
+                                  const RightLineCommand &rl2);
 
-AbsoluteCommandVar createMidpoint(const PointCommand & p1, const PointCommand & p2);
-AbsoluteCommandVar createMidpoint(const PointCommand & p1, const MoveCommand & m2);
-AbsoluteCommandVar createMidpoint(const MoveCommand & m1, const PointCommand & p2);
-AbsoluteCommandVar createMidpoint(const MoveCommand & m1, const MoveCommand & m2);
-
-
+AbsoluteCommandVar createMidpoint(const PointCommand &p1,
+                                  const PointCommand &p2);
+AbsoluteCommandVar createMidpoint(const PointCommand &p1,
+                                  const MoveCommand &m2);
+AbsoluteCommandVar createMidpoint(const MoveCommand &m1,
+                                  const PointCommand &p2);
+AbsoluteCommandVar createMidpoint(const MoveCommand &m1, const MoveCommand &m2);
 
 #endif // ZPR_GRAPHICCOMMANDS_H

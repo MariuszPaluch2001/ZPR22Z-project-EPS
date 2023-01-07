@@ -5,8 +5,6 @@
 #include <cmath>
 #include <sstream>
 
-
-
 std::string CoordinateValue::toString() const {
   std::stringstream s;
   s << "CoordinateValue: (" << getX() << ", " << getY() << ")";
@@ -55,23 +53,25 @@ CoordinateValue CoordinateValue::operator/(double div) const {
 }
 
 CoordinateValue CoordinateValue::operator+(const CoordinateValue &d) const {
-    return {getX() + d.getX(), getY() + d.getY()};
+  return {getX() + d.getX(), getY() + d.getY()};
 }
 
 CoordinateValue CoordinateValue::operator-(const CoordinateValue &d) const {
-    return {getX() - d.getX(), getY() - d.getY()};
+  return {getX() - d.getX(), getY() - d.getY()};
 }
 CoordinateValue CoordinateValue::operator*(double scale) const {
-    return { getX() * scale, getY() * scale};
+  return {getX() * scale, getY() * scale};
 }
 
 Resolution Resolution::operator*(double scale) const {
-    return (scale >= 0) ? Resolution(static_cast<unsigned int>(getX() * scale), static_cast<unsigned int>(getY() * scale)) : Resolution(0,0);
+  return (scale >= 0) ? Resolution(static_cast<unsigned int>(getX() * scale),
+                                   static_cast<unsigned int>(getY() * scale))
+                      : Resolution(0, 0);
 }
 
-std::ostream &operator<<(std::ostream &os, const Resolution & res) {
-    return os << res.toString();
+std::ostream &operator<<(std::ostream &os, const Resolution &res) {
+  return os << res.toString();
 }
-std::ostream &operator<<(std::ostream &os, const CoordinateValue & cv) {
-    return os << cv.toString();
+std::ostream &operator<<(std::ostream &os, const CoordinateValue &cv) {
+  return os << cv.toString();
 }
