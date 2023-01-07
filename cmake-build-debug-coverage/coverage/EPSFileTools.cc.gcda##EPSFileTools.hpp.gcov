@@ -1,0 +1,96 @@
+        -:    0:Source:/home/kacper/Pulpit/zpr_eps/src/EPSFileTools.hpp
+        -:    0:Graph:/home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/src/CMakeFiles/EPSFileTools.dir/EPSFileTools.cc.gcno
+        -:    0:Data:/home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/src/CMakeFiles/EPSFileTools.dir/EPSFileTools.cc.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by mariusz on 08.11.22.
+        -:    3://
+        -:    4:/*
+        -:    5:    File EPSFileTools.h contains class definitions representing the File Header,
+        -:    6:    and classes representing input and output files. They are used to read text
+        -:    7:    from input, pass data to algorithm and send data to output file.
+        -:    8:*/
+        -:    9:#ifndef ZPR_EPSFILETOOLS_HPP
+        -:   10:#define ZPR_EPSFILETOOLS_HPP
+        -:   11:#include <fstream>
+        -:   12:#include <memory>
+        -:   13:#include <variant>
+        -:   14:
+        -:   15:#include "Algorithm.hpp"
+        -:   16:#include "EPSCommandRepresentation.h"
+        -:   17:#include "GraphicCommands.h"
+        -:   18:#include "Scalar2DRepresentation.h"
+        -:   19:
+        -:   20:
+        -:   21:class Header {
+        -:   22:  Resolution resolution_;
+        -:   23:  std::string header_;
+        -:   24:  static Resolution findResolution(const std::string &header);
+        -:   25:  std::string setResolutionInHeader() const;
+        -:   26:public:
+    #####:   27:  explicit Header(const std::string &header) : resolution_(findResolution(header)), header_(header) {}
+    %%%%%:   27-block  0
+        -:   28:  void setResolution(const Resolution &resolution);
+    #####:   29:  std::string getHeaderString() const { return header_; }
+    %%%%%:   29-block  0
+        -:   30:  Resolution getResolution() const { return resolution_; }
+        -:   31:};
+        -:   32:
+        -:   33:/*
+        -:   34:    This class represent input file. As arguments in constructor class require
+        -:   35:    reference to input stream. Before reading commands, class's object should
+        -:   36:    read header by call method 'getHeader', otherwise method getCommand throw
+        -:   37:    runtime exception. Class don't close the input stream.
+        -:   38:*/
+        -:   39:class EPSInFile {
+        -:   40:  std::istream &file_;
+        -:   41:  bool was_header_read = false;
+        -:   42:
+        -:   43:  std::string readHeader();
+        -:   44:  static CoordinateValue readPoint(const std::string &commandLine);
+        -:   45:  static std::string stripCommandSignature(const std::string &commandLine);
+        -:   46:  std::string getCommandLine() ;
+        -:   47:public:
+        -:   48:  explicit EPSInFile(std::istream &f) : file_(f) {}
+        -:   49:  EPSInFile(const EPSInFile &) = delete;
+        -:   50:  EPSInFile &operator=(const EPSInFile &) = delete;
+        -:   51:  Header getHeader();
+      124:   52:  bool isFinished()  { return file_.peek() == EOF; }
+      124:   52-block  0
+        -:   53:  bool isNextRelative() ;
+        -:   54:  bool isNextAbsolute() ;
+        -:   55:  bool isNextUnprocessable() ;
+        -:   56:  RelativeCommandVar getRelativeCommandVar() ;
+        -:   57:  AbsoluteCommandVar getAbsoluteCommandVar() ;
+        -:   58:  NonProcessableCommand getNonProcessableCommand() ;
+        -:   59:};
+        -:   60:
+        -:   61:/*
+        -:   62:    This class represent output file. As arguments in constructor class require
+        -:   63:    reference to output stream. Before writing commands, class's object should
+        -:   64:    write header by call method 'putHeader', otherwise method putCommand throw
+        -:   65:    runtime exception. Class don't close the output stream.
+        -:   66:*/
+        -:   67:class EPSOutFile {
+        -:   68:  std::ostream &file_;
+        -:   69:  bool was_header_write = false;
+        -:   70:
+        -:   71:public:
+        -:   72:  explicit EPSOutFile(std::ostream &f) : file_(f) {}
+        -:   73:  EPSOutFile(const EPSOutFile &) = delete;
+        -:   74:  EPSOutFile &operator=(const EPSOutFile &) = delete;
+        -:   75:  void putHeader(Header &header);
+        -:   76:  void putCommand(const Command &c) ;
+        -:   77:  void putCommand(const std::string &c) ;
+        -:   78:  template <typename BATCH_TYPE> void putBatch(const BATCH_TYPE &batch) ;
+        -:   79:};
+        -:   80:
+        -:   81:static auto stringVisit = [](const auto &command) {
+        -:   82:    return command.toString();
+        -:   83:};
+        -:   84:
+        -:   85:template <typename BATCH_TYPE> void EPSOutFile::putBatch(const BATCH_TYPE &batch) {
+        -:   86:    for (auto command : batch)
+        -:   87:        putCommand(std::visit(stringVisit, command));
+        -:   88:}
+        -:   89:#endif // ZPR_EPSFILETOOLS_HPP

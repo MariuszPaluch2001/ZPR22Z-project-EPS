@@ -1,0 +1,2 @@
+/usr/bin/ar qc libEPSCommands.a  CMakeFiles/EPSCommands.dir/GraphicCommands.cc.o CMakeFiles/EPSCommands.dir/EPSCommandRepresentation.cc.o CMakeFiles/EPSCommands.dir/Algorithm.cc.o CMakeFiles/EPSCommands.dir/Scalar2DRepresentation.cc.o
+/usr/bin/ranlib libEPSCommands.a

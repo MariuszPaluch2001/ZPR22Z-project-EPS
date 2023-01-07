@@ -499,6 +499,28 @@ TEST(EPSFileToolsTest, EPSOutFilePutRelativeBatch){
     ASSERT_EQ(oss.str(), outputStr);
 }
 
+TEST(EPSFileToolsTest, TestEpsPutStringCommandWithoutHeader){
+
+    RelativeBatch batch;
+    batch.emplace_back(RightLineCommand({2,2}));
+    batch.emplace_back(LeftLineCommand({3,3}));
+    std::ostringstream oss("");
+    EPSOutFile EPSFs(oss);
+    ASSERT_THROW(EPSFs.putBatch(batch), std::runtime_error);
+}
+
+TEST(EPSFileToolsTest, TestStripCommandSignatureOnlySignature){
+    std::istringstream iss ( "%!PS-Adobe-3.0 EPSF-3.0\n"
+                            "%%BoundingBox: 0 0 302 302\n"
+                            "%%EndComments\n"
+                            "l");
+
+    EPSInFile eps(iss);
+    eps.getHeader();
+    ASSERT_TRUE(eps.isNextRelative());
+
+
+}
 int main(int argc, char **argv) {
   ::testing::InitGoogleTest(&argc, argv);
   return RUN_ALL_TESTS();

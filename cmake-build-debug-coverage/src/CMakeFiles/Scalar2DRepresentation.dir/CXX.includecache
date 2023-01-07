@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/kacper/Pulpit/zpr_eps/src/Scalar2DRepresentation.cc
+Scalar2DRepresentation.h
+/home/kacper/Pulpit/zpr_eps/src/Scalar2DRepresentation.h
+cmath
+-
+sstream
+-
+
+/home/kacper/Pulpit/zpr_eps/src/Scalar2DRepresentation.h
+iostream
+-
+

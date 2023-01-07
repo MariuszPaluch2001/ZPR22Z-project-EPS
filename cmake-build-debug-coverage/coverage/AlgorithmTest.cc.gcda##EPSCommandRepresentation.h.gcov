@@ -1,0 +1,58 @@
+        -:    0:Source:/home/kacper/Pulpit/zpr_eps/src/EPSCommandRepresentation.h
+        -:    0:Graph:/home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/tests/CMakeFiles/AlgorithmTest.dir/AlgorithmTest.cc.gcno
+        -:    0:Data:/home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/tests/CMakeFiles/AlgorithmTest.dir/AlgorithmTest.cc.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by kacper on 04.11.2022.
+        -:    3:// File contains base class for representation of EPS Commands
+        -:    4://
+        -:    5:
+        -:    6:#ifndef ZPR_EPSCOMMANDREPRESENTATION_H
+        -:    7:#define ZPR_EPSCOMMANDREPRESENTATION_H
+        -:    8:#include "Scalar2DRepresentation.h"
+        -:    9:#include <iostream>
+        -:   10:
+        -:   11:class Command {
+        -:   12:public:
+        -:   13:  virtual std::string toString() const = 0;
+     152*:   14:  virtual ~Command() = default;
+------------------
+_ZN7CommandD0Ev:
+    #####:   14:  virtual ~Command() = default;
+    %%%%%:   14-block  0
+------------------
+_ZN7CommandD2Ev:
+      152:   14:  virtual ~Command() = default;
+------------------
+        -:   15:};
+        -:   16:
+        -:   17:class ProcessableCommand : public Command {
+        -:   18:    CoordinateValue move_point_;
+        -:   19:public:
+       31:   20:    ProcessableCommand(const CoordinateValue &move) : move_point_(move) {}
+       31:   20-block  0
+        -:   21:    virtual std::string toString() const override = 0;
+       91:   22:    CoordinateValue getMovePoint() const { return move_point_; }
+       91:   22-block  0
+       10:   23:    void rescale(double factor) { move_point_ = move_point_ * factor; }
+       10:   23-block  0
+        -:   24:
+        -:   25:};
+        -:   26:
+        -:   27:
+        -:   28:
+        -:   29:std::ostream &operator<<(std::ostream &os, const Command &com);
+        -:   30:
+        -:   31:/*
+        -:   32: * Command that is not Left Line, Right Line or Point
+        -:   33: */
+        -:   34:class NonProcessableCommand : public Command {
+        -:   35:  std::string text_representation_;
+        -:   36:
+        -:   37:public:
+        -:   38:  NonProcessableCommand(const std::string &s) : text_representation_(s) {}
+        -:   39:  virtual std::string toString() const override { return text_representation_; }
+        -:   40:};
+        -:   41:
+        -:   42:
+        -:   43:#endif // ZPR_EPSCOMMANDREPRESENTATION_H

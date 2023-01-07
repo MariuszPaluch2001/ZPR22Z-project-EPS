@@ -1,0 +1,364 @@
+Start testing: Jan 07 16:46 CET
+----------------------------------------------------------
+1/5 Testing: EPSFileToolsTest
+1/5 Test: EPSFileToolsTest
+Command: "/home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/tests/EPSFileToolsTest"
+Directory: /home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/tests
+"EPSFileToolsTest" start time: Jan 07 16:46 CET
+Output:
+----------------------------------------------------------
+[==========] Running 35 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 35 tests from EPSFileToolsTest
+[ RUN      ] EPSFileToolsTest.ThrowExceptionGetHeaderTest
+[       OK ] EPSFileToolsTest.ThrowExceptionGetHeaderTest (0 ms)
+[ RUN      ] EPSFileToolsTest.ThrowExceptionWhenHeaderDoesntHaveEndTag
+[       OK ] EPSFileToolsTest.ThrowExceptionWhenHeaderDoesntHaveEndTag (0 ms)
+[ RUN      ] EPSFileToolsTest.TestReadingHeaderFromFile
+[       OK ] EPSFileToolsTest.TestReadingHeaderFromFile (0 ms)
+[ RUN      ] EPSFileToolsTest.TestThrowingExceptionWhenResolutionNotFound
+[       OK ] EPSFileToolsTest.TestThrowingExceptionWhenResolutionNotFound (0 ms)
+[ RUN      ] EPSFileToolsTest.TestResolutionSize
+[       OK ] EPSFileToolsTest.TestResolutionSize (0 ms)
+[ RUN      ] EPSFileToolsTest.TestSettingResolutionInHeader
+[       OK ] EPSFileToolsTest.TestSettingResolutionInHeader (0 ms)
+[ RUN      ] EPSFileToolsTest.TestSettingResolutionInHeaderWithSecondResolution
+[       OK ] EPSFileToolsTest.TestSettingResolutionInHeaderWithSecondResolution (0 ms)
+[ RUN      ] EPSFileToolsTest.TestIsNextRelativeFalse
+[       OK ] EPSFileToolsTest.TestIsNextRelativeFalse (0 ms)
+[ RUN      ] EPSFileToolsTest.TestIsNextRelativeLeftCommand
+[       OK ] EPSFileToolsTest.TestIsNextRelativeLeftCommand (0 ms)
+[ RUN      ] EPSFileToolsTest.TestIsNextRelativeRightCommand
+[       OK ] EPSFileToolsTest.TestIsNextRelativeRightCommand (0 ms)
+[ RUN      ] EPSFileToolsTest.TestIsNextAbsoluteFalse
+[       OK ] EPSFileToolsTest.TestIsNextAbsoluteFalse (0 ms)
+[ RUN      ] EPSFileToolsTest.TestIsNextAbsolutePointCommand
+[       OK ] EPSFileToolsTest.TestIsNextAbsolutePointCommand (0 ms)
+[ RUN      ] EPSFileToolsTest.TestIsNextAbsoluteMoveCommand
+[       OK ] EPSFileToolsTest.TestIsNextAbsoluteMoveCommand (0 ms)
+[ RUN      ] EPSFileToolsTest.TestIsNextUnprocessableFalse
+[       OK ] EPSFileToolsTest.TestIsNextUnprocessableFalse (0 ms)
+[ RUN      ] EPSFileToolsTest.TestIsNextUnprocessableTrue
+[       OK ] EPSFileToolsTest.TestIsNextUnprocessableTrue (0 ms)
+[ RUN      ] EPSFileToolsTest.TestGetRelativeCommandVarRightLineCommand
+[       OK ] EPSFileToolsTest.TestGetRelativeCommandVarRightLineCommand (0 ms)
+[ RUN      ] EPSFileToolsTest.TestGetRelativeCommandVarLeftLineCommand
+[       OK ] EPSFileToolsTest.TestGetRelativeCommandVarLeftLineCommand (0 ms)
+[ RUN      ] EPSFileToolsTest.TestGetRelativeCommandVarException
+[       OK ] EPSFileToolsTest.TestGetRelativeCommandVarException (0 ms)
+[ RUN      ] EPSFileToolsTest.TestGetAbsoluteCommandVarPointCommand
+[       OK ] EPSFileToolsTest.TestGetAbsoluteCommandVarPointCommand (0 ms)
+[ RUN      ] EPSFileToolsTest.TestGetAbsoluteCommandVarMoveCommand
+[       OK ] EPSFileToolsTest.TestGetAbsoluteCommandVarMoveCommand (0 ms)
+[ RUN      ] EPSFileToolsTest.TestGetAbsoluteCommandVarException
+[       OK ] EPSFileToolsTest.TestGetAbsoluteCommandVarException (0 ms)
+[ RUN      ] EPSFileToolsTest.TestGetNonProcessableCommand
+[       OK ] EPSFileToolsTest.TestGetNonProcessableCommand (0 ms)
+[ RUN      ] EPSFileToolsTest.TestGetCommandsFunctions
+[       OK ] EPSFileToolsTest.TestGetCommandsFunctions (0 ms)
+[ RUN      ] EPSFileToolsTest.TestGetRelativeCommandVarWhenFileIsEnd
+[       OK ] EPSFileToolsTest.TestGetRelativeCommandVarWhenFileIsEnd (0 ms)
+[ RUN      ] EPSFileToolsTest.TestGetAbsoluteCommandVarWhenFileIsEnd
+[       OK ] EPSFileToolsTest.TestGetAbsoluteCommandVarWhenFileIsEnd (0 ms)
+[ RUN      ] EPSFileToolsTest.TestGetNonProcessableCommandWhenFileIsEnd
+[       OK ] EPSFileToolsTest.TestGetNonProcessableCommandWhenFileIsEnd (0 ms)
+[ RUN      ] EPSFileToolsTest.ThrowExceptionCommandReadWithoutHeaderRead
+[       OK ] EPSFileToolsTest.ThrowExceptionCommandReadWithoutHeaderRead (0 ms)
+[ RUN      ] EPSFileToolsTest.EPSOutFileExceptionHeaderDoubleWrite
+[       OK ] EPSFileToolsTest.EPSOutFileExceptionHeaderDoubleWrite (0 ms)
+[ RUN      ] EPSFileToolsTest.EPSOutFileExceptionWriteWithoutHeader
+[       OK ] EPSFileToolsTest.EPSOutFileExceptionWriteWithoutHeader (0 ms)
+[ RUN      ] EPSFileToolsTest.EPSOutFileWriteHeader
+[       OK ] EPSFileToolsTest.EPSOutFileWriteHeader (0 ms)
+[ RUN      ] EPSFileToolsTest.EPSOutFileWriteHeaderAndCommands
+[       OK ] EPSFileToolsTest.EPSOutFileWriteHeaderAndCommands (0 ms)
+[ RUN      ] EPSFileToolsTest.EPSOutFilePutAbsoluteBatch
+[       OK ] EPSFileToolsTest.EPSOutFilePutAbsoluteBatch (0 ms)
+[ RUN      ] EPSFileToolsTest.EPSOutFilePutRelativeBatch
+[       OK ] EPSFileToolsTest.EPSOutFilePutRelativeBatch (0 ms)
+[ RUN      ] EPSFileToolsTest.TestEpsPutStringCommandWithoutHeader
+[       OK ] EPSFileToolsTest.TestEpsPutStringCommandWithoutHeader (0 ms)
+[ RUN      ] EPSFileToolsTest.TestStripCommandSignatureOnlySignature
+[       OK ] EPSFileToolsTest.TestStripCommandSignatureOnlySignature (0 ms)
+[----------] 35 tests from EPSFileToolsTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 35 tests from 1 test suite ran. (0 ms total)
+[  PASSED  ] 35 tests.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"EPSFileToolsTest" end time: Jan 07 16:46 CET
+"EPSFileToolsTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/5 Testing: Scalar2DRepresentationTest
+2/5 Test: Scalar2DRepresentationTest
+Command: "/home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/tests/Scalar2DRepresentationTest"
+Directory: /home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/tests
+"Scalar2DRepresentationTest" start time: Jan 07 16:46 CET
+Output:
+----------------------------------------------------------
+[==========] Running 33 tests from 3 test suites.
+[----------] Global test environment set-up.
+[----------] 31 tests from Scalar2DRepresentationTest
+[ RUN      ] Scalar2DRepresentationTest.TestPointCordsGetters
+[       OK ] Scalar2DRepresentationTest.TestPointCordsGetters (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestDirectionCordsGetters
+[       OK ] Scalar2DRepresentationTest.TestDirectionCordsGetters (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestResolutionCordsGetters
+[       OK ] Scalar2DRepresentationTest.TestResolutionCordsGetters (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestPointToString
+[       OK ] Scalar2DRepresentationTest.TestPointToString (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestResolutionToString
+[       OK ] Scalar2DRepresentationTest.TestResolutionToString (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestPointSetXY
+[       OK ] Scalar2DRepresentationTest.TestPointSetXY (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestResolutionSetXY
+[       OK ] Scalar2DRepresentationTest.TestResolutionSetXY (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestDirectionDivOperator
+[       OK ] Scalar2DRepresentationTest.TestDirectionDivOperator (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestDirectionDivOperatorByZero
+[       OK ] Scalar2DRepresentationTest.TestDirectionDivOperatorByZero (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestPointAdditionOperator
+[       OK ] Scalar2DRepresentationTest.TestPointAdditionOperator (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestPointSubtractionOperator
+[       OK ] Scalar2DRepresentationTest.TestPointSubtractionOperator (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestOstreamOperatorCoordinate
+[       OK ] Scalar2DRepresentationTest.TestOstreamOperatorCoordinate (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestOstreamOperatorResolution
+[       OK ] Scalar2DRepresentationTest.TestOstreamOperatorResolution (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestDirectionLength
+[       OK ] Scalar2DRepresentationTest.TestDirectionLength (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestDirectionZeroLength
+[       OK ] Scalar2DRepresentationTest.TestDirectionZeroLength (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestNormalizeZeroLengthDirection
+[       OK ] Scalar2DRepresentationTest.TestNormalizeZeroLengthDirection (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestNormalizeDirection
+[       OK ] Scalar2DRepresentationTest.TestNormalizeDirection (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestDirectionZeroAngle
+[       OK ] Scalar2DRepresentationTest.TestDirectionZeroAngle (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestDirection90Angle
+[       OK ] Scalar2DRepresentationTest.TestDirection90Angle (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestNegativeXAngle
+[       OK ] Scalar2DRepresentationTest.TestNegativeXAngle (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestNegativeXYAngle
+[       OK ] Scalar2DRepresentationTest.TestNegativeXYAngle (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestNegativeYAngle
+[       OK ] Scalar2DRepresentationTest.TestNegativeYAngle (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestNegative90Angle
+[       OK ] Scalar2DRepresentationTest.TestNegative90Angle (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestDistanceBetweenParallelDirections
+[       OK ] Scalar2DRepresentationTest.TestDistanceBetweenParallelDirections (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestDistanceBetweenPerpendicularDirections
+[       OK ] Scalar2DRepresentationTest.TestDistanceBetweenPerpendicularDirections (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestDistanceBetweenOppositDirections
+[       OK ] Scalar2DRepresentationTest.TestDistanceBetweenOppositDirections (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestDistanceBetweenNormalizedDirections
+[       OK ] Scalar2DRepresentationTest.TestDistanceBetweenNormalizedDirections (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestRescaleDirection
+[       OK ] Scalar2DRepresentationTest.TestRescaleDirection (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestRescaleCoordinate
+[       OK ] Scalar2DRepresentationTest.TestRescaleCoordinate (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestRescaleResolution
+[       OK ] Scalar2DRepresentationTest.TestRescaleResolution (0 ms)
+[ RUN      ] Scalar2DRepresentationTest.TestRescaleResolutionByNegativeFactor
+[       OK ] Scalar2DRepresentationTest.TestRescaleResolutionByNegativeFactor (0 ms)
+[----------] 31 tests from Scalar2DRepresentationTest (0 ms total)
+
+[----------] 1 test from Scalar2DRepresentatioTest
+[ RUN      ] Scalar2DRepresentatioTest.TestDirectionAngle
+[       OK ] Scalar2DRepresentatioTest.TestDirectionAngle (0 ms)
+[----------] 1 test from Scalar2DRepresentatioTest (0 ms total)
+
+[----------] 1 test from Scalar2DRepresentatinoTest
+[ RUN      ] Scalar2DRepresentatinoTest.TestPIAngle
+[       OK ] Scalar2DRepresentatinoTest.TestPIAngle (0 ms)
+[----------] 1 test from Scalar2DRepresentatinoTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 33 tests from 3 test suites ran. (0 ms total)
+[  PASSED  ] 33 tests.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"Scalar2DRepresentationTest" end time: Jan 07 16:46 CET
+"Scalar2DRepresentationTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/5 Testing: GraphicCommandTest
+3/5 Test: GraphicCommandTest
+Command: "/home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/tests/GraphicCommandTest"
+Directory: /home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/tests
+"GraphicCommandTest" start time: Jan 07 16:46 CET
+Output:
+----------------------------------------------------------
+[==========] Running 34 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 34 tests from GraphicCommandTest
+[ RUN      ] GraphicCommandTest.TestCreateLeftLine
+[       OK ] GraphicCommandTest.TestCreateLeftLine (0 ms)
+[ RUN      ] GraphicCommandTest.TestLeftLinePointGetter
+[       OK ] GraphicCommandTest.TestLeftLinePointGetter (0 ms)
+[ RUN      ] GraphicCommandTest.TestLeftLineStringForm
+[       OK ] GraphicCommandTest.TestLeftLineStringForm (0 ms)
+[ RUN      ] GraphicCommandTest.TestLeftLineDirection
+[       OK ] GraphicCommandTest.TestLeftLineDirection (0 ms)
+[ RUN      ] GraphicCommandTest.TestCreateRightLine
+[       OK ] GraphicCommandTest.TestCreateRightLine (0 ms)
+[ RUN      ] GraphicCommandTest.TestRightLinePointGetter
+[       OK ] GraphicCommandTest.TestRightLinePointGetter (0 ms)
+[ RUN      ] GraphicCommandTest.TestRightLineStringForm
+[       OK ] GraphicCommandTest.TestRightLineStringForm (0 ms)
+[ RUN      ] GraphicCommandTest.TestRightLineDirection
+[       OK ] GraphicCommandTest.TestRightLineDirection (0 ms)
+[ RUN      ] GraphicCommandTest.TestCreatePointCommand
+[       OK ] GraphicCommandTest.TestCreatePointCommand (0 ms)
+[ RUN      ] GraphicCommandTest.TestPointCommandPointGetter
+[       OK ] GraphicCommandTest.TestPointCommandPointGetter (0 ms)
+[ RUN      ] GraphicCommandTest.TestPointCommandStringForm
+[       OK ] GraphicCommandTest.TestPointCommandStringForm (0 ms)
+[ RUN      ] GraphicCommandTest.TestCreateMoveCommand
+[       OK ] GraphicCommandTest.TestCreateMoveCommand (0 ms)
+[ RUN      ] GraphicCommandTest.TestMoveCommandPointGetter
+[       OK ] GraphicCommandTest.TestMoveCommandPointGetter (0 ms)
+[ RUN      ] GraphicCommandTest.TestMoveCommandStringForm
+[       OK ] GraphicCommandTest.TestMoveCommandStringForm (0 ms)
+[ RUN      ] GraphicCommandTest.TestRescaleLeftLine
+[       OK ] GraphicCommandTest.TestRescaleLeftLine (0 ms)
+[ RUN      ] GraphicCommandTest.TestRescaleRightLine
+[       OK ] GraphicCommandTest.TestRescaleRightLine (0 ms)
+[ RUN      ] GraphicCommandTest.TestRescalePointCommand
+[       OK ] GraphicCommandTest.TestRescalePointCommand (0 ms)
+[ RUN      ] GraphicCommandTest.TestLeftLeftDifference
+[       OK ] GraphicCommandTest.TestLeftLeftDifference (0 ms)
+[ RUN      ] GraphicCommandTest.TestLeftLeftDifferencePerpendicular
+[       OK ] GraphicCommandTest.TestLeftLeftDifferencePerpendicular (0 ms)
+[ RUN      ] GraphicCommandTest.TestLeftLeftMidpoint
+[       OK ] GraphicCommandTest.TestLeftLeftMidpoint (0 ms)
+[ RUN      ] GraphicCommandTest.TestLeftRighttDifference
+[       OK ] GraphicCommandTest.TestLeftRighttDifference (0 ms)
+[ RUN      ] GraphicCommandTest.TestLeftRightMidpoint
+[       OK ] GraphicCommandTest.TestLeftRightMidpoint (0 ms)
+[ RUN      ] GraphicCommandTest.TestRightLeftDifference
+[       OK ] GraphicCommandTest.TestRightLeftDifference (0 ms)
+[ RUN      ] GraphicCommandTest.TestRighLefttMidpoint
+[       OK ] GraphicCommandTest.TestRighLefttMidpoint (0 ms)
+[ RUN      ] GraphicCommandTest.TestRightRightDifference
+[       OK ] GraphicCommandTest.TestRightRightDifference (0 ms)
+[ RUN      ] GraphicCommandTest.TestRightRightMidpoint
+[       OK ] GraphicCommandTest.TestRightRightMidpoint (0 ms)
+[ RUN      ] GraphicCommandTest.TestPointPointDifference
+[       OK ] GraphicCommandTest.TestPointPointDifference (0 ms)
+[ RUN      ] GraphicCommandTest.TestPointPointMidpoint
+[       OK ] GraphicCommandTest.TestPointPointMidpoint (0 ms)
+[ RUN      ] GraphicCommandTest.TestPointMoveDifference
+[       OK ] GraphicCommandTest.TestPointMoveDifference (0 ms)
+[ RUN      ] GraphicCommandTest.TestPointMoveMidpoint
+[       OK ] GraphicCommandTest.TestPointMoveMidpoint (0 ms)
+[ RUN      ] GraphicCommandTest.TestMovePointDifference
+[       OK ] GraphicCommandTest.TestMovePointDifference (0 ms)
+[ RUN      ] GraphicCommandTest.TestMovePointMidpoint
+[       OK ] GraphicCommandTest.TestMovePointMidpoint (0 ms)
+[ RUN      ] GraphicCommandTest.TestMoveMoveDifference
+[       OK ] GraphicCommandTest.TestMoveMoveDifference (0 ms)
+[ RUN      ] GraphicCommandTest.TestMoveMoveMidpoint
+[       OK ] GraphicCommandTest.TestMoveMoveMidpoint (0 ms)
+[----------] 34 tests from GraphicCommandTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 34 tests from 1 test suite ran. (0 ms total)
+[  PASSED  ] 34 tests.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"GraphicCommandTest" end time: Jan 07 16:46 CET
+"GraphicCommandTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/5 Testing: EPSCommandRepresentationTest
+4/5 Test: EPSCommandRepresentationTest
+Command: "/home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/tests/EPSCommandRepresentationTest"
+Directory: /home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/tests
+"EPSCommandRepresentationTest" start time: Jan 07 16:46 CET
+Output:
+----------------------------------------------------------
+[==========] Running 4 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 4 tests from EPSCommandRepresentation
+[ RUN      ] EPSCommandRepresentation.testCreateNonProcessableCommand
+[       OK ] EPSCommandRepresentation.testCreateNonProcessableCommand (0 ms)
+[ RUN      ] EPSCommandRepresentation.testNonProcessableCommandStringForm
+[       OK ] EPSCommandRepresentation.testNonProcessableCommandStringForm (0 ms)
+[ RUN      ] EPSCommandRepresentation.testNonProcessableCommandEmptyStringForm
+[       OK ] EPSCommandRepresentation.testNonProcessableCommandEmptyStringForm (0 ms)
+[ RUN      ] EPSCommandRepresentation.testPrintingCommand
+[       OK ] EPSCommandRepresentation.testPrintingCommand (0 ms)
+[----------] 4 tests from EPSCommandRepresentation (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 4 tests from 1 test suite ran. (0 ms total)
+[  PASSED  ] 4 tests.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"EPSCommandRepresentationTest" end time: Jan 07 16:46 CET
+"EPSCommandRepresentationTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/5 Testing: AlgorithmTest
+5/5 Test: AlgorithmTest
+Command: "/home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/tests/AlgorithmTest"
+Directory: /home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/tests
+"AlgorithmTest" start time: Jan 07 16:46 CET
+Output:
+----------------------------------------------------------
+[==========] Running 14 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 14 tests from AlgorithmTest
+[ RUN      ] AlgorithmTest.TestCreateAlgorithm
+[       OK ] AlgorithmTest.TestCreateAlgorithm (0 ms)
+[ RUN      ] AlgorithmTest.TestGetSetMinDiff
+[       OK ] AlgorithmTest.TestGetSetMinDiff (0 ms)
+[ RUN      ] AlgorithmTest.TestSetNegativeDiff
+[       OK ] AlgorithmTest.TestSetNegativeDiff (0 ms)
+[ RUN      ] AlgorithmTest.TestGetSetScalingFactor
+[       OK ] AlgorithmTest.TestGetSetScalingFactor (0 ms)
+[ RUN      ] AlgorithmTest.TestSetNegativeScalingFactor
+[       OK ] AlgorithmTest.TestSetNegativeScalingFactor (0 ms)
+[ RUN      ] AlgorithmTest.TestGetSetSortingRange
+[       OK ] AlgorithmTest.TestGetSetSortingRange (0 ms)
+[ RUN      ] AlgorithmTest.TestAbsoluteBatchRescaling
+[       OK ] AlgorithmTest.TestAbsoluteBatchRescaling (0 ms)
+[ RUN      ] AlgorithmTest.TestRelativeBatchRescaling
+[       OK ] AlgorithmTest.TestRelativeBatchRescaling (0 ms)
+[ RUN      ] AlgorithmTest.TestSortAbsoluteBatch
+[       OK ] AlgorithmTest.TestSortAbsoluteBatch (0 ms)
+[ RUN      ] AlgorithmTest.TestSortAbsoluteBatchTooSmall
+[       OK ] AlgorithmTest.TestSortAbsoluteBatchTooSmall (0 ms)
+[ RUN      ] AlgorithmTest.TestProcessAbsoluteBatch
+[       OK ] AlgorithmTest.TestProcessAbsoluteBatch (0 ms)
+[ RUN      ] AlgorithmTest.TestProcessAbsoluteBatchTooSmall
+[       OK ] AlgorithmTest.TestProcessAbsoluteBatchTooSmall (0 ms)
+[ RUN      ] AlgorithmTest.TestProcessRelativeBatch
+[       OK ] AlgorithmTest.TestProcessRelativeBatch (0 ms)
+[ RUN      ] AlgorithmTest.TestProcessRelativeBatchTooSmall
+[       OK ] AlgorithmTest.TestProcessRelativeBatchTooSmall (0 ms)
+[----------] 14 tests from AlgorithmTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 14 tests from 1 test suite ran. (0 ms total)
+[  PASSED  ] 14 tests.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"AlgorithmTest" end time: Jan 07 16:46 CET
+"AlgorithmTest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jan 07 16:46 CET

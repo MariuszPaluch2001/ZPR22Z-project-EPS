@@ -96,8 +96,7 @@ EPSInFile::stripCommandSignature(const std::string &command_line) {
   else
     command_signature = command_line;
 
-  return command_signature;
-}
+  return command_signature;}
 
 std::string
 EPSInFile::getCommandLine()  {

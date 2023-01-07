@@ -1,0 +1,2 @@
+/usr/bin/ar qc libScalar2DRepresentation.a  CMakeFiles/Scalar2DRepresentation.dir/Scalar2DRepresentation.cc.o
+/usr/bin/ranlib libScalar2DRepresentation.a

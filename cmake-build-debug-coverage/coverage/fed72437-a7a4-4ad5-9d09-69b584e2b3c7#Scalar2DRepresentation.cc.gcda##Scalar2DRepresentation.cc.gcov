@@ -1,0 +1,131 @@
+        -:    0:Source:/home/kacper/Pulpit/zpr_eps/src/Scalar2DRepresentation.cc
+        -:    0:Graph:/home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/src/CMakeFiles/EPSCommands.dir/Scalar2DRepresentation.cc.gcno
+        -:    0:Data:/home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/src/CMakeFiles/EPSCommands.dir/Scalar2DRepresentation.cc.gcda
+        -:    0:Runs:3
+        -:    1://
+        -:    2:// Created by kacper on 04.11.2022.
+        -:    3://
+        -:    4:#include "Scalar2DRepresentation.h"
+        -:    5:#include <cmath>
+        -:    6:#include <sstream>
+        -:    7:
+        -:    8:
+        -:    9:
+    #####:   10:std::string CoordinateValue::toString() const {
+    #####:   11:  std::stringstream s;
+    %%%%%:   11-block  0
+    #####:   12:  s << "CoordinateValue: (" << getX() << ", " << getY() << ")";
+    %%%%%:   12-block  0
+    %%%%%:   12-block  1
+    %%%%%:   12-block  2
+    %%%%%:   12-block  3
+    %%%%%:   12-block  4
+    #####:   13:  return s.str();
+    %%%%%:   13-block  0
+    %%%%%:   13-block  1
+    #####:   14:}
+    %%%%%:   14-block  0
+    $$$$$:   14-block  1
+        -:   15:
+    #####:   16:std::string Resolution::toString() const {
+    #####:   17:  std::stringstream s;
+    %%%%%:   17-block  0
+    #####:   18:  s << "Resolution: " << getX() << "p x " << getY() << "p";
+    %%%%%:   18-block  0
+    %%%%%:   18-block  1
+    %%%%%:   18-block  2
+    %%%%%:   18-block  3
+    %%%%%:   18-block  4
+    #####:   19:  return s.str();
+    %%%%%:   19-block  0
+    %%%%%:   19-block  1
+    #####:   20:}
+    %%%%%:   20-block  0
+    $$$$$:   20-block  1
+        -:   21:/*
+        -:   22:Coordinates Coordinates::getMidpoint(const Coordinates &p) const {
+        -:   23:  return Coordinates((p.getX() + getX()) / 2, (p.getY() + getY()) / 2);
+        -:   24:}
+        -:   25:*/
+       47:   26:double length(const Direction &d) {
+       47:   27:  return std::sqrt(std::pow(d.getX(), 2) + std::pow(d.getY(), 2));
+       47:   27-block  0
+        -:   28:}
+        -:   29:
+       10:   30:Direction normalizeDirection(const Direction &d) {
+       10:   31:  auto len = length(d);
+       10:   31-block  0
+      10*:   32:  return len == 0 ? Direction(0, 0) : d / len;
+    %%%%%:   32-block  0
+       10:   32-block  1
+        -:   33:}
+        -:   34:
+       10:   35:double getDirectionAngle(const Direction &d) {
+       10:   36:  auto d2 = normalizeDirection(d);
+       10:   36-block  0
+       10:   37:  auto angle = std::asin(d2.getY());
+       10:   37-block  0
+       10:   38:  if (d2.getX() < 0) {
+    #####:   39:    angle = (angle >= 0 ? M_PI : -M_PI) - angle;
+    %%%%%:   39-block  0
+    %%%%%:   39-block  1
+    %%%%%:   39-block  2
+    %%%%%:   39-block  3
+        -:   40:  }
+       10:   41:  return angle;
+       10:   41-block  0
+       10:   41-block  1
+        -:   42:}
+        -:   43:
+        -:   44://@todo opposite Directions are a fuss
+        5:   45:double countDistanceBetweenConjoinedDirections(const Direction &d1,
+        -:   46:                                               const Direction &d2) {
+        5:   47:  auto firstAngle = getDirectionAngle(d1);
+        5:   47-block  0
+        5:   48:  auto secondAngle = getDirectionAngle(d2);
+        5:   49:  auto angleInBetween = secondAngle - firstAngle;
+        5:   50:  return std::sin(angleInBetween) * length(d2);
+        -:   51:}
+        -:   52:
+       10:   53:CoordinateValue CoordinateValue::operator/(double div) const {
+      10*:   54:  return div < 1e-5 ? Direction(0, 0) : Direction(getX() / div, getY() / div);
+       10:   54-block  0
+    %%%%%:   54-block  1
+       10:   54-block  2
+        -:   55:}
+        -:   56:
+        4:   57:CoordinateValue CoordinateValue::operator+(const CoordinateValue &d) const {
+        4:   58:    return {getX() + d.getX(), getY() + d.getY()};
+        4:   58-block  0
+        -:   59:}
+        -:   60:
+       31:   61:CoordinateValue CoordinateValue::operator-(const CoordinateValue &d) const {
+       31:   62:    return {getX() - d.getX(), getY() - d.getY()};
+       31:   62-block  0
+        -:   63:}
+       13:   64:CoordinateValue CoordinateValue::operator*(double scale) const {
+       13:   65:    return { getX() * scale, getY() * scale};
+       13:   65-block  0
+        -:   66:}
+        -:   67:
+    #####:   68:Resolution Resolution::operator*(double scale) const {
+    #####:   69:    return (scale >= 0) ? Resolution(static_cast<unsigned int>(getX() * scale), static_cast<unsigned int>(getY() * scale)) : Resolution(0,0);
+    %%%%%:   69-block  0
+    %%%%%:   69-block  1
+    %%%%%:   69-block  2
+        -:   70:}
+        -:   71:
+    #####:   72:std::ostream &operator<<(std::ostream &os, const Resolution & res) {
+    #####:   73:    return os << res.toString();
+    %%%%%:   73-block  0
+    %%%%%:   73-block  1
+    %%%%%:   73-block  2
+    $$$$$:   73-block  3
+        -:   74:}
+    #####:   75:std::ostream &operator<<(std::ostream &os, const CoordinateValue & cv) {
+    #####:   76:    return os << cv.toString();
+    %%%%%:   76-block  0
+    %%%%%:   76-block  1
+    %%%%%:   76-block  2
+    $$$$$:   76-block  3
+        -:   77:}

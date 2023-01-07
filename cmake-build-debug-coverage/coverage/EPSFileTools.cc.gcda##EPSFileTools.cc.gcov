@@ -1,0 +1,402 @@
+        -:    0:Source:/home/kacper/Pulpit/zpr_eps/src/EPSFileTools.cc
+        -:    0:Graph:/home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/src/CMakeFiles/EPSFileTools.dir/EPSFileTools.cc.gcno
+        -:    0:Data:/home/kacper/Pulpit/zpr_eps/cmake-build-debug-coverage/src/CMakeFiles/EPSFileTools.dir/EPSFileTools.cc.gcda
+        -:    0:Runs:1
+        -:    1://
+        -:    2:// Created by mariusz on 08.11.22.
+        -:    3://
+        -:    4:#include <sstream>
+        -:    5:
+        -:    6:#include "EPSFileTools.hpp"
+        -:    7:
+       31:    8:Resolution Header::findResolution(const std::string &header){
+       31:    9:  unsigned int x_res = 0;
+       31:   10:  unsigned int y_res = 0;
+       31:   11:  std::string line;
+       31:   11-block  0
+       31:   12:  std::stringstream ss(header);
+       31:   13:  bool is_res_found = false;
+      149:   14:  while (std::getline(ss, line)) {
+       31:   14-block  0
+      149:   14-block  1
+      149:   14-block  2
+      149:   14-block  3
+      118:   15:    if (line.rfind("%%BoundingBox", 0) == 0) {
+      118:   15-block  0
+      118:   15-block  1
+       30:   16:      std::stringstream s(line);
+       30:   16-block  0
+       30:   17:      std::string tag, zero1, zero2, x, y;
+       30:   17-block  0
+       30:   18:      s >> tag >> zero1 >> zero2 >> x >> y;
+       30:   18-block  0
+       30:   18-block  1
+       30:   18-block  2
+       30:   18-block  3
+       30:   19:      x_res = std::stoi(x);
+       30:   19-block  0
+       30:   20:      y_res = std::stoi(y);
+       30:   20-block  0
+       30:   21:      is_res_found = true;
+       30:   22:    }
+       30:   22-block  0
+    $$$$$:   22-block  1
+    $$$$$:   22-block  2
+    $$$$$:   22-block  3
+    $$$$$:   22-block  4
+    $$$$$:   22-block  5
+    $$$$$:   22-block  6
+        -:   23:  }
+       31:   24:  if (!is_res_found)
+       31:   24-block  0
+        1:   25:    throw std::runtime_error("Resolution not found.");
+        1:   25-block  0
+        1:   25-block  1
+    $$$$$:   25-block  2
+       60:   26:  return {x_res, y_res};
+       30:   26-block  0
+       30:   26-block  1
+       32:   27:}
+        1:   27-block  0
+        1:   27-block  1
+        2:   28:std::string Header::setResolutionInHeader() const{
+        2:   29:    std::string new_header;
+        2:   29-block  0
+        2:   30:    std::string line;
+        2:   31:    std::stringstream ss(header_);
+       17:   32:    while (std::getline(ss, line)) {
+        2:   32-block  0
+       17:   32-block  1
+       17:   32-block  2
+       17:   32-block  3
+       15:   33:        if (line.rfind("%%BoundingBox", 0) == 0) {
+       15:   33-block  0
+       15:   33-block  1
+        2:   34:            std::stringstream s;
+        2:   34-block  0
+        2:   35:            s << "%%BoundingBox: 0 0 " << resolution_.getX() << " " << resolution_.getY();
+        2:   35-block  0
+        2:   35-block  1
+        2:   35-block  2
+        2:   35-block  3
+        2:   36:            new_header += s.str() + '\n';
+        2:   36-block  0
+        2:   36-block  1
+        2:   36-block  2
+        2:   36-block  3
+    $$$$$:   36-block  4
+    $$$$$:   36-block  5
+    $$$$$:   36-block  6
+    $$$$$:   36-block  7
+        2:   37:        }
+    $$$$$:   37-block  0
+       13:   38:        else if (line.rfind("%%DocumentMedia", 0) == 0){
+       13:   38-block  0
+       13:   38-block  1
+        1:   39:            std::stringstream s;
+        1:   39-block  0
+        1:   40:            s << "%%DocumentMedia: special "<<resolution_.getX() <<" "<< resolution_.getY() <<" 0 () ()";
+        1:   40-block  0
+        1:   40-block  1
+        1:   40-block  2
+        1:   40-block  3
+        1:   40-block  4
+        1:   41:            new_header += s.str() + '\n';
+        1:   41-block  0
+        1:   41-block  1
+        1:   41-block  2
+        1:   41-block  3
+    $$$$$:   41-block  4
+    $$$$$:   41-block  5
+    $$$$$:   41-block  6
+    $$$$$:   41-block  7
+        1:   42:        }
+    $$$$$:   42-block  0
+        -:   43:        else{
+       12:   44:            new_header += line + '\n';
+       12:   44-block  0
+       12:   44-block  1
+       12:   44-block  2
+    $$$$$:   44-block  3
+    $$$$$:   44-block  4
+        -:   45:        }
+        -:   46:    }
+        4:   47:    return new_header;
+        2:   47-block  0
+        2:   47-block  1
+        2:   48:}
+        2:   48-block  0
+    $$$$$:   48-block  1
+    $$$$$:   48-block  2
+    $$$$$:   48-block  3
+        -:   49:
+        2:   50:void Header::setResolution(const Resolution &resolution) {
+        2:   51:  resolution_.setX(resolution.getX());
+        2:   51-block  0
+        2:   52:  resolution_.setY(resolution.getY());
+        2:   53:  header_ = setResolutionInHeader();
+        2:   54:}
+        -:   55:
+       25:   56:std::string EPSInFile::readHeader() {
+       25:   57:  std::string text;
+       25:   57-block  0
+       25:   58:  std::string header_buffer;
+        -:   59:  bool is_finished_flag;
+       25:   60:  if (was_header_read) {
+        1:   61:      throw std::runtime_error("Header has been read.");
+        1:   61-block  0
+        1:   61-block  1
+    $$$$$:   61-block  2
+        -:   62:  }
+       24:   63:  is_finished_flag = isFinished();
+       24:   63-block  0
+       90:   64:  while (!is_finished_flag) {
+       24:   64-block  0
+       90:   64-block  1
+       89:   65:      std::getline(file_, text);
+       89:   65-block  0
+       89:   66:      if (text == "%%EndComments") {
+       89:   66-block  0
+       23:   67:          header_buffer += "%%EndComments\n";
+       23:   67-block  0
+       23:   68:          break;
+       23:   68-block  0
+        -:   69:      }
+       66:   70:      header_buffer += text + '\n';
+       66:   70-block  0
+       66:   70-block  1
+       66:   70-block  2
+    $$$$$:   70-block  3
+    $$$$$:   70-block  4
+       66:   71:      is_finished_flag = isFinished();
+       66:   71-block  0
+        -:   72:    }
+       24:   73:  if (is_finished_flag)
+       24:   73-block  0
+        1:   74:      throw std::runtime_error("File is finished.");
+        1:   74-block  0
+        1:   74-block  1
+    $$$$$:   74-block  2
+       23:   75:  was_header_read = true;
+       46:   76:  return header_buffer;
+       23:   76-block  0
+       23:   76-block  1
+       27:   77:}
+       23:   77-block  0
+        2:   77-block  1
+        2:   77-block  2
+        -:   78:
+       25:   79:Header EPSInFile::getHeader(){
+       48:   80:  return Header(readHeader());
+       25:   80-block  0
+       23:   80-block  1
+       23:   80-block  2
+    $$$$$:   80-block  3
+        -:   81:}
+        -:   82:
+       11:   83:CoordinateValue EPSInFile::readPoint(const std::string &command_line) {
+       11:   84:  std::stringstream s(command_line);
+       11:   84-block  0
+        -:   85:  double x, y;
+       11:   86:  s >> x >> y;
+       11:   86-block  0
+       11:   86-block  1
+       22:   87:  return {x, y};
+       11:   87-block  0
+       11:   87-block  1
+       11:   88:}
+    $$$$$:   88-block  0
+        -:   89:std::string
+       24:   90:EPSInFile::stripCommandSignature(const std::string &command_line) {
+       24:   91:  std::string command_signature;
+       24:   91-block  0
+        -:   92:  std::size_t found;
+       24:   93:  found = command_line.find_last_of(' ');
+       24:   94:  if (found != std::string::npos)
+       23:   95:    command_signature = command_line.substr(found + 1);
+       23:   95-block  0
+       23:   95-block  1
+        -:   96:  else
+        1:   97:    command_signature = command_line;
+        1:   97-block  0
+        -:   98:
+       24:   99:  return command_signature;}
+       24:   99-block  0
+       24:   99-block  1
+    $$$$$:   99-block  2
+        -:  100:
+        -:  101:std::string
+       35:  102:EPSInFile::getCommandLine()  {
+       35:  103:    std::string line;
+       35:  103-block  0
+       35:  104:    if (!was_header_read) {
+        1:  105:        throw std::runtime_error("Header hasn't been read yet.");
+        1:  105-block  0
+        1:  105-block  1
+    $$$$$:  105-block  2
+        -:  106:    }
+       34:  107:    if (!isFinished()) {
+       34:  107-block  0
+       34:  107-block  1
+       31:  108:        std::getline(file_, line);
+       31:  108-block  0
+        -:  109:    } else {
+        3:  110:        throw std::runtime_error("File is finished.");
+        3:  110-block  0
+        3:  110-block  1
+    $$$$$:  110-block  2
+        -:  111:    }
+       31:  112:    return line;
+       31:  112-block  0
+       31:  112-block  1
+        4:  113:}
+        4:  113-block  0
+        -:  114:
+        6:  115:bool EPSInFile::isNextRelative() {
+        6:  116:    std::string signature;
+        6:  116-block  0
+        6:  117:    long len = file_.tellg();
+        6:  117-block  0
+        6:  118:    signature = stripCommandSignature(getCommandLine());
+        6:  118-block  0
+        6:  118-block  1
+    $$$$$:  118-block  2
+    $$$$$:  118-block  3
+        6:  119:    file_.seekg(len ,std::ios_base::beg);
+       12:  120:    return signature == "l" or signature == "lineto";
+        6:  120-block  0
+        3:  120-block  1
+        4:  120-block  2
+        2:  120-block  3
+        6:  120-block  4
+        6:  121:}
+        6:  121-block  0
+    $$$$$:  121-block  1
+        -:  122:
+        5:  123:bool EPSInFile::isNextAbsolute() {
+        5:  124:    std::string signature;
+        5:  124-block  0
+        5:  125:    long len = file_.tellg();
+        5:  125-block  0
+        5:  126:    signature = stripCommandSignature(getCommandLine());
+        5:  126-block  0
+        5:  126-block  1
+    $$$$$:  126-block  2
+    $$$$$:  126-block  3
+        5:  127:    file_.seekg(len ,std::ios_base::beg);
+       10:  128:    return signature == "p2" or signature == "m";
+        5:  128-block  0
+        4:  128-block  1
+        2:  128-block  2
+        3:  128-block  3
+        5:  128-block  4
+        5:  129:}
+        5:  129-block  0
+    $$$$$:  129-block  1
+        2:  130:bool EPSInFile::isNextUnprocessable() {
+        2:  131:    return !isNextAbsolute() && !isNextRelative();
+        2:  131-block  0
+        2:  131-block  1
+        1:  131-block  2
+        1:  131-block  3
+        2:  131-block  4
+        -:  132:}
+        -:  133:
+        8:  134:RelativeCommandVar EPSInFile::getRelativeCommandVar() {
+        8:  135:    std::string command = getCommandLine();
+        8:  135-block  0
+        7:  136:    std::string signature = stripCommandSignature(command);
+        7:  136-block  0
+        7:  137:    if (signature == "l")
+        7:  137-block  0
+        3:  138:        return {RightLineCommand(readPoint(command))};
+        3:  138-block  0
+        3:  138-block  1
+        4:  139:    else if (signature == "lineto")
+        4:  139-block  0
+        3:  140:        return {LeftLineCommand(readPoint(command))};
+        3:  140-block  0
+        3:  140-block  1
+        -:  141:    else
+        1:  142:        throw std::runtime_error("Unknown command.");
+        1:  142-block  0
+        1:  142-block  1
+    $$$$$:  142-block  2
+        8:  143:}
+        6:  143-block  0
+        1:  143-block  1
+        1:  143-block  2
+        8:  144:AbsoluteCommandVar EPSInFile::getAbsoluteCommandVar() {
+        8:  145:    std::string command = getCommandLine();
+        8:  145-block  0
+        6:  146:    std::string signature = stripCommandSignature(command);
+        6:  146-block  0
+        6:  147:    if (signature == "p2")
+        6:  147-block  0
+        3:  148:        return {PointCommand(readPoint(command))};
+        3:  148-block  0
+        3:  148-block  1
+        3:  149:    else if (signature == "m")
+        3:  149-block  0
+        2:  150:        return {MoveCommand(readPoint(command))};
+        2:  150-block  0
+        2:  150-block  1
+        -:  151:    else
+        1:  152:        throw std::runtime_error("Unknown command.");
+        1:  152-block  0
+        1:  152-block  1
+    $$$$$:  152-block  2
+        7:  153:}
+        5:  153-block  0
+        1:  153-block  1
+        1:  153-block  2
+        8:  154:NonProcessableCommand EPSInFile::getNonProcessableCommand() {
+        8:  155:    std::string command = getCommandLine();
+        8:  155-block  0
+       14:  156:    return { command };
+        7:  156-block  0
+        7:  156-block  1
+        7:  157:}
+        7:  157-block  0
+    $$$$$:  157-block  1
+        -:  158:
+        6:  159:void EPSOutFile::putHeader(Header &header) {
+        6:  160:  if (was_header_write)
+        6:  160-block  0
+        1:  161:    throw std::runtime_error("Header has already written.");
+        1:  161-block  0
+        1:  161-block  1
+    $$$$$:  161-block  2
+        -:  162:
+        5:  163:  file_ << header.getHeaderString();
+        5:  163-block  0
+        5:  163-block  1
+    $$$$$:  163-block  2
+        5:  164:  was_header_write = true;
+        5:  165:}
+        -:  166:
+        4:  167:void EPSOutFile::putCommand(const Command &command)  {
+        4:  168:  if (!was_header_write)
+        4:  168-block  0
+        1:  169:    throw std::runtime_error("Header hasn't been written.");
+        1:  169-block  0
+        1:  169-block  1
+    $$$$$:  169-block  2
+        3:  170:  file_ << command.toString() << '\n';
+        3:  170-block  0
+        3:  170-block  1
+        3:  170-block  2
+    $$$$$:  170-block  3
+        3:  171:}
+        -:  172:
+        5:  173:void EPSOutFile::putCommand(const std::string &command) {
+        5:  174:    if (!was_header_write)
+        5:  174-block  0
+        1:  175:        throw std::runtime_error("Header hasn't been written.");
+        1:  175-block  0
+        1:  175-block  1
+    $$$$$:  175-block  2
+        4:  176:    file_ << command << '\n';
+        4:  176-block  0
+        4:  177:}
+        -:  178:

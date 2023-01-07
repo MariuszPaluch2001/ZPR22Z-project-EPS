@@ -78,12 +78,20 @@ TEST(Scalar2DRepresentationTest, TestPointSubtractionOperator) {
   ASSERT_TRUE(abs(p3.getY() + 1) < 1e-5);
 }
 
-TEST(Scalar2DRepresentationTest, TestOstreamOperator) {
+TEST(Scalar2DRepresentationTest, TestOstreamOperatorCoordinate) {
   CoordinateValue p(3, 5);
   std::ostringstream oss;
   oss << p;
 
   ASSERT_TRUE(oss.str() == "CoordinateValue: (3, 5)");
+}
+
+TEST(Scalar2DRepresentationTest, TestOstreamOperatorResolution) {
+    Resolution p(3, 5);
+    std::ostringstream oss;
+    oss << p;
+
+    ASSERT_TRUE(oss.str() == "Resolution: 3p x 5p");
 }
 
 TEST(Scalar2DRepresentationTest, TestDirectionLength) {

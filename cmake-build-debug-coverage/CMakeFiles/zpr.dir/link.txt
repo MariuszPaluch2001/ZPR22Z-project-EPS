@@ -1,0 +1,1 @@
+/usr/bin/c++  --coverage -g  -rdynamic CMakeFiles/zpr.dir/Main.cc.o CMakeFiles/zpr.dir/src/Scalar2DRepresentation.cc.o CMakeFiles/zpr.dir/src/EPSCommandRepresentation.cc.o CMakeFiles/zpr.dir/src/GraphicCommands.cc.o CMakeFiles/zpr.dir/src/EPSFileTools.cc.o  -o zpr  src/libScalar2DRepresentation.a src/libEPSFileTools.a src/libEPSCommands.a 
