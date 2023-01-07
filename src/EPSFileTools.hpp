@@ -17,8 +17,6 @@
 #include "GraphicCommands.h"
 #include "Scalar2DRepresentation.h"
 
-using RelativeCommandVar= std::variant<LeftLineCommand, RightLineCommand>;
-using AbsoluteCommandVar = std::variant<PointCommand, MoveCommand>;
 
 class Header {
   Resolution resolution_;
