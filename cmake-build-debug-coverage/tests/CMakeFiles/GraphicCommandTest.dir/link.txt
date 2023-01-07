@@ -1,1 +1,0 @@
-/usr/bin/c++  --coverage -g  -rdynamic CMakeFiles/GraphicCommandTest.dir/GraphicCommandTest.cc.o  -o GraphicCommandTest  ../src/libEPSCommands.a ../src/libScalar2DRepresentation.a ../lib/libgtest_maind.a ../lib/libgtestd.a 

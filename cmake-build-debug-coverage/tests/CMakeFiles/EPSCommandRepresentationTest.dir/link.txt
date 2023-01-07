@@ -1,1 +1,0 @@
-/usr/bin/c++  --coverage -g  -rdynamic CMakeFiles/EPSCommandRepresentationTest.dir/EPSCommandRepresentationTest.cc.o  -o EPSCommandRepresentationTest  ../src/libEPSCommands.a ../src/libScalar2DRepresentation.a ../lib/libgtest_maind.a ../lib/libgtestd.a 

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libEPSFileTools.a  CMakeFiles/EPSFileTools.dir/EPSFileTools.cc.o
-/usr/bin/ranlib libEPSFileTools.a

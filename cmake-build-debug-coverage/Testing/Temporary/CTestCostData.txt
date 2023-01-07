@@ -1,6 +1,0 @@
-EPSFileToolsTest 6 0.00152522
-Scalar2DRepresentationTest 7 0.00139421
-GraphicCommandTest 7 0.00149166
-EPSCommandRepresentationTest 7 0.00123687
-AlgorithmTest 7 0.0013346
----
