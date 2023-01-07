@@ -100,7 +100,7 @@ EPSInFile::stripCommandSignature(const std::string &command_line) {
 }
 
 std::string
-EPSInFile::getCommandLine() const {
+EPSInFile::getCommandLine()  {
     std::string line;
     if (!was_header_read) {
         throw std::runtime_error("Header hasn't been read yet.");
@@ -113,7 +113,7 @@ EPSInFile::getCommandLine() const {
     return line;
 }
 
-bool EPSInFile::isNextRelative() const{
+bool EPSInFile::isNextRelative() {
     std::string signature;
     long len = file_.tellg();
     signature = stripCommandSignature(getCommandLine());
@@ -121,18 +121,18 @@ bool EPSInFile::isNextRelative() const{
     return signature == "l" or signature == "lineto";
 }
 
-bool EPSInFile::isNextAbsolute() const{
+bool EPSInFile::isNextAbsolute() {
     std::string signature;
     long len = file_.tellg();
     signature = stripCommandSignature(getCommandLine());
     file_.seekg(len ,std::ios_base::beg);
     return signature == "p2" or signature == "m";
 }
-bool EPSInFile::isNextUnprocessable() const{
+bool EPSInFile::isNextUnprocessable() {
     return !isNextAbsolute() && !isNextRelative();
 }
 
-RelativeCommandVar EPSInFile::getRelativeCommandVar() const{
+RelativeCommandVar EPSInFile::getRelativeCommandVar() {
     std::string command = getCommandLine();
     std::string signature = stripCommandSignature(command);
     if (signature == "l")
@@ -142,7 +142,7 @@ RelativeCommandVar EPSInFile::getRelativeCommandVar() const{
     else
         throw std::runtime_error("Unknown command.");
 }
-AbsoluteCommandVar EPSInFile::getAbsoluteCommandVar() const{
+AbsoluteCommandVar EPSInFile::getAbsoluteCommandVar() {
     std::string command = getCommandLine();
     std::string signature = stripCommandSignature(command);
     if (signature == "p2")
@@ -152,7 +152,7 @@ AbsoluteCommandVar EPSInFile::getAbsoluteCommandVar() const{
     else
         throw std::runtime_error("Unknown command.");
 }
-NonProcessableCommand EPSInFile::getNonProcessableCommand() const{
+NonProcessableCommand EPSInFile::getNonProcessableCommand() {
     std::string command = getCommandLine();
     return { command };
 }
@@ -165,13 +165,13 @@ void EPSOutFile::putHeader(Header &header) {
   was_header_write = true;
 }
 
-void EPSOutFile::putCommand(const Command &command) const {
+void EPSOutFile::putCommand(const Command &command)  {
   if (!was_header_write)
     throw std::runtime_error("Header hasn't been written.");
   file_ << command.toString() << '\n';
 }
 
-void EPSOutFile::putCommand(const std::string &command) const{
+void EPSOutFile::putCommand(const std::string &command) {
     if (!was_header_write)
         throw std::runtime_error("Header hasn't been written.");
     file_ << command << '\n';

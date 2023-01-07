@@ -43,19 +43,19 @@ class EPSInFile {
   std::string readHeader();
   static CoordinateValue readPoint(const std::string &commandLine);
   static std::string stripCommandSignature(const std::string &commandLine);
-  std::string getCommandLine() const;
+  std::string getCommandLine() ;
 public:
   explicit EPSInFile(std::istream &f) : file_(f) {}
   EPSInFile(const EPSInFile &) = delete;
   EPSInFile &operator=(const EPSInFile &) = delete;
   Header getHeader();
-  bool isFinished() const { return file_.peek() == EOF; }
-  bool isNextRelative() const;
-  bool isNextAbsolute() const;
-  bool isNextUnprocessable() const;
-  RelativeCommandVar getRelativeCommandVar() const;
-  AbsoluteCommandVar getAbsoluteCommandVar() const;
-  NonProcessableCommand getNonProcessableCommand() const;
+  bool isFinished()  { return file_.peek() == EOF; }
+  bool isNextRelative() ;
+  bool isNextAbsolute() ;
+  bool isNextUnprocessable() ;
+  RelativeCommandVar getRelativeCommandVar() ;
+  AbsoluteCommandVar getAbsoluteCommandVar() ;
+  NonProcessableCommand getNonProcessableCommand() ;
 };
 
 /*
@@ -73,16 +73,16 @@ public:
   EPSOutFile(const EPSOutFile &) = delete;
   EPSOutFile &operator=(const EPSOutFile &) = delete;
   void putHeader(Header &header);
-  void putCommand(const Command &c) const;
-  void putCommand(const std::string &c) const;
-  template <typename BATCH_TYPE> void putBatch(const BATCH_TYPE &batch) const;
+  void putCommand(const Command &c) ;
+  void putCommand(const std::string &c) ;
+  template <typename BATCH_TYPE> void putBatch(const BATCH_TYPE &batch) ;
 };
 
 static auto stringVisit = [](const auto &command) {
     return command.toString();
 };
 
-template <typename BATCH_TYPE> void EPSOutFile::putBatch(const BATCH_TYPE &batch) const{
+template <typename BATCH_TYPE> void EPSOutFile::putBatch(const BATCH_TYPE &batch) {
     for (auto command : batch)
         putCommand(std::visit(stringVisit, command));
 }
