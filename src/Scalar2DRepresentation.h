@@ -45,6 +45,10 @@ std::ostream &operator<<(std::ostream &os, const CoordinateValue &cv);
 
 double length(const Direction &d);
 Direction normalizeDirection(const Direction &d);
+
+/*
+ * Function returns the angle of the Direction in radians
+ * */
 double getDirectionAngle(const Direction &d);
 /*
  * Function projects first Direction on the extension of first Direction

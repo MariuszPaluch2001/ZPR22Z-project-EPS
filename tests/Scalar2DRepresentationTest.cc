@@ -188,7 +188,7 @@ TEST(Scalar2DRepresentationTest, TestDistanceBetweenOppositDirections) {
   auto d1 = Direction(1, 0);
   auto d2 = Direction(-1, 0);
   auto res = countDistanceBetweenConjoinedDirections(d1, d2);
-  ASSERT_TRUE(abs(res - 0) < 1e-5);
+  ASSERT_FLOAT_EQ(length(d2), res);
 }
 
 TEST(Scalar2DRepresentationTest, TestDistanceBetweenNormalizedDirections) {
