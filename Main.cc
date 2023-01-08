@@ -1,10 +1,4 @@
 #include <iostream>
-#include <variant>
-
-#include "src/EPSFileTools.h"
-#include "src/EPSCommandRepresentation.h"
-#include "src/GraphicCommands.h"
-#include "src/Algorithm.hpp"
 #include "src/utils.hpp"
 
 int main(int argc, char**  args){

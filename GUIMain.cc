@@ -1,4 +1,4 @@
-#include "src/GUI.h"
+#include "gui/GUI.h"
 
 wxIMPLEMENT_APP(App);
 

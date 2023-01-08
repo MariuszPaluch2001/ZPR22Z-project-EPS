@@ -12,14 +12,15 @@ file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(zprGUI
   GUIMain.cc
-  src/GUI.h
-  src/GUI.cc
+  gui/GUI.h
+  gui/GUI.cc
   src/EPSFileTools.h
   src/EPSFileTools.cc
   src/GraphicCommands.h
   src/GraphicCommands.cc
   src/Scalar2DRepresentation.h
   src/Scalar2DRepresentation.cc)
+
 add_executable(${PROJECT_NAME}
         Main.cc
         src/Scalar2DRepresentation.h
