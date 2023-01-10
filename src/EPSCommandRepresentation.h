@@ -29,7 +29,8 @@ public:
    */
   CoordinateValue getMovePoint() const { return move_point_; }
   /**
-   * pozwala na przeskalowanie komendy o zadany czynnik, przy pomniejszaniu obrazka
+   * pozwala na przeskalowanie komendy o zadany czynnik, przy pomniejszaniu
+   * obrazka
    */
   void rescale(double factor) { move_point_ = move_point_ * factor; }
 };
@@ -37,7 +38,8 @@ public:
 std::ostream &operator<<(std::ostream &os, const Command &com);
 
 /**
- * Komenda, której nie poddajemy obróbce - trzymamy tylko jej reprezentację tekstową
+ * Komenda, której nie poddajemy obróbce - trzymamy tylko jej reprezentację
+ * tekstową
  */
 class NonProcessableCommand : public Command {
   std::string text_representation_;

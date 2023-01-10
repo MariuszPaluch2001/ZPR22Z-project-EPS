@@ -30,7 +30,7 @@ std\+::string {\bfseries to\+String} () const
 
 
 \doxysubsection{Opis szczegółowy}
-Klasa reprezentuje rozdzielczość, wymiary obrazka, itp. 
+Reprezentuje krotkę (x,y) opisującą rozdzielczość obrazka 
 
 \doxysubsection{Dokumentacja funkcji składowych}
 \mbox{\Hypertarget{classResolution_aa5d9b96d8000913bf09b8c0961a249e3}\label{classResolution_aa5d9b96d8000913bf09b8c0961a249e3}} 
@@ -39,15 +39,7 @@ Klasa reprezentuje rozdzielczość, wymiary obrazka, itp.
 \doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{classResolution}{Resolution}} Resolution\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{double}]{scale }\end{DoxyParamCaption}) const}
 
-Wykonuje mnożenie obiektu przez skalar (x1,y1) -\/ wartości obiektu, na którym wołamy metodę 
-\begin{DoxyParams}{Parametry}
-{\em scale} & -\/ mnożnik \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Zwraca}
-obiekt o współrzędnych (unsigned(x1 $\ast$ div), unsigned(x2 $\ast$ div)) 
-\end{DoxyReturn}
-
+Mnoży krotkę przez skalar -\/ element po elemencie 
 
 Dokumentacja dla tej klasy została wygenerowana z plików\+:\begin{DoxyCompactItemize}
 \item 

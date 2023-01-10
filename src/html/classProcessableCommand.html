@@ -68,6 +68,8 @@ $(function() {
 <div class="title">Dokumentacja klasy ProcessableCommand<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p><code>#include &lt;<a class="el" href="EPSCommandRepresentation_8h_source.html">EPSCommandRepresentation.h</a>&gt;</code></p>
 <div class="dynheader">
 Diagram dziedziczenia dla ProcessableCommand</div>
 <div class="dyncontent">
@@ -101,13 +103,67 @@ Metody publiczne</h2></td></tr>
 <tr class="memitem:acd1ed5dabcb515c10b45287a8104f35f"><td class="memItemLeft" align="right" valign="top"><a id="acd1ed5dabcb515c10b45287a8104f35f"></a>
 virtual std::string&#160;</td><td class="memItemRight" valign="bottom"><b>toString</b> () const override=0</td></tr>
 <tr class="separator:acd1ed5dabcb515c10b45287a8104f35f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a480bd9c52643a92f84e65cb1d7aa4da4"><td class="memItemLeft" align="right" valign="top"><a id="a480bd9c52643a92f84e65cb1d7aa4da4"></a>
-<a class="el" href="classCoordinateValue.html">CoordinateValue</a>&#160;</td><td class="memItemRight" valign="bottom"><b>getMovePoint</b> () const</td></tr>
+<tr class="memitem:a480bd9c52643a92f84e65cb1d7aa4da4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classCoordinateValue.html">CoordinateValue</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProcessableCommand.html#a480bd9c52643a92f84e65cb1d7aa4da4">getMovePoint</a> () const</td></tr>
 <tr class="separator:a480bd9c52643a92f84e65cb1d7aa4da4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a18c1d0467afdf7fc8bdb7f9bf00986e4"><td class="memItemLeft" align="right" valign="top"><a id="a18c1d0467afdf7fc8bdb7f9bf00986e4"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>rescale</b> (double factor)</td></tr>
+<tr class="memitem:a18c1d0467afdf7fc8bdb7f9bf00986e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classProcessableCommand.html#a18c1d0467afdf7fc8bdb7f9bf00986e4">rescale</a> (double factor)</td></tr>
 <tr class="separator:a18c1d0467afdf7fc8bdb7f9bf00986e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<a name="details" id="details"></a><h2 class="groupheader">Opis szczegółowy</h2>
+<div class="textblock"><p>Klasa reprezentuje procesowalną komendę EPS </p>
+</div><h2 class="groupheader">Dokumentacja funkcji składowych</h2>
+<a id="a480bd9c52643a92f84e65cb1d7aa4da4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a480bd9c52643a92f84e65cb1d7aa4da4">&#9670;&nbsp;</a></span>getMovePoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classCoordinateValue.html">CoordinateValue</a> ProcessableCommand::getMovePoint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>zwraca punkt, do którego przesuwa się kursor po narysowaniu komendy </p>
+
+</div>
+</div>
+<a id="a18c1d0467afdf7fc8bdb7f9bf00986e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18c1d0467afdf7fc8bdb7f9bf00986e4">&#9670;&nbsp;</a></span>rescale()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void ProcessableCommand::rescale </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>factor</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>pozwala na przeskalowanie komendy o zadany czynnik, przy pomniejszaniu obrazka </p>
+
+</div>
+</div>
 <hr/>Dokumentacja dla tej klasy została wygenerowana z pliku:<ul>
 <li><a class="el" href="EPSCommandRepresentation_8h_source.html">EPSCommandRepresentation.h</a></li>
 </ul>

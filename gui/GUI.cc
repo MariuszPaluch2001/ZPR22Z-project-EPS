@@ -4,10 +4,10 @@
 
 #include <filesystem>
 
+#include "../Utils.hpp"
 #include "EPSFileTools.hpp"
 #include "GUI.h"
 #include "GUIUtils.hpp"
-#include "../Utils.hpp"
 #include <wx/file.h>
 #include <wx/filename.h>
 #include <wx/textdlg.h>

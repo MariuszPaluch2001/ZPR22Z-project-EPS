@@ -34,7 +34,7 @@ public:
    * Dzieli krotkę przez skalar - element po elemencie
    */
   CoordinateValue operator/(double div) const;
-    /**
+  /**
    * Mnoży krotkę przez skalar - element po elemencie
    */
   CoordinateValue operator*(double scale) const;
@@ -80,8 +80,9 @@ double getDirectionAngle(const Direction &d);
  * Funkcja liczy odległość między dwoma wektorami
  * @param d1 - wektor pierwszy
  * @param d2 - wektor drugi, zaczepiony na końcu wektora d1
- * jeżeli wektory nie są skierowane w przeciwne strony (kąt między kierunkami > 90 albo < -90) zwraca 0
- * w przeciwnym przypadku dokonuje rzutu jednego wektora na drugi - i zwraca wysokość rzutu
+ * jeżeli wektory nie są skierowane w przeciwne strony (kąt między kierunkami >
+ * 90 albo < -90) zwraca 0 w przeciwnym przypadku dokonuje rzutu jednego wektora
+ * na drugi - i zwraca wysokość rzutu
  */
 double countDistanceBetweenConjoinedDirections(const Direction &d1,
                                                const Direction &d2);

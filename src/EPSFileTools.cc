@@ -88,7 +88,8 @@ std::string EPSInFile::stripCommandSignature(const std::string &command_line) {
   std::string command_signature;
   std::size_t found;
   found = command_line.find_last_of(' ');
-  return found != std::string::npos ? command_line.substr(found + 1) : command_line;
+  return found != std::string::npos ? command_line.substr(found + 1)
+                                    : command_line;
 }
 
 std::string EPSInFile::getCommandLine() {

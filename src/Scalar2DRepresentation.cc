@@ -44,7 +44,8 @@ double countDistanceBetweenConjoinedDirections(const Direction &d1,
   auto firstAngle = getDirectionAngle(d1);
   auto secondAngle = getDirectionAngle(d2);
   auto angleInBetween = secondAngle - firstAngle;
-  return angleInBetween >= M_PI / 2 ? length(d2) : std::sin(angleInBetween) * length(d2);
+  return angleInBetween >= M_PI / 2 ? length(d2)
+                                    : std::sin(angleInBetween) * length(d2);
 }
 
 CoordinateValue CoordinateValue::operator/(double div) const {

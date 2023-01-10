@@ -2,9 +2,9 @@
 // Created by mariusz on 08.11.22.
 //
 //
-//    File EPSFileTools.h contains class definitions representing the File Header,
-//    and classes representing input and output files. They are used to read text
-//    from input, pass data to algorithm and send data to output file.
+//    File EPSFileTools.h contains class definitions representing the File
+//    Header, and classes representing input and output files. They are used to
+//    read text from input, pass data to algorithm and send data to output file.
 //
 #ifndef ZPR_EPSFILETOOLS_HPP
 #define ZPR_EPSFILETOOLS_HPP

@@ -1,5 +1,9 @@
 \hypertarget{classAlgorithm}{}\doxysection{Dokumentacja klasy Algorithm}
 \label{classAlgorithm}\index{Algorithm@{Algorithm}}
+
+
+{\ttfamily \#include $<$Algorithm.\+hpp$>$}
+
 \doxysubsection*{Metody publiczne}
 \begin{DoxyCompactItemize}
 \item 
@@ -7,36 +11,91 @@
 {\bfseries Algorithm} (double min\+\_\+difference, double scaling\+\_\+factor=1, unsigned sorting\+\_\+range=10)
 \item 
 \mbox{\Hypertarget{classAlgorithm_a623620f5734ee3991ed8601bfde2c197}\label{classAlgorithm_a623620f5734ee3991ed8601bfde2c197}} 
-double {\bfseries get\+Min\+Difference} () const
+double \mbox{\hyperlink{classAlgorithm_a623620f5734ee3991ed8601bfde2c197}{get\+Min\+Difference}} () const
+\begin{DoxyCompactList}\small\item\em funkcja zwraca ustawioną, minimalną znaczącą odległość między punktami \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classAlgorithm_a1ac776b4860d517abf19cd2c98860f24}{set\+Min\+Difference}} (double min\+\_\+difference)
 \item 
-\mbox{\Hypertarget{classAlgorithm_a1ac776b4860d517abf19cd2c98860f24}\label{classAlgorithm_a1ac776b4860d517abf19cd2c98860f24}} 
-void {\bfseries set\+Min\+Difference} (double min\+\_\+difference)
+double \mbox{\hyperlink{classAlgorithm_a28fe6e3f35a60cf3cc84d15ee3fe529a}{get\+Scaling\+Factor}} () const
 \item 
-\mbox{\Hypertarget{classAlgorithm_a28fe6e3f35a60cf3cc84d15ee3fe529a}\label{classAlgorithm_a28fe6e3f35a60cf3cc84d15ee3fe529a}} 
-double {\bfseries get\+Scaling\+Factor} () const
+void \mbox{\hyperlink{classAlgorithm_a52d99f70cb68904817bbbfe1d1684bad}{set\+Scaling\+Factor}} (double scaling\+\_\+factor)
 \item 
-\mbox{\Hypertarget{classAlgorithm_a52d99f70cb68904817bbbfe1d1684bad}\label{classAlgorithm_a52d99f70cb68904817bbbfe1d1684bad}} 
-void {\bfseries set\+Scaling\+Factor} (double scaling\+\_\+factor)
+unsigned \mbox{\hyperlink{classAlgorithm_adafbb23d1de83cd95e547e2c56ffaee2}{get\+Sorting\+Range}} () const
 \item 
-\mbox{\Hypertarget{classAlgorithm_adafbb23d1de83cd95e547e2c56ffaee2}\label{classAlgorithm_adafbb23d1de83cd95e547e2c56ffaee2}} 
-unsigned {\bfseries get\+Sorting\+Range} () const
+void \mbox{\hyperlink{classAlgorithm_a118f9e26496906fda272653258b1d381}{set\+Sorting\+Range}} (unsigned sorting\+\_\+range)
 \item 
-\mbox{\Hypertarget{classAlgorithm_a118f9e26496906fda272653258b1d381}\label{classAlgorithm_a118f9e26496906fda272653258b1d381}} 
-void {\bfseries set\+Sorting\+Range} (unsigned sorting\+\_\+range)
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{classAlgorithm_a31ba43f12af40313fff14dd7cfbf7fec}{rescale\+Batch}} (T \&) const
 \item 
-\mbox{\Hypertarget{classAlgorithm_a31ba43f12af40313fff14dd7cfbf7fec}\label{classAlgorithm_a31ba43f12af40313fff14dd7cfbf7fec}} 
-{\footnotesize template$<$typename T $>$ }\\void {\bfseries rescale\+Batch} (T \&) const
+{\footnotesize template$<$typename T $>$ }\\T \mbox{\hyperlink{classAlgorithm_a02e56da20ec0873ec14ac7bfe492ea03}{process\+Batch}} (const T \&) const
 \item 
-\mbox{\Hypertarget{classAlgorithm_a02e56da20ec0873ec14ac7bfe492ea03}\label{classAlgorithm_a02e56da20ec0873ec14ac7bfe492ea03}} 
-{\footnotesize template$<$typename T $>$ }\\T {\bfseries process\+Batch} (const T \&) const
+{\footnotesize template$<$typename T $>$ }\\void \mbox{\hyperlink{classAlgorithm_a9d44d849fa66c1f1cd06eb6b32cf0ff6}{sort\+Batch}} (T \&) const
 \item 
-\mbox{\Hypertarget{classAlgorithm_a9d44d849fa66c1f1cd06eb6b32cf0ff6}\label{classAlgorithm_a9d44d849fa66c1f1cd06eb6b32cf0ff6}} 
-{\footnotesize template$<$typename T $>$ }\\void {\bfseries sort\+Batch} (T \&) const
+\mbox{\Hypertarget{classAlgorithm_a6f9926b9c339d84b0f3f4390520001af}\label{classAlgorithm_a6f9926b9c339d84b0f3f4390520001af}} 
+template$<$$>$ void {\bfseries sort\+Batch} (Relative\+Batch \&batch) const
 \item 
 \mbox{\Hypertarget{classAlgorithm_a6f9926b9c339d84b0f3f4390520001af}\label{classAlgorithm_a6f9926b9c339d84b0f3f4390520001af}} 
 template$<$$>$ void {\bfseries sort\+Batch} (Relative\+Batch \&batch) const
 \end{DoxyCompactItemize}
 
+
+\doxysubsection{Opis szczegółowy}
+Algorytm wyznacza, które z komend można usunąć, a także oferuje usuwanie ich z porcji danych 
+
+\doxysubsection{Dokumentacja funkcji składowych}
+\mbox{\Hypertarget{classAlgorithm_a28fe6e3f35a60cf3cc84d15ee3fe529a}\label{classAlgorithm_a28fe6e3f35a60cf3cc84d15ee3fe529a}} 
+\index{Algorithm@{Algorithm}!getScalingFactor@{getScalingFactor}}
+\index{getScalingFactor@{getScalingFactor}!Algorithm@{Algorithm}}
+\doxysubsubsection{\texorpdfstring{getScalingFactor()}{getScalingFactor()}}
+{\footnotesize\ttfamily double Algorithm\+::get\+Scaling\+Factor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Funkcja zwraca ustawiony współczynnik skalowania, który mówi jak zmniejszony/zwiększony ma być obrazek \mbox{\Hypertarget{classAlgorithm_adafbb23d1de83cd95e547e2c56ffaee2}\label{classAlgorithm_adafbb23d1de83cd95e547e2c56ffaee2}} 
+\index{Algorithm@{Algorithm}!getSortingRange@{getSortingRange}}
+\index{getSortingRange@{getSortingRange}!Algorithm@{Algorithm}}
+\doxysubsubsection{\texorpdfstring{getSortingRange()}{getSortingRange()}}
+{\footnotesize\ttfamily unsigned Algorithm\+::get\+Sorting\+Range (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Funkcja zwraca ustawiony zakres sortowania \mbox{\Hypertarget{classAlgorithm_a02e56da20ec0873ec14ac7bfe492ea03}\label{classAlgorithm_a02e56da20ec0873ec14ac7bfe492ea03}} 
+\index{Algorithm@{Algorithm}!processBatch@{processBatch}}
+\index{processBatch@{processBatch}!Algorithm@{Algorithm}}
+\doxysubsubsection{\texorpdfstring{processBatch()}{processBatch()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+T Algorithm\+::process\+Batch (\begin{DoxyParamCaption}\item[{const T \&}]{batch }\end{DoxyParamCaption}) const}
+
+Funkcja dokonuje oszacowania, które komendy można usunąć \begin{DoxyReturn}{Zwraca}
+porcję danych po obróbce 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classAlgorithm_a31ba43f12af40313fff14dd7cfbf7fec}\label{classAlgorithm_a31ba43f12af40313fff14dd7cfbf7fec}} 
+\index{Algorithm@{Algorithm}!rescaleBatch@{rescaleBatch}}
+\index{rescaleBatch@{rescaleBatch}!Algorithm@{Algorithm}}
+\doxysubsubsection{\texorpdfstring{rescaleBatch()}{rescaleBatch()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void Algorithm\+::rescale\+Batch (\begin{DoxyParamCaption}\item[{T \&}]{batch }\end{DoxyParamCaption}) const}
+
+Funkcja dokonuje przeskalowania podanej porcji danych \mbox{\Hypertarget{classAlgorithm_a1ac776b4860d517abf19cd2c98860f24}\label{classAlgorithm_a1ac776b4860d517abf19cd2c98860f24}} 
+\index{Algorithm@{Algorithm}!setMinDifference@{setMinDifference}}
+\index{setMinDifference@{setMinDifference}!Algorithm@{Algorithm}}
+\doxysubsubsection{\texorpdfstring{setMinDifference()}{setMinDifference()}}
+{\footnotesize\ttfamily void Algorithm\+::set\+Min\+Difference (\begin{DoxyParamCaption}\item[{double}]{min\+\_\+difference }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Funkcja ustawiana zadaną minimalną znaczącą odległość między punktami \mbox{\Hypertarget{classAlgorithm_a52d99f70cb68904817bbbfe1d1684bad}\label{classAlgorithm_a52d99f70cb68904817bbbfe1d1684bad}} 
+\index{Algorithm@{Algorithm}!setScalingFactor@{setScalingFactor}}
+\index{setScalingFactor@{setScalingFactor}!Algorithm@{Algorithm}}
+\doxysubsubsection{\texorpdfstring{setScalingFactor()}{setScalingFactor()}}
+{\footnotesize\ttfamily void Algorithm\+::set\+Scaling\+Factor (\begin{DoxyParamCaption}\item[{double}]{scaling\+\_\+factor }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Funkcja ustawia współczynnik skalowania, który mówi jak zmniejszony/zwiększony ma być obrazek \mbox{\Hypertarget{classAlgorithm_a118f9e26496906fda272653258b1d381}\label{classAlgorithm_a118f9e26496906fda272653258b1d381}} 
+\index{Algorithm@{Algorithm}!setSortingRange@{setSortingRange}}
+\index{setSortingRange@{setSortingRange}!Algorithm@{Algorithm}}
+\doxysubsubsection{\texorpdfstring{setSortingRange()}{setSortingRange()}}
+{\footnotesize\ttfamily void Algorithm\+::set\+Sorting\+Range (\begin{DoxyParamCaption}\item[{unsigned}]{sorting\+\_\+range }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Funkcja ustawia zakres sortowania \mbox{\Hypertarget{classAlgorithm_a9d44d849fa66c1f1cd06eb6b32cf0ff6}\label{classAlgorithm_a9d44d849fa66c1f1cd06eb6b32cf0ff6}} 
+\index{Algorithm@{Algorithm}!sortBatch@{sortBatch}}
+\index{sortBatch@{sortBatch}!Algorithm@{Algorithm}}
+\doxysubsubsection{\texorpdfstring{sortBatch()}{sortBatch()}}
+{\footnotesize\ttfamily template$<$typename T $>$ \\
+void Algorithm\+::sort\+Batch (\begin{DoxyParamCaption}\item[{T \&}]{batch }\end{DoxyParamCaption}) const}
+
+Funkcja dokonuje sortowania zakresowego próbki 
 
 Dokumentacja dla tej klasy została wygenerowana z plików\+:\begin{DoxyCompactItemize}
 \item 

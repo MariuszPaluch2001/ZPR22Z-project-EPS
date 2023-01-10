@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['relativecommand_16',['RelativeCommand',['../classRelativeCommand.html',1,'']]],
-  ['resolution_17',['Resolution',['../classResolution.html',1,'']]],
-  ['rightlinecommand_18',['RightLineCommand',['../classRightLineCommand.html',1,'']]]
+  ['pointcommand_18',['PointCommand',['../classPointCommand.html',1,'']]],
+  ['processablecommand_19',['ProcessableCommand',['../classProcessableCommand.html',1,'']]],
+  ['processbatch_20',['processBatch',['../classAlgorithm.html#a02e56da20ec0873ec14ac7bfe492ea03',1,'Algorithm']]]
 ];

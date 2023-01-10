@@ -11,7 +11,8 @@
 #include <variant>
 
 /**
- * Klasa reprezentuje komendę względną - taką, której działanie zależy od umiejscowienia kursora
+ * Klasa reprezentuje komendę względną - taką, której działanie zależy od
+ * umiejscowienia kursora
  */
 class RelativeCommand : public ProcessableCommand {
 public:
@@ -19,7 +20,8 @@ public:
   virtual std::string toString() const override = 0;
 };
 /**
- * Klasa reprezentuje komendę bezwzględną - taką, której działanie nie zależy od umiejscowienia kursora
+ * Klasa reprezentuje komendę bezwzględną - taką, której działanie nie zależy od
+ * umiejscowienia kursora
  */
 class AbsoluteCommand : public ProcessableCommand {
 public:

@@ -14,7 +14,8 @@
 using RelativeBatch = std::vector<RelativeCommandVar>;
 using AbsoluteBatch = std::vector<AbsoluteCommandVar>;
 /**
- * Algorytm wyznacza, które z komend można usunąć, a także oferuje usuwanie ich z porcji danych
+ * Algorytm wyznacza, które z komend można usunąć, a także oferuje usuwanie ich
+ * z porcji danych
  */
 class Algorithm {
 private:
@@ -27,9 +28,10 @@ public:
                      unsigned sorting_range = 10)
       : min_difference_(min_difference), scaling_factor_(scaling_factor),
         sorting_range_(sorting_range) {}
-        /**
-         * @brief funkcja zwraca ustawioną, minimalną znaczącą odległość między punktami
-         */
+  /**
+   * @brief funkcja zwraca ustawioną, minimalną znaczącą odległość między
+   * punktami
+   */
   double getMinDifference() const { return min_difference_; }
   /**
    * Funkcja ustawiana zadaną minimalną znaczącą odległość między punktami
@@ -38,11 +40,13 @@ public:
     min_difference_ = min_difference >= 0 ? min_difference : min_difference_;
   }
   /**
-   * Funkcja zwraca ustawiony współczynnik skalowania, który mówi jak zmniejszony/zwiększony ma być obrazek
+   * Funkcja zwraca ustawiony współczynnik skalowania, który mówi jak
+   * zmniejszony/zwiększony ma być obrazek
    */
   double getScalingFactor() const { return scaling_factor_; }
   /**
-   * Funkcja ustawia współczynnik skalowania, który mówi jak zmniejszony/zwiększony ma być obrazek
+   * Funkcja ustawia współczynnik skalowania, który mówi jak
+   * zmniejszony/zwiększony ma być obrazek
    */
   void setScalingFactor(double scaling_factor) {
     scaling_factor_ = scaling_factor > 0 ? scaling_factor : scaling_factor_;
@@ -106,7 +110,8 @@ template <typename T> T Algorithm::processBatch(const T &batch) const {
     if (difference <= min_difference_)
       prev_graphic_command =
           std::visit(midpointVisit, prev_graphic_command, *iter);
-    // w przeciwnym przypadku - przepisujemy komendę roboczą na wyjście i idziemy dalej
+    // w przeciwnym przypadku - przepisujemy komendę roboczą na wyjście i
+    // idziemy dalej
     else {
       post_processing.push_back(prev_graphic_command);
       prev_graphic_command = *iter;
@@ -118,12 +123,13 @@ template <typename T> T Algorithm::processBatch(const T &batch) const {
 }
 template <typename T> void Algorithm::sortBatch(T &batch) const {
   // przeglądamy porcje po K elementów
-    for (int i = 0; i + sorting_range_ <= batch.size(); i += sorting_range_) {
+  for (int i = 0; i + sorting_range_ <= batch.size(); i += sorting_range_) {
     auto working_element = batch.at(i);
     auto starting = batch.begin() + 1 + i;
     auto stopping = batch.begin() + i + sorting_range_;
     for (auto iter = starting; iter != stopping; iter++) {
-        // zwracamy najbliższy z pozostałych elementów w porcji, do punktu roboczego
+      // zwracamy najbliższy z pozostałych elementów w porcji, do punktu
+      // roboczego
       auto minimal = std::min_element(
           iter, stopping, [&working_element](auto &a, auto &b) {
             return std::visit(differenceVisit, working_element, a) <
@@ -137,10 +143,8 @@ template <typename T> void Algorithm::sortBatch(T &batch) const {
   }
 }
 
-//Relative Batch nie sortujemy
+// Relative Batch nie sortujemy
 template <>
 void Algorithm::sortBatch<RelativeBatch>(RelativeBatch &batch) const;
-
-
 
 #endif // ZPR_ALGORITHM_HPP
