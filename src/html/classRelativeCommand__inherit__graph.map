@@ -1,0 +1,7 @@
+<map id="RelativeCommand" name="RelativeCommand">
+<area shape="rect" id="node1" title=" " alt="" coords="88,155,231,181"/>
+<area shape="rect" id="node4" href="$classLeftLineCommand.html" title=" " alt="" coords="5,229,145,256"/>
+<area shape="rect" id="node5" href="$classRightLineCommand.html" title=" " alt="" coords="169,229,320,256"/>
+<area shape="rect" id="node2" href="$classProcessableCommand.html" title=" " alt="" coords="76,80,243,107"/>
+<area shape="rect" id="node3" href="$classCommand.html" title=" " alt="" coords="115,5,204,32"/>
+</map>

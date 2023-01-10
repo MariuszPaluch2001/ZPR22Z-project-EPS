@@ -1,0 +1,10 @@
+<map id="ProcessableCommand" name="ProcessableCommand">
+<area shape="rect" id="node1" title=" " alt="" coords="213,80,379,107"/>
+<area shape="rect" id="node3" href="$classAbsoluteCommand.html" title=" " alt="" coords="139,155,285,181"/>
+<area shape="rect" id="node6" href="$classRelativeCommand.html" title=" " alt="" coords="310,155,453,181"/>
+<area shape="rect" id="node2" href="$classCommand.html" title=" " alt="" coords="251,5,341,32"/>
+<area shape="rect" id="node4" href="$classMoveCommand.html" title=" " alt="" coords="5,229,131,256"/>
+<area shape="rect" id="node5" href="$classPointCommand.html" title=" " alt="" coords="155,229,277,256"/>
+<area shape="rect" id="node7" href="$classLeftLineCommand.html" title=" " alt="" coords="309,229,449,256"/>
+<area shape="rect" id="node8" href="$classRightLineCommand.html" title=" " alt="" coords="473,229,623,256"/>
+</map>

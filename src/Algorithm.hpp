@@ -104,4 +104,9 @@ template <typename T> void Algorithm::sortBatch(T &batch) const {
   }
 }
 
+template <>
+void Algorithm::sortBatch<RelativeBatch>(RelativeBatch &batch) const;
+
+
+
 #endif // ZPR_ALGORITHM_HPP

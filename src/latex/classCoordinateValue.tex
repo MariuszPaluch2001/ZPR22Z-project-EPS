@@ -1,0 +1,103 @@
+\hypertarget{classCoordinateValue}{}\doxysection{Dokumentacja klasy Coordinate\+Value}
+\label{classCoordinateValue}\index{CoordinateValue@{CoordinateValue}}
+
+
+{\ttfamily \#include $<$Scalar2\+DRepresentation.\+h$>$}
+
+\doxysubsection*{Metody publiczne}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classCoordinateValue_a19bbbbdb873122262acbabf43f886a71}\label{classCoordinateValue_a19bbbbdb873122262acbabf43f886a71}} 
+{\bfseries Coordinate\+Value} (double x, double y)
+\item 
+\mbox{\Hypertarget{classCoordinateValue_a6ce2209093c11400de49030960190a1c}\label{classCoordinateValue_a6ce2209093c11400de49030960190a1c}} 
+std\+::string {\bfseries to\+String} () const
+\item 
+\mbox{\Hypertarget{classCoordinateValue_a56d9aff5eaf06584970e4efbe7956196}\label{classCoordinateValue_a56d9aff5eaf06584970e4efbe7956196}} 
+double {\bfseries getX} () const
+\item 
+\mbox{\Hypertarget{classCoordinateValue_ad152c887f3b3443753e20014312759c8}\label{classCoordinateValue_ad152c887f3b3443753e20014312759c8}} 
+double {\bfseries getY} () const
+\item 
+\mbox{\Hypertarget{classCoordinateValue_acacf7898571fce2c93c53df734f588ed}\label{classCoordinateValue_acacf7898571fce2c93c53df734f588ed}} 
+void {\bfseries setX} (double new\+\_\+x)
+\item 
+\mbox{\Hypertarget{classCoordinateValue_aa612cd8d437f152ecae1ce50efcbdeae}\label{classCoordinateValue_aa612cd8d437f152ecae1ce50efcbdeae}} 
+void {\bfseries setY} (double new\+\_\+y)
+\item 
+\mbox{\hyperlink{classCoordinateValue}{Coordinate\+Value}} \mbox{\hyperlink{classCoordinateValue_a4ad490dfe83a35d16a7e36348c051e33}{operator+}} (const \mbox{\hyperlink{classCoordinateValue}{Coordinate\+Value}} \&cv) const
+\item 
+\mbox{\hyperlink{classCoordinateValue}{Coordinate\+Value}} \mbox{\hyperlink{classCoordinateValue_a383a118e6d95a44beeac554b578c61b6}{operator-\/}} (const \mbox{\hyperlink{classCoordinateValue}{Coordinate\+Value}} \&cv) const
+\item 
+\mbox{\hyperlink{classCoordinateValue}{Coordinate\+Value}} \mbox{\hyperlink{classCoordinateValue_a4a5e6a88ab1dff5120303ff36f3fb37a}{operator/}} (double div) const
+\item 
+\mbox{\hyperlink{classCoordinateValue}{Coordinate\+Value}} \mbox{\hyperlink{classCoordinateValue_accbc7af44e76183d9c35a14bd3776649}{operator$\ast$}} (double scale) const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Opis szczegółowy}
+Klasa reprezentuje obiekt algebry liniowej 2d 
+
+\doxysubsection{Dokumentacja funkcji składowych}
+\mbox{\Hypertarget{classCoordinateValue_accbc7af44e76183d9c35a14bd3776649}\label{classCoordinateValue_accbc7af44e76183d9c35a14bd3776649}} 
+\index{CoordinateValue@{CoordinateValue}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!CoordinateValue@{CoordinateValue}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classCoordinateValue}{Coordinate\+Value}} Coordinate\+Value\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{double}]{scale }\end{DoxyParamCaption}) const}
+
+Wykonuje mnożenie obiektu przez skalar (x1,y1) -\/ współrzędne obiektu, na którym wołamy metodę 
+\begin{DoxyParams}{Parametry}
+{\em scale} & -\/ mnożnik \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+obiekt o współrzędnych (x1 $\ast$ div, x2 $\ast$ div) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classCoordinateValue_a4ad490dfe83a35d16a7e36348c051e33}\label{classCoordinateValue_a4ad490dfe83a35d16a7e36348c051e33}} 
+\index{CoordinateValue@{CoordinateValue}!operator+@{operator+}}
+\index{operator+@{operator+}!CoordinateValue@{CoordinateValue}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classCoordinateValue}{Coordinate\+Value}} Coordinate\+Value\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classCoordinateValue}{Coordinate\+Value}} \&}]{cv }\end{DoxyParamCaption}) const}
+
+Dodaje 2 obiekty algebry liniowej w podanych sposób\+: (x1,y1) -\/ współrzędne obiektu, na którym wołamy metodę 
+\begin{DoxyParams}{Parametry}
+{\em cv} & obiekt o współrzednych (x2, y2) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+obiekt o współrzędnych (x1 + x2, y1 + y2) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classCoordinateValue_a383a118e6d95a44beeac554b578c61b6}\label{classCoordinateValue_a383a118e6d95a44beeac554b578c61b6}} 
+\index{CoordinateValue@{CoordinateValue}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!CoordinateValue@{CoordinateValue}}
+\doxysubsubsection{\texorpdfstring{operator-\/()}{operator-()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classCoordinateValue}{Coordinate\+Value}} Coordinate\+Value\+::operator-\/ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classCoordinateValue}{Coordinate\+Value}} \&}]{cv }\end{DoxyParamCaption}) const}
+
+Odejmuje 2 obiekty algebry liniowej w podanych sposób\+: (x1,y1) -\/ współrzędne obiektu, na którym wołamy metodę 
+\begin{DoxyParams}{Parametry}
+{\em cv} & obiekt o współrzednych (x2, y2) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+obiekt o współrzędnych (x1 -\/ x2, y1 -\/ y2) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classCoordinateValue_a4a5e6a88ab1dff5120303ff36f3fb37a}\label{classCoordinateValue_a4a5e6a88ab1dff5120303ff36f3fb37a}} 
+\index{CoordinateValue@{CoordinateValue}!operator/@{operator/}}
+\index{operator/@{operator/}!CoordinateValue@{CoordinateValue}}
+\doxysubsubsection{\texorpdfstring{operator/()}{operator/()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classCoordinateValue}{Coordinate\+Value}} Coordinate\+Value\+::operator/ (\begin{DoxyParamCaption}\item[{double}]{div }\end{DoxyParamCaption}) const}
+
+Wykonuje dzielenie obiektu przez skalar (x1,y1) -\/ współrzędne obiektu, na którym wołamy metodę 
+\begin{DoxyParams}{Parametry}
+{\em div} & -\/ dzielnik, div != 0 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Zwraca}
+obiekt o współrzędnych (x1/div, x2/div) 
+\end{DoxyReturn}
+
+
+Dokumentacja dla tej klasy została wygenerowana z plików\+:\begin{DoxyCompactItemize}
+\item 
+Scalar2\+DRepresentation.\+h\item 
+Scalar2\+DRepresentation.\+cc\end{DoxyCompactItemize}

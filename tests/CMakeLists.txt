@@ -47,7 +47,8 @@ target_link_libraries(AlgorithmTest
         PRIVATE
         GTest::GTest
         EPSCommands
-        Scalar2DRepresentation)
+        Scalar2DRepresentation
+        Algorithm)
 
 add_test(Scalar2DRepresentationTest Scalar2DRepresentationTest)
 add_test(GraphicCommandTest GraphicCommandTest)
