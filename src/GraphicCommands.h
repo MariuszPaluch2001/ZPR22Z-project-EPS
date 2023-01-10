@@ -10,17 +10,17 @@
 #include <optional>
 #include <variant>
 
-class LeftLineCommand;
-class RightLineCommand;
-class PointCommand;
-class MoveCommand;
-
+/**
+ * Klasa reprezentuje komendę względną - taką, której działanie zależy od umiejscowienia kursora
+ */
 class RelativeCommand : public ProcessableCommand {
 public:
   RelativeCommand(const Direction &move) : ProcessableCommand(move) {}
   virtual std::string toString() const override = 0;
 };
-
+/**
+ * Klasa reprezentuje komendę bezwzględną - taką, której działanie nie zależy od umiejscowienia kursora
+ */
 class AbsoluteCommand : public ProcessableCommand {
 public:
   AbsoluteCommand(const Coordinates &move) : ProcessableCommand(move) {}
@@ -54,10 +54,13 @@ public:
 using RelativeCommandVar = std::variant<LeftLineCommand, RightLineCommand>;
 using AbsoluteCommandVar = std::variant<PointCommand, MoveCommand>;
 
-/*
- * visitor functions
+/**
+ * Maksymalna różnica między punktami
  */
 extern const double MAX_DIFFERENCE;
+/**
+ * Funkcje wizytujące
+ */
 double countDifference(const LeftLineCommand &ll1, const LeftLineCommand &ll2);
 double countDifference(const LeftLineCommand &ll1, const RightLineCommand &rl2);
 double countDifference(const RightLineCommand &rl1, const LeftLineCommand &ll2);
