@@ -2,9 +2,10 @@
 // Created by mariusz on 08.11.22.
 //
 //
-//    File EPSFileTools.h contains class definitions representing the File
-//    Header, and classes representing input and output files. They are used to
-//    read text from input, pass data to algorithm and send data to output file.
+//    Plik EPSFileTools.h zawiera definicje klas reprezentujących nagłówek pliku
+//    (Header), i klasy reprezentujące pliki wejściowe i wyjściowe. Są używane do
+//    czytania danych z pliku wejściowego, przekazywania ich do algorytmu
+//    i zapisywania wyniku działania algorytmu do pliku wyjściowego.
 //
 #ifndef ZPR_EPSFILETOOLS_HPP
 #define ZPR_EPSFILETOOLS_HPP
@@ -17,6 +18,9 @@
 #include "GraphicCommands.h"
 #include "Scalar2DRepresentation.h"
 
+/**
+ * Klasa reprezentująca nagłówek pliku.
+ */
 class Header {
   Resolution resolution_;
   std::string header_;
@@ -26,16 +30,25 @@ class Header {
 public:
   explicit Header(const std::string &header)
       : resolution_(findResolution(header)), header_(header) {}
+  /**
+   * Funkcja modyfikująca pole rozdzielczość w headerze.
+   */
   void setResolution(const Resolution &resolution);
+  /**
+   * Funkcja nagłówek w postaci stringa.
+   */
   std::string getHeaderString() const { return header_; }
+  /**
+   * Funkcja zwracająca objekt resolution.
+   */
   Resolution getResolution() const { return resolution_; }
 };
 
-/*
-    This class represent input file. As arguments in constructor class require
-    reference to input stream. Before reading commands, class's object should
-    read header by call method 'getHeader', otherwise method getCommand throw
-    runtime exception. Class don't close the input stream.
+/**
+    Klasa reprezentuje plik wejściowy. Jako argumenty w kostruktorze klasa wymagają
+    referencji do obiektu pliku. Przed czytaniem komend, objekt klasy powinien przeczytać
+    nagłówek poprzez wywołanie metody 'getHeader', w przeciwnym wypadku metoda getCommand rzuci wyjątek.
+    Objekt klasy nie zamyka wejściowego pliku.
 */
 class EPSInFile {
   std::istream &file_;
@@ -50,21 +63,51 @@ public:
   explicit EPSInFile(std::istream &f) : file_(f) {}
   EPSInFile(const EPSInFile &) = delete;
   EPSInFile &operator=(const EPSInFile &) = delete;
+  /**
+   * Funkcja do zwracania obiektu Header.
+   */
   Header getHeader();
+  /**
+   * Funkcja sprawdza czy plik został już przeczytany.
+   */
   bool isFinished() { return file_.peek() == EOF; }
+  /**
+   * Funkcja sprawdza czy następna komenda jest względna.
+   */
   bool isNextRelative();
+  /**
+   * Funkcja sprawdza czy następna komenda jest absolutna.
+   */
   bool isNextAbsolute();
+  /**
+   * Funkcja sprawdza czy następna komenda jest użytkowa.
+   */
   bool isNextUnprocessable();
+  /**
+   * Funkcja czyta z pliku i zwraca obiekt RelativeCommandVar.
+   * Jeśli kolejna komenda nie jest odpowiedniego typu, metoda
+   * rzuca wyjątek.
+   */
   RelativeCommandVar getRelativeCommandVar();
+  /**
+   * Funkcja czyta z pliku i zwraca obiekt AbsoluteCommandVar.
+   * Jeśli kolejna komenda nie jest odpowiedniego typu, metoda
+   * rzuca wyjątek.
+   */
   AbsoluteCommandVar getAbsoluteCommandVar();
+  /**
+   * Funkcja czyta z pliku i zwraca obiekt NonProcessableCommand.
+   * Jeśli kolejna komenda nie jest odpowiedniego typu, metoda
+   * rzuca wyjątek.
+   */
   NonProcessableCommand getNonProcessableCommand();
 };
 
-/*
-    This class represent output file. As arguments in constructor class require
-    reference to output stream. Before writing commands, class's object should
-    write header by call method 'putHeader', otherwise method putCommand throw
-    runtime exception. Class don't close the output stream.
+/**
+    Klasa reprezentująca plik wyjściowy. Jako argumenty w konstruktorze klasa wymaga
+    referencji do obiektu pliku. Przed pisaniem komend, objekt klasy powinien
+    zapisać nagłówek poprzez wywołanie metody 'putHeader', w przeciwnym wypadku 'putCommand' rzuci
+    wyjątkiem. Obiekt klasy nie zamyka pliku wyjściowego .
 */
 class EPSOutFile {
   std::ostream &file_;
@@ -74,9 +117,19 @@ public:
   explicit EPSOutFile(std::ostream &f) : file_(f) {}
   EPSOutFile(const EPSOutFile &) = delete;
   EPSOutFile &operator=(const EPSOutFile &) = delete;
+  /**
+   * Funkcja zapisująca objekt Header do pliku.
+   */
   void putHeader(Header &header);
+  /**
+   * Funkcja zapisująca komendę do pliku. Przyjmuję obiekt command.
+   */
   void putCommand(const Command &c);
+   /**
+   * Funkcja zapisująca komendę do pliku. Przyjmuję stringową wersję komendy.
+   */
   void putCommand(const std::string &c);
+
   template <typename BATCH_TYPE> void putBatch(const BATCH_TYPE &batch);
 };
 

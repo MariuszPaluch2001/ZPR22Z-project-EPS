@@ -35,7 +35,7 @@ add_executable(${PROJECT_NAME}
         src/EPSFileTools.hpp
         src/Algorithm.hpp
         src/Algorithm.cc
-        src/Utils.hpp
+        Utils.hpp
         )
 
 target_link_libraries(zprGUI
