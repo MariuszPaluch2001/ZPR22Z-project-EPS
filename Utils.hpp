@@ -14,7 +14,7 @@ void handle_nonprocessable_command(RelativeBatch &, AbsoluteBatch &, EPSInFile &
 
 void mainFunction(const std::string& file_in_name,
                   const std::string& file_out_name,
-                  double scale = 0.5,
+                  double scale = 1,
                   double min_difference = 1.0,
                   unsigned sorting_range = 10){
 
