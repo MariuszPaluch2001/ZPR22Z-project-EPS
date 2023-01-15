@@ -163,13 +163,10 @@ void Frame::chooseFile(wxCommandEvent &event) {
   wxFileDialog openFileDialog(this, "Otworz plik", "", "",
                               "Pliki eps (*.eps)|*.eps",
                               wxFD_OPEN | wxFD_FILE_MUST_EXIST);
-
   if (openFileDialog.ShowModal() == wxID_CANCEL)
     return;
-
   removeTmpFiles();
-  path_to_input = openFileDialog.GetPath().ToStdString();
-  std::cout << path_to_input;
+  path_to_input = openFileDialog.GetPath().ToUTF8();
   convertEPSFileToPNG(path_to_input);
   newBitmap.LoadFile(path_to_image_buff, wxBITMAP_TYPE_PNG);
   input_image->SetBitmap(newBitmap);
@@ -225,7 +222,7 @@ void Frame::save(wxCommandEvent &event) {
   if (fileDialog.ShowModal() == wxID_CANCEL)
     return;
 
-  wxFileName target_file(fileDialog.GetPath().ToStdString());
+  wxFileName target_file(fileDialog.GetPath());
 
   if (wxCopyFile(source_file.GetFullPath(), target_file.GetFullPath())) {
     wxMessageBox("Plik zostal zapisany.", "Success", wxOK | wxICON_INFORMATION);
